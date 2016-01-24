@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PullingWaterState : CharacterState
+public class PullingWaterState : AbleToFallState
 {
 
     public override void enter(Character _character)

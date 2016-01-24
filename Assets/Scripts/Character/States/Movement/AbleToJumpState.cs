@@ -28,10 +28,20 @@ public class AbleToJumpState : AbleToFallState
 
     public override void handleMovement(Character _character, EMovement _movement)
     {
+        // We do not want to be able to change the movement to Jump if any action is not over
+        if (_character.m_currentActionState != null)
+        {
+            return;
+        }
+
         switch (_movement)
         {
             case EMovement.Jump:
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpingState];
+                _character.m_currentMovementState.enter(_character);
+                break;
+            case EMovement.Dodge:
+                _character.m_currentMovementState = _character.m_statePool[(int)EStates.DodgingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
         }
@@ -49,6 +59,7 @@ public class AbleToJumpState : AbleToFallState
     {
         if (!_character.m_controller.isGrounded)
         {
+            _character.m_currentActionState = null;
             _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];
             _character.m_currentMovementState.enter(_character);
         }

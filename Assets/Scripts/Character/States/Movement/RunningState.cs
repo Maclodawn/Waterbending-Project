@@ -19,12 +19,8 @@ public class RunningState : RunSprintingState
         switch (_movement)
         {
             case EMovement.Sprint:
-                // We do not want to be able to change the movement to Sprint if these actions are not over
-                if (_character.m_currentActionState != null
-                    && (_character.m_currentActionState.m_EState == EStates.SelectingWaterToPushState
-                        || _character.m_currentActionState.m_EState == EStates.PushingWaterState
-                        || _character.m_currentActionState.m_EState == EStates.PullingWaterState
-                        || _character.m_currentActionState.m_EState == EStates.TurningWaterAroundState))
+                // We do not want to be able to change the movement to Sprint if any action is not over
+                if (_character.m_currentActionState != null)
                 {
                     return;
                 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TurningWaterAroundState : CharacterState
+public class TurningWaterAroundState : AbleToFallState
 {
 
     public override void enter(Character _character)

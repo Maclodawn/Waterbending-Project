@@ -10,6 +10,7 @@ public enum EStates
     SprintingState,
     JumpingState,
     JumpDescendingState,
+    DodgingState,
     FallingState,
     //Action FSM
     SelectingWaterToPushState,
@@ -35,6 +36,7 @@ public enum EMovement
     Run,
     Sprint,
     Jump,
+    Dodge,
     Stabilize
 }
 
@@ -124,22 +126,20 @@ public class Character : MonoBehaviour
             m_currentActionState.update(this);
     }
 
-    /*
-     * void OnCollisionEnter(Collision collision)
-     * {
-     *      Apply Physic
-     *      SI IL Y A UNE FORCE ASSEZ GRANDE POUR QUE LE PERSONNAGE TOMBE ALORS
-     *      {
-     *          SI (m_actionStateHistory.Count > 0) ALORS
-     *          {
-     *              AbleToFallState ableToFallState = (AbleToFallState)m_actionStateHistory.Peek();
-     *              SI ableToFallState == NULL ALORS
-     *              {
-     *                  ableToFallState = (AbleToFallState)m_movementStateHistory.Peek();
-     *              }
-     *              ableToFallState.fall(this);
-     *          }
-     *      }
-     * }
-    */
+    void OnCollisionEnter(Collision collision)
+    {
+//          Apply Physic
+//          SI IL Y A UNE FORCE ASSEZ GRANDE POUR QUE LE PERSONNAGE TOMBE ALORS
+//          {
+//              if (m_currentMovementState is AbleToFallState
+//                  && (m_currentActionState == null || m_currentActionState is AbleToFallState))
+//              {
+//                  AbleToFallState ableToFallState = (AbleToFallState)m_currentMovementState;
+//                  if (ableToFallState != null)
+//                  {
+//                     ableToFallState.fall(this);
+//                  }
+//              }
+//         }
+    }
 }
