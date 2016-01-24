@@ -1,0 +1,58 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class AbleToJumpState : AbleToFallState
+{
+
+    public override void handleAction(Character _character, EAction _action)
+    {
+        if (_character.m_currentActionState == null
+            || (_character.m_currentActionState.m_EState != EStates.PullingWaterState
+                && _character.m_currentActionState.m_EState != EStates.SelectingWaterToPushState))
+        {
+            switch (_action)
+            {
+                case EAction.PullWater:
+                    _character.m_currentActionState = _character.m_statePool[(int)EStates.PullingWaterState];
+                    _character.m_currentActionState.enter(_character);
+                    break;
+                case EAction.SelectWaterToPush:
+                    _character.m_currentActionState = _character.m_statePool[(int)EStates.SelectingWaterToPushState];
+                    _character.m_currentActionState.enter(_character);
+                    break;
+            }
+        }
+
+        base.handleAction(_character, _action);
+    }
+
+    public override void handleMovement(Character _character, EMovement _movement)
+    {
+        switch (_movement)
+        {
+            case EMovement.Jump:
+                _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpingState];
+                _character.m_currentMovementState.enter(_character);
+                break;
+        }
+
+        base.handleMovement(_character, _movement);
+    }
+
+    protected void initUpdate(Character _character)
+    {
+        _character.m_velocity.x = 0;
+        _character.m_velocity.z = 0;
+    }
+
+    public override void update(Character _character)
+    {
+        if (!_character.m_controller.isGrounded)
+        {
+            _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];
+            _character.m_currentMovementState.enter(_character);
+        }
+
+        base.update(_character);
+    }
+}

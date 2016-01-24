@@ -40,14 +40,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_terrain: {fileID: 0}
-  m_originalAI: {fileID: 179070, guid: 73d1efba430b44ed296a3fde2407b985, type: 2}
+  m_originalAI: {fileID: 0}
   nAI: 0
-  m_originalPlayer: {fileID: 111832, guid: fdfcc45a2ffffc0478da22050b2ad4df, type: 2}
-  m_healthBar: {fileID: 0}
-  m_powerBar: {fileID: 0}
-  m_chargeBar: {fileID: 0}
-  m_pauseMenu: {fileID: 0}
-  m_UI: {fileID: 0}
+  m_originalPlayer: {fileID: 111832, guid: fc9eb02679e385b4bb7b7caed00b75b6, type: 2}
+  m_healthBar: {fileID: 11453160, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
+  m_powerBar: {fileID: 11470942, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
+  m_chargeBar: {fileID: 11446988, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
+  m_pauseMenu: {fileID: 137482, guid: 639fd7e4c780a184198f56a0a2bdc5b8, type: 2}
+  m_UI: {fileID: 117552, guid: 639fd7e4c780a184198f56a0a2bdc5b8, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

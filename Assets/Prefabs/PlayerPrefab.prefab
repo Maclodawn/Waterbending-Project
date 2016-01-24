@@ -104,8 +104,17 @@ GameObject:
   - 114: {fileID: 11423170}
   - 114: {fileID: 11465542}
   - 95: {fileID: 9550310}
-  - 114: {fileID: 11491168}
-  - 114: {fileID: 11444858}
+  - 114: {fileID: 11496370}
+  - 114: {fileID: 11416418}
+  - 114: {fileID: 11430378}
+  - 114: {fileID: 11490992}
+  - 114: {fileID: 11405248}
+  - 114: {fileID: 11469640}
+  - 114: {fileID: 11436898}
+  - 114: {fileID: 11422110}
+  - 114: {fileID: 11484940}
+  - 114: {fileID: 11441196}
+  - 114: {fileID: 11455848}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -2269,6 +2278,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11405248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a033ecd88172b4cb5cf6882c761287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_runSpeed: 7
 --- !u!114 &11413842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2282,6 +2303,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_sizeAimPoint: {x: 100, y: 100}
   m_aimPoint: {fileID: 2800000, guid: 06c8e314fa6c5c34eb1e5789339db01f, type: 3}
+--- !u!114 &11416418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b230fec5b86931c4faa366f77166dfa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11422110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e63a9844707c684195c9cddaaf431d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11423170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2298,7 +2341,7 @@ MonoBehaviour:
   CanHaveNegativePower: 0
   CanHaveMoreThanMaxPower: 0
   RegenerationRate: 5
---- !u!114 &11444858
+--- !u!114 &11430378
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2306,7 +2349,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 111832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7b67cbd441394d88ab30505655fabdc, type: 3}
+  m_Script: {fileID: 11500000, guid: 16e5a631b3c39024a91c3ab709e81ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11436898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91be2dc8cce2ea24a9d4cdae3455bf40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11441196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e06ee4a08abc464c971459df7a63922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11455848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cfe97570f32e142aa379f5f83015fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11456894
@@ -2334,6 +2410,29 @@ MonoBehaviour:
   ChargeRate: 1
   CooldownRate: 0
   ResetWhenChargeStop: 0
+--- !u!114 &11469640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f323aeb4d8cad409e43ec172438417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sprintSpeed: 14
+--- !u!114 &11484940
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90141f781cfcf4849a94165d94a7d110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11488934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2364,7 +2463,7 @@ MonoBehaviour:
   m_targetHead: {fileID: 168220}
   m_rotateSpeed: {x: 2, y: 1}
   m_smooth: 3
---- !u!114 &11491168
+--- !u!114 &11490992
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2372,21 +2471,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 111832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d494c12df5c1041409479d8ec94886ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b1d959d1aa30194dbd88948fbf105bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 0}
-  m_runSpeed: 7
-  m_sprintSpeed: 14
-  m_crouchSpeed: 1
-  m_jumpSpeed: 20
+  m_jumpSpeed: 14
+--- !u!114 &11496370
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f977f0c717f55b14b907be72b25dd7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_smoothMovement: .100000001
-  m_crouched: 0
-  m_coolDownDodgeTimer: .5
-  m_dodgeSpeed: 30
-  m_smoothMovementDodge: 1
-  m_cooldownBeforeDodge: 1
-  m_speedFrictionHit: .899999976
+  m_gravity: {x: 0, y: -1, z: 0}
 --- !u!124 &12492980
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2828,7 +2929,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_jumpSpeed
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Controller
@@ -2881,6 +2982,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: RegenerationRate
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_runSpeed
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
