@@ -41,9 +41,13 @@ public class StandingState : AbleToJumpState
     {
         initUpdate(_character);
 
-        _character.m_animator.SetFloat("Forward", _character.m_localDirection.z, 0.1f, Time.deltaTime);
-        _character.m_animator.SetFloat("Turn", Mathf.Atan2(_character.m_localDirection.x,
-                                                           _character.m_localDirection.z), 0.1f, Time.deltaTime);
+        float direction = Mathf.Sqrt(_character.m_inputDirection.y * _character.m_inputDirection.y
+                                    + _character.m_inputDirection.x * _character.m_inputDirection.x);
+        _character.m_animator.SetFloat("Direction", direction);
+
+//         _character.m_animator.SetFloat("Forward", _character.m_localDirection.z, 0.1f, Time.deltaTime);
+//         _character.m_animator.SetFloat("Turn", Mathf.Atan2(_character.m_localDirection.x,
+//                                                            _character.m_localDirection.z), 0.1f, Time.deltaTime);
 
         base.update(_character);
     }

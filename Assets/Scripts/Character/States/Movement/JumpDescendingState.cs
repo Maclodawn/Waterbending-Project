@@ -20,7 +20,7 @@ public class JumpDescendingState : AbleToFallState
 
     public override void update(Character _character)
     {
-        if (_character.m_controller.isGrounded && _character.m_direction.magnitude > 0)
+        if (_character.m_controller.isGrounded && _character.m_movementDirection.magnitude > 0)
         {
             _character.m_animator.speed = 1f;
             _character.m_animator.SetBool("OnGround", true);

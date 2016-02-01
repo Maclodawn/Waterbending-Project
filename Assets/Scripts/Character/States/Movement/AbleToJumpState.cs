@@ -57,7 +57,7 @@ public class AbleToJumpState : AbleToFallState
 
     public override void update(Character _character)
     {
-        if (!_character.m_controller.isGrounded)
+        if (!Physics.Raycast(transform.position, -Vector3.up, 0.1f))
         {
             _character.m_currentActionState = null;
             _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];

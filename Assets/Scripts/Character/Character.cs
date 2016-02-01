@@ -57,7 +57,7 @@ public class Character : MonoBehaviour
     [System.NonSerialized]
     public Vector2 m_inputDirection;
     [System.NonSerialized]
-    public Vector3 m_direction;
+    public Vector3 m_movementDirection;
     [System.NonSerialized]
     public Vector3 m_localDirection;
     [System.NonSerialized]
@@ -109,10 +109,10 @@ public class Character : MonoBehaviour
     {
         m_currentMovementState.fixedUpdate(this);
 
-        m_direction = transform.forward * m_velocity.z + transform.right * m_velocity.x + transform.up * m_velocity.y;
-        m_localDirection = transform.InverseTransformDirection(m_direction);
+        m_movementDirection = transform.forward * m_velocity.z + transform.right * m_velocity.x + transform.up * m_velocity.y;
+        m_localDirection = transform.InverseTransformDirection(m_movementDirection);
 
-        m_controller.Move(m_direction * Time.deltaTime);
+        m_controller.Move(m_movementDirection * Time.deltaTime);
     }
 
     // Update is called once per frame

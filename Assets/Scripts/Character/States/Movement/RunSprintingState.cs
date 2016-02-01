@@ -25,9 +25,11 @@ public class RunSprintingState : AbleToJumpState
 
     public override void update(Character _character)
     {
-        Vector2 dir = _character.m_inputDirection.normalized * _character.m_currentMoveSpeed;
-        _character.m_velocity.x = dir.x;
-        _character.m_velocity.z = dir.y;
+//         Vector2 dir = _character.m_inputDirection.normalized * _character.m_currentMoveSpeed;
+//         _character.m_velocity.x = dir.x;
+//         _character.m_velocity.z = dir.y;
+
+        _character.m_velocity.z = _character.m_currentMoveSpeed;
 
         base.update(_character);
     }
