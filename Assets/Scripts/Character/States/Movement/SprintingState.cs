@@ -10,6 +10,7 @@ public class SprintingState : RunSprintingState
     {
         Debug.Log("Enter SprintingState");
         m_EState = EStates.SprintingState;
+        _character.m_animator.SetBool("Sprint", true);
 
         //PLAY SPRINT ANIMATION
 
@@ -22,6 +23,7 @@ public class SprintingState : RunSprintingState
         {
             case EAction.SelectWaterToPush:
             case EAction.PullWater:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.RunningState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -35,6 +37,7 @@ public class SprintingState : RunSprintingState
         switch(_movement)
         {
             case EMovement.Run:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.RunningState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -54,10 +57,13 @@ public class SprintingState : RunSprintingState
 
         _character.m_currentMoveSpeed = m_sprintSpeed;
 
-        _character.m_animator.SetFloat("Forward", _character.m_localDirection.z, 0.1f, Time.deltaTime);
-        _character.m_animator.SetFloat("Turn", Mathf.Atan2(_character.m_localDirection.x,
-                                                           _character.m_localDirection.z), 0.1f, Time.deltaTime);
-
         base.update(_character);
+    }
+
+    public override void exit(Character _character)
+    {
+        _character.m_animator.SetBool("Sprint", false);
+
+        base.exit(_character);
     }
 }

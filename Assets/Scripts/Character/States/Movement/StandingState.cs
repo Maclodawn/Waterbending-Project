@@ -8,9 +8,7 @@ public class StandingState : AbleToJumpState
     {
         Debug.Log("Enter StandingState");
         m_EState = EStates.StandingState;
-
-        //STAND
-        _character.m_animator.SetBool("Idle", true);
+        _character.m_animator.SetBool("None", true);
 
         base.enter(_character);
     }
@@ -20,6 +18,7 @@ public class StandingState : AbleToJumpState
         switch (_movement)
         {
             case EMovement.Run:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.RunningState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -30,6 +29,7 @@ public class StandingState : AbleToJumpState
                     return;
                 }
 
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.SprintingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -41,14 +41,13 @@ public class StandingState : AbleToJumpState
     {
         initUpdate(_character);
 
-        float direction = Mathf.Sqrt(_character.m_inputDirection.y * _character.m_inputDirection.y
-                                    + _character.m_inputDirection.x * _character.m_inputDirection.x);
-        _character.m_animator.SetFloat("Direction", direction);
-
-//         _character.m_animator.SetFloat("Forward", _character.m_localDirection.z, 0.1f, Time.deltaTime);
-//         _character.m_animator.SetFloat("Turn", Mathf.Atan2(_character.m_localDirection.x,
-//                                                            _character.m_localDirection.z), 0.1f, Time.deltaTime);
-
         base.update(_character);
+    }
+
+    public override void exit(Character _character)
+    {
+        _character.m_animator.SetBool("None", false);
+
+        base.exit(_character);
     }
 }
