@@ -37,10 +37,12 @@ public class AbleToJumpState : AbleToFallState
         switch (_movement)
         {
             case EMovement.Jump:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
             case EMovement.Dodge:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.DodgingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -60,6 +62,7 @@ public class AbleToJumpState : AbleToFallState
         if (!Physics.Raycast(transform.position, -Vector3.up, 0.1f))
         {
             _character.m_currentActionState = null;
+            _character.m_currentMovementState.exit(_character);
             _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];
             _character.m_currentMovementState.enter(_character);
         }

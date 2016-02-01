@@ -88,6 +88,8 @@ public class Character : MonoBehaviour
 
         m_currentMovementState = m_statePool[(int)EStates.JumpDescendingState];
         m_currentActionState = null;
+
+        m_currentMovementState.enter(this);
     }
 
     /*

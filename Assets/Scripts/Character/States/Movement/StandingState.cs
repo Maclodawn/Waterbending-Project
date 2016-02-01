@@ -8,6 +8,7 @@ public class StandingState : AbleToJumpState
     {
         Debug.Log("Enter StandingState");
         m_EState = EStates.StandingState;
+
         _character.m_animator.SetBool("None", true);
 
         base.enter(_character);

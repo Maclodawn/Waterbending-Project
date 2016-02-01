@@ -12,8 +12,6 @@ public class SprintingState : RunSprintingState
         m_EState = EStates.SprintingState;
         _character.m_animator.SetBool("Sprint", true);
 
-        //PLAY SPRINT ANIMATION
-
         base.enter(_character);
     }
 
