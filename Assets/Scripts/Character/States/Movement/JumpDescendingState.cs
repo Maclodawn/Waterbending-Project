@@ -9,6 +9,7 @@ public class JumpDescendingState : AbleToFallState
         Debug.Log("Enter JumpDescendingState");
         m_EState = EStates.JumpDescendingState;
         _character.m_animator.SetBool("Jump", true);
+        _character.m_controller.height = 1.3f;
 
         base.enter(_character);
     }
@@ -34,6 +35,7 @@ public class JumpDescendingState : AbleToFallState
     public override void exit(Character _character)
     {
         _character.m_animator.SetBool("Jump", false);
+        _character.m_controller.height = 1.8f;
 
         base.exit(_character);
     }

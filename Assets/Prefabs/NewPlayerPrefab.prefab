@@ -414,6 +414,8 @@ GameObject:
   - 114: {fileID: 11444828}
   - 114: {fileID: 11471862}
   - 114: {fileID: 11482786}
+  - 114: {fileID: 11415422}
+  - 114: {fileID: 11419886}
   m_Layer: 0
   m_Name: NewPlayerPrefab
   m_TagString: Player
@@ -3557,6 +3559,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b230fec5b86931c4faa366f77166dfa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11415422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51df45b16b4cc447a10084a8e2a8911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11419000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3581,6 +3594,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_smoothMovement: 0.1
   m_gravity: {x: 0, y: -1, z: 0}
+--- !u!114 &11419886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e315e10702263a4f925f5076f44e649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11420588
 MonoBehaviour:
   m_ObjectHideFlags: 1

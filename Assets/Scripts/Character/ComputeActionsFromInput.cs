@@ -17,7 +17,7 @@ public class ComputeActionsFromInput : Character
                                         Input.GetAxisRaw("Vertical"));
 
         //Movements
-        if (m_currentMovementState is FallingState)
+        if (m_currentMovementState is FallingState || m_currentMovementState is FallenState)
         {
             if (Input.GetButtonDown("Stabilize"))
             {

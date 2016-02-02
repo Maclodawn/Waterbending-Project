@@ -22,6 +22,7 @@ public class DodgingState : AbleToFallState
     {
 //         if (Animation is Over)
 //         {
+//             _character.m_currentMovementState.exit(_character);
 //             _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
 //             _character.m_currentMovementState.enter(_character);
 //         }

@@ -11,6 +11,7 @@ public class JumpingState : CharacterState
         Debug.Log("Enter JumpingState");
         m_EState = EStates.JumpingState;
         _character.m_animator.SetBool("Jump", true);
+        _character.m_controller.height = 1.3f;
 
         _character.m_velocity.y = m_jumpSpeed;
 
@@ -39,6 +40,8 @@ public class JumpingState : CharacterState
 
     public override void exit(Character _character)
     {
+        _character.m_controller.height = 1.8f;
+
         base.exit(_character);
     }
 }

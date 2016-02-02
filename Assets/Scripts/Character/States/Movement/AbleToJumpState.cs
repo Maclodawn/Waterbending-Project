@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AbleToJumpState : AbleToFallState
 {
+    public bool m_gettingUp = false;
 
     public override void handleAction(Character _character, EAction _action)
     {
@@ -59,7 +60,7 @@ public class AbleToJumpState : AbleToFallState
 
     public override void update(Character _character)
     {
-        if (!Physics.Raycast(transform.position, -Vector3.up, 0.1f))
+        if (!m_gettingUp && !Physics.Raycast(transform.position, -Vector3.up, 0.1f))
         {
             _character.m_currentActionState = null;
             _character.m_currentMovementState.exit(_character);

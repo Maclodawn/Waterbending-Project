@@ -12,6 +12,7 @@ public enum EStates
     JumpDescendingState,
     DodgingState,
     FallingState,
+    FallenState,
     //Action FSM
     SelectingWaterToPushState,
     PushingWaterState,
@@ -79,7 +80,9 @@ public class Character : MonoBehaviour
         m_statePool.Add(GetComponent<SprintingState>());
         m_statePool.Add(GetComponent<JumpingState>());
         m_statePool.Add(GetComponent<JumpDescendingState>());
+        m_statePool.Add(GetComponent<DodgingState>());
         m_statePool.Add(GetComponent<FallingState>());
+        m_statePool.Add(GetComponent<FallenState>());
         // Action FSM
         m_statePool.Add(GetComponent<SelectingWaterState>());
         m_statePool.Add(GetComponent<PushingWaterState>());
@@ -120,6 +123,12 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            AbleToFallState toto = (AbleToFallState)m_currentMovementState;
+            toto.fall(this);
+        }
+
         // Run movement chosen
         m_currentMovementState.update(this);
         

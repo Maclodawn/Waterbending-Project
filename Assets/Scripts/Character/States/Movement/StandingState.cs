@@ -9,6 +9,12 @@ public class StandingState : AbleToJumpState
         Debug.Log("Enter StandingState");
         m_EState = EStates.StandingState;
 
+        if (m_gettingUp)
+        {
+            _character.m_animator.SetBool("GetUp", true);
+            _character.m_controller.center = Vector3.up * 1.6f;
+        }
+
         _character.m_animator.SetBool("None", true);
 
         base.enter(_character);
@@ -41,6 +47,13 @@ public class StandingState : AbleToJumpState
     public override void update(Character _character)
     {
         initUpdate(_character);
+        
+        if (m_gettingUp && _character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
+        {
+            m_gettingUp = false;
+            _character.m_animator.SetBool("GetUp", false);
+            _character.m_controller.center = Vector3.up * 0.9f;
+        }
 
         base.update(_character);
     }
