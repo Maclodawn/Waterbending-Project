@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AbleToJumpState : AbleToFallState
 {
+    public bool m_gettingUp = false;
 
     public override void handleAction(Character _character, EAction _action)
     {
@@ -37,10 +38,12 @@ public class AbleToJumpState : AbleToFallState
         switch (_movement)
         {
             case EMovement.Jump:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
             case EMovement.Dodge:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.DodgingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -49,7 +52,7 @@ public class AbleToJumpState : AbleToFallState
         base.handleMovement(_character, _movement);
     }
 
-    protected void initUpdate(Character _character)
+    protected void initFixedUpdate(Character _character)
     {
         _character.m_velocity.x = 0;
         _character.m_velocity.z = 0;
@@ -57,9 +60,10 @@ public class AbleToJumpState : AbleToFallState
 
     public override void update(Character _character)
     {
-        if (!_character.m_controller.isGrounded)
+        if (!m_gettingUp && !Physics.Raycast(transform.position, -Vector3.up, 0.1f))
         {
             _character.m_currentActionState = null;
+            _character.m_currentMovementState.exit(_character);
             _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];
             _character.m_currentMovementState.enter(_character);
         }

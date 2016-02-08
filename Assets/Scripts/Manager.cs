@@ -25,6 +25,9 @@ public class Manager : MonoBehaviour
     GameObject m_originalPlayer;
 
     [SerializeField]
+    GameObject m_mainCamera;
+
+    [SerializeField]
     HealthBarController m_healthBar;
 
     [SerializeField]
@@ -47,7 +50,10 @@ public class Manager : MonoBehaviour
         Cursor.visible = false;
 
         GameObject player = Instantiate(m_originalPlayer);
-        //player.GetComponent<CharacterMovement>().init(this);
+        GameObject camera = Instantiate(m_mainCamera);
+        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+        playerLook.m_playerTransform = player.transform;
+        player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
 
 		for (int i = 0; i < nAI; ++i)
 			Instantiate(m_originalAI);

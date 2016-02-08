@@ -9,8 +9,13 @@ public class StandingState : AbleToJumpState
         Debug.Log("Enter StandingState");
         m_EState = EStates.StandingState;
 
-        //STAND
-        _character.m_animator.SetBool("Idle", true);
+        if (m_gettingUp)
+        {
+            _character.m_animator.SetBool("GetUp", true);
+            _character.m_controller.center = Vector3.up * 1.6f;
+        }
+
+        _character.m_animator.SetBool("None", true);
 
         base.enter(_character);
     }
@@ -20,6 +25,7 @@ public class StandingState : AbleToJumpState
         switch (_movement)
         {
             case EMovement.Run:
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.RunningState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -30,6 +36,7 @@ public class StandingState : AbleToJumpState
                     return;
                 }
 
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.SprintingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -37,14 +44,29 @@ public class StandingState : AbleToJumpState
         base.handleMovement(_character, _movement);
     }
 
+    public override void fixedUpdate(Character _character)
+    {
+        initFixedUpdate(_character);
+
+        base.fixedUpdate(_character);
+    }
+
     public override void update(Character _character)
     {
-        initUpdate(_character);
-
-        _character.m_animator.SetFloat("Forward", _character.m_localDirection.z, 0.1f, Time.deltaTime);
-        _character.m_animator.SetFloat("Turn", Mathf.Atan2(_character.m_localDirection.x,
-                                                           _character.m_localDirection.z), 0.1f, Time.deltaTime);
+        if (m_gettingUp && _character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
+        {
+            m_gettingUp = false;
+            _character.m_animator.SetBool("GetUp", false);
+            _character.m_controller.center = Vector3.up * 0.9f;
+        }
 
         base.update(_character);
+    }
+
+    public override void exit(Character _character)
+    {
+        _character.m_animator.SetBool("None", false);
+
+        base.exit(_character);
     }
 }

@@ -14,4 +14,6 @@ public class CharacterState : MonoBehaviour
     public virtual void fixedUpdate(Character _character) { }
 
     public virtual void update(Character _character) { }
+
+    public virtual void exit(Character _character) { }
 }
