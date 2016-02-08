@@ -24,10 +24,17 @@ public class RunSprintingState : AbleToJumpState
         base.handleMovement(_character, _movement);
     }
 
-    public override void update(Character _character)
+    public override void fixedUpdate(Character _character)
     {
         _character.m_velocity.z = _character.m_currentMoveSpeed;
 
+        setOrientation(_character);
+
+        base.fixedUpdate(_character);
+    }
+
+    private void setOrientation(Character _character)
+    {
         ComputeActionsFromInput player = (ComputeActionsFromInput)_character;
 
         Vector2 currentForward = new Vector2(transform.forward.x, transform.forward.z);
@@ -50,7 +57,5 @@ public class RunSprintingState : AbleToJumpState
 
         angle = Mathf.LerpAngle(0, angle, 0.3f);
         transform.Rotate(Vector3.up, angle);
-
-        base.update(_character);
     }
 }

@@ -52,7 +52,7 @@ public class AbleToJumpState : AbleToFallState
         base.handleMovement(_character, _movement);
     }
 
-    protected void initUpdate(Character _character)
+    protected void initFixedUpdate(Character _character)
     {
         _character.m_velocity.x = 0;
         _character.m_velocity.z = 0;

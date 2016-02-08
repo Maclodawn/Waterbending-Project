@@ -45,17 +45,11 @@ public class SprintingState : RunSprintingState
 
     public override void fixedUpdate(Character _character)
     {
-        //COMPUTE PHYSIC TO SPRINT
-        base.fixedUpdate(_character);
-    }
-
-    public override void update(Character _character)
-    {
-        initUpdate(_character);
+        initFixedUpdate(_character);
 
         _character.m_currentMoveSpeed = m_sprintSpeed;
 
-        base.update(_character);
+        base.fixedUpdate(_character);
     }
 
     public override void exit(Character _character)

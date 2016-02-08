@@ -64,13 +64,22 @@ public class Character : MonoBehaviour
     [System.NonSerialized]
     public float m_currentMoveSpeed;
 
-    public float m_smoothMovement = 1.0f;
+//    public float m_smoothMovement = 1.0f;
     public Vector3 m_gravity = new Vector3(0, -1.0f, 0);
+
+    // Initial values of the controller
+    [System.NonSerialized]
+    public float m_radiusController;
+    [System.NonSerialized]
+    public float m_heightController;
 
     // Use this for initialization
     void Start()
     {
         m_controller = GetComponent<CharacterController>();
+        m_radiusController = m_controller.radius;
+        m_heightController = m_controller.height;
+
         m_animator = GetComponent<Animator>();
 
         m_statePool = new List<CharacterState>();

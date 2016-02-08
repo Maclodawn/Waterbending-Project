@@ -2355,7 +2355,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 114044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 200, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 410598}
@@ -3548,6 +3548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91be2dc8cce2ea24a9d4cdae3455bf40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gettingUp: 0
 --- !u!114 &11414816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3592,7 +3593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f977f0c717f55b14b907be72b25dd7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_smoothMovement: 0.1
   m_gravity: {x: 0, y: -1, z: 0}
 --- !u!114 &11419886
 MonoBehaviour:
@@ -3605,6 +3605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e315e10702263a4f925f5076f44e649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dodgeRollSpeed: 20
+  m_dodgeGetUpSpeed: 5
+  m_radius: 1
+  m_height: 1
 --- !u!114 &11420588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3627,6 +3631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f323aeb4d8cad409e43ec172438417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gettingUp: 0
   m_sprintSpeed: 14
 --- !u!114 &11429986
 MonoBehaviour:
@@ -3729,6 +3734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a033ecd88172b4cb5cf6882c761287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gettingUp: 0
   m_runSpeed: 7
 --- !u!137 &13711798
 SkinnedMeshRenderer:
@@ -4361,6 +4367,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SkinWidth
       value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_dodgeInitiateSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_dodgeRollSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

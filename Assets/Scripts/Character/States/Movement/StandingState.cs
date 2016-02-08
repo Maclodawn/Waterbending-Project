@@ -44,10 +44,15 @@ public class StandingState : AbleToJumpState
         base.handleMovement(_character, _movement);
     }
 
+    public override void fixedUpdate(Character _character)
+    {
+        initFixedUpdate(_character);
+
+        base.fixedUpdate(_character);
+    }
+
     public override void update(Character _character)
     {
-        initUpdate(_character);
-        
         if (m_gettingUp && _character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
         {
             m_gettingUp = false;
