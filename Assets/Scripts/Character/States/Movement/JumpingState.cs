@@ -25,7 +25,6 @@ public class JumpingState : CharacterState
 
     public override void update(Character _character)
     {
-        _character.m_animator.SetFloat("Jump", _character.m_controller.velocity.y);
         if (_character.m_controller.velocity.y < 0)
         {
             _character.m_currentMovementState.exit(_character);

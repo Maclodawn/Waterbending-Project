@@ -16,12 +16,9 @@ public class PlayerLook : MonoBehaviour
 
     public float m_smooth = 3;
 
-    Vector3 m_initialLocalPosition;
-
 	// Use this for initialization
 	void Start ()
     {
-        m_initialLocalPosition = transform.localPosition;
         m_vectToPlayer = transform.position - m_playerTransform.position;
         m_distToPlayer = m_vectToPlayer.magnitude;
     }
@@ -38,8 +35,6 @@ public class PlayerLook : MonoBehaviour
         m_verticalObj.transform.Rotate(vertical, 0, 0);
 
         transform.position = m_playerTransform.position + new Vector3(0, m_vectToPlayer.y, 0) - transform.forward * m_distToPlayer;
-
-//         transform.localPosition = m_initialLocalPosition;
 
 //         RaycastHit hit = new RaycastHit();
 //         int maskID = LayerMask.NameToLayer("Player");

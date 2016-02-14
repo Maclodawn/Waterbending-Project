@@ -73,6 +73,12 @@ public class Character : MonoBehaviour
     [System.NonSerialized]
     public float m_heightController;
 
+    public Transform m_reservePrefab;
+    [System.NonSerialized]
+    public WaterReserve m_selectedReserve;
+
+    public Transform m_waterFlowPrefab;
+
     // Use this for initialization
     void Start()
     {
@@ -161,5 +167,12 @@ public class Character : MonoBehaviour
 //                  }
 //              }
 //         }
+    }
+
+    public WaterReserve getNearestReserve()
+    {
+        WaterReserve waterReserve = Instantiate(m_reservePrefab).GetComponent<WaterReserve>();
+        waterReserve.init(transform.position + transform.forward, 30.0f);
+        return waterReserve;
     }
 }

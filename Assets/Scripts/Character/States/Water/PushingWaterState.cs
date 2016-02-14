@@ -17,9 +17,14 @@ public class PushingWaterState : AbleToFallState
         //FIXME
 //         if (Animation is Over)
 //         {
-//             _character.m_currentActionState = null;
+//             _character.m_currentActionState.cancel(_character);
 //         }
 
         base.update(_character);
+    }
+
+    public override void cancel(Character _character)
+    {
+        base.cancel(_character);
     }
 }

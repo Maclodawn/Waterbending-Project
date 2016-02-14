@@ -1,73 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WaterFlow : MonoBehaviour {
-    public Transform dropPrefab;
-    public Vector3 target;
-    public float spawnDelay;
-    private float time;
-    private List<Drop> drops = new List<Drop>();
-    public float minRadius, maxRadius;
+public class WaterFlow : MonoBehaviour
+{
+    public static List<Drop> s_dropInstancePool = new List<Drop>();
 
-    public float alpha, beta, speed, deltaAlpha, deltaBeta;
+    public Transform m_dropPrefab;
+    private Vector3 m_target;
+    private Vector3 m_updatedTarget;
+    [System.NonSerialized]
+    public List<Drop> m_dropPool = new List<Drop>();
 
+    [System.NonSerialized]
+    public float m_alpha = 0, m_beta = 0, m_deltaAlpha = 0, m_deltaBeta = 0;
+    private float m_speed = 6;
 
-    // Use this for initialization
-    void Start ()
+    private float m_volume;
+
+    public void init(WaterReserve _reserve, Vector3 _endPos, float _volumeWanted)
     {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        transform.position = _reserve.transform.position;
+        m_updatedTarget = _endPos;
+        m_target = _endPos;
+
+        m_dropPool.Add(_reserve.pullWater(_volumeWanted));
+
+        m_volume = m_dropPool[0].getVolume();
+
+        m_dropPool[0].init(this, m_volume, Vector3.forward * m_speed, false, true, 0);
+        m_dropPool[0].transform.position = transform.position;
+        m_dropPool[0].updateTarget(m_target);
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-        time += Time.deltaTime;
-
-        print(Input.GetAxis("Test"));
-
-        if (Input.GetAxis("Test") > 0)
+        Debug.Log("WaterFlow.s_dropInstancePool.Count=" + WaterFlow.s_dropInstancePool.Count);
+        Debug.Log("m_dropPool.Count=" + m_dropPool.Count);
+        if (Vector3.Distance(m_updatedTarget, m_target) > 0.5f)
         {
-            alpha += 0.1f;
+            m_target = m_updatedTarget;
+            foreach (Drop drop in m_dropPool)
+            {
+                drop.m_velocity = Vector3.forward * m_speed;
+                drop.updateTarget(m_target);
+            }
         }
-        else if(Input.GetAxis("Test") < 0)
-        {
-            alpha -= 0.1f;
-        }
+    }
 
-        if (time > spawnDelay)
-        {
-            time -= spawnDelay;
-            Drop drop = GameObject.Instantiate<Transform>(dropPrefab).GetComponent<Drop>();
-            drop.target = target;
-            Vector3 speed = GetRandomSpeed();
-
-            Vector3 AB = target - transform.position;
-            Vector3 x = AB.normalized;
-            Vector3 z = Vector3.Cross(x, speed).normalized;
-            Vector3 y = Vector3.Cross(z, x);
-            float vx = Vector3.Project(speed, x).magnitude;
-            float vy = Vector3.Project(speed, y).magnitude;
-            float dx = Vector3.Project(AB, x).magnitude;
-            float dy = Vector3.Project(AB, y).magnitude;
-
-            float g = 2 * vx*vy/AB.magnitude;
-            drop.gravity = -y*g;
-            drop.speed = speed;
-            float radius = Random.value * (maxRadius - minRadius) + minRadius;
-            drop.transform.position = transform.position;
-            drop.transform.localScale = new Vector3(radius, radius, radius);
-        }
-	}
-
-    private Vector3 GetRandomSpeed()
+    void LateUpdate()
     {
-        Vector3 AB = target - transform.position;
-        Vector3 x = AB.normalized;
-        Vector3 z = Vector3.Cross(x, new Vector3(0, 1, 0)).normalized;
-        Vector3 y = Vector3.Cross(z, x);
-        float randomAlpha = Random.value * deltaAlpha * 2 - deltaAlpha;
-        float randomBeta = Random.value * deltaBeta * 2 - deltaBeta;
+        if (m_dropPool.Count == 0)
+            DestroyObject(gameObject);
+    }
 
-        return (x * Mathf.Cos(alpha + randomAlpha) + y * Mathf.Sin(alpha + randomAlpha) * Mathf.Cos(beta + randomBeta) + z * Mathf.Sin(alpha + randomAlpha) * Mathf.Sin(beta + randomBeta)) * speed;
+    public void updateTarget(Vector3 _target)
+    {
+        m_updatedTarget = _target;
+    }
+
+    public void releaseControl()
+    {
+        foreach (Drop drop in m_dropPool)
+        {
+            drop.releaseControl();
+        }
     }
 }

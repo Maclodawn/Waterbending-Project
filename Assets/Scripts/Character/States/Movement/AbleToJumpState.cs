@@ -62,7 +62,8 @@ public class AbleToJumpState : AbleToFallState
     {
         if (!m_gettingUp && !Physics.Raycast(transform.position, -Vector3.up, 0.1f))
         {
-            _character.m_currentActionState = null;
+            if (_character.m_currentActionState)
+                _character.m_currentActionState.cancel(_character);
             _character.m_currentMovementState.exit(_character);
             _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];
             _character.m_currentMovementState.enter(_character);
