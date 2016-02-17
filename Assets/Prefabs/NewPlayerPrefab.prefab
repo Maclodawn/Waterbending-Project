@@ -3715,6 +3715,9 @@ MonoBehaviour:
   m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
   m_waterProjectilePrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d,
     type: 2}
+  m_minDropVolume: 0.25
+  m_volumeWanted: 10
+  m_speed: 10
 --- !u!114 &11482786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4391,6 +4394,14 @@ Prefab:
       propertyPath: m_waterProjectilePrefab
       value: 
       objectReference: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_minDropVolume
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_speed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 114044}

@@ -19,6 +19,8 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     public int m_id = 0;
 
+    private bool m_goingBack;
+
     void Start()
     {
         m_dropVolume = GetComponent<DropVolume>();
@@ -44,10 +46,31 @@ public class Drop/*Movement*/ : MonoBehaviour
     {
         if (m_underControl)
         {
-            float distance = Vector3.Distance(m_dropTarget.m_target.transform.position, transform.position);
-            if (distance >= 0.1f)
+            Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
+            float distance = AB.magnitude;
+            if (distance >= 0.01f)
             {
-                m_velocity += m_gravity * Time.deltaTime;
+                // Going and hovering
+                Vector3 velocity = m_gravity * Time.fixedDeltaTime;
+                Vector3 v = Vector3.Project(m_velocity, AB.normalized);
+                if (v.normalized == AB.normalized)
+                {
+                    if (m_goingBack)
+                    {
+                        m_velocity += m_velocity;
+                        m_goingBack = false;
+                    }
+                    m_velocity += velocity;
+                }
+                else
+                {
+                    if (!m_goingBack)
+                    {
+                        m_velocity -= m_velocity;
+                        m_goingBack = true;
+                    }
+                    m_velocity -= velocity;
+                }
             }
             else
             {
@@ -61,8 +84,8 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_velocity = -Vector3.up * 10;
         }
 
-        float speedPercent = 0;
-        if (m_velocity.magnitude != 0)
+        float speedPercent = 1;
+        if (m_underControl && m_velocity.magnitude != 0)
         {
             speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_velocity.magnitude);
         }
@@ -83,7 +106,13 @@ public class Drop/*Movement*/ : MonoBehaviour
         }
 
         if (!m_initCollisions.Contains(collider.gameObject))
-            destroy();
+        {
+            Drop drop = collider.GetComponent<Drop>();
+            if (!m_waterProjectile || !drop || m_waterProjectile != drop.m_waterProjectile)
+            {
+                destroy();
+            }
+        }
     }
 
     void OnTriggerExit(Collider collider)

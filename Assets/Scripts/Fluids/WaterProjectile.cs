@@ -14,13 +14,14 @@ public class WaterProjectile : MonoBehaviour
     float m_alpha;
     float m_beta;
 
-    public void init(WaterReserve _waterReserve, float _volumeWanted, GameObject _target, float _speed)
+    public void init(WaterReserve _waterReserve, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
     {
         Drop drop = _waterReserve.pullWater(_volumeWanted);
         drop.init(this, transform.position, true, 0);
         drop.GetComponent<DropTarget>().Init(_target, _speed, m_alpha, m_beta);
         DropVolume dropVolume = drop.GetComponent<DropVolume>();
         dropVolume.init(this, dropVolume.m_volume);
+        dropVolume.setMinVolume(_minVolume);
         m_dropPool.Add(drop);
     }
 
@@ -38,6 +39,7 @@ public class WaterProjectile : MonoBehaviour
 
     public void releaseControl()
     {
+        //Debug.Break();
         foreach (Drop drop in m_dropPool)
         {
             drop.m_underControl = false;

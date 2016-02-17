@@ -11,6 +11,10 @@ public class PullingWaterState : AbleToFallState
 
     private GameObject m_target;
 
+    public float m_minDropVolume = 0.25f;
+    public float m_volumeWanted = 10.0f;
+    public float m_speed = 10.0f;
+
     void Start()
     {
         m_target = new GameObject();
@@ -26,7 +30,7 @@ public class PullingWaterState : AbleToFallState
         m_waterProjectile = Instantiate<GameObject>(m_waterProjectilePrefab).GetComponent<WaterProjectile>();
         m_target.transform.position = m_waterReserve.transform.position + Vector3.up * 2;
         m_waterProjectile.transform.position = m_waterReserve.transform.position;
-        m_waterProjectile.init(m_waterReserve, 10, m_target, 10);
+        m_waterProjectile.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
 
         base.enter(_character);
     }

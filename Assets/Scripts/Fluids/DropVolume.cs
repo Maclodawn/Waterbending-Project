@@ -12,6 +12,8 @@ public class DropVolume : MonoBehaviour
 
     public float m_stretchRatio { get; private set; }
 
+    public bool m_collisionTreated;
+
     public void setVolume(float _volume)
     {
         m_volume = _volume;
@@ -19,8 +21,13 @@ public class DropVolume : MonoBehaviour
         transform.localScale = new Vector3(radius, radius, radius);
     }
 
+    public void setMinVolume(float _minVolume)
+    {
+        m_stretchRatio = _minVolume * m_dropMovement.m_velocity.magnitude;
+    }
+
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         m_dropMovement = GetComponent<Drop>();
         m_dropTarget = GetComponent<DropTarget>();
@@ -36,76 +43,109 @@ public class DropVolume : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Equation to respect otherwise stretch is needed
-        float newVolume = m_stretchRatio / m_dropMovement.m_velocity.magnitude;
-        if (m_volume > newVolume)
+        if (m_dropMovement.m_underControl)
         {
-            stretch(m_volume - newVolume);
+            // Equation to respect otherwise stretch is needed
+            float newVolume = m_stretchRatio / m_dropMovement.m_velocity.magnitude;
+            if (m_volume - newVolume > newVolume)
+            {
+                float vol = (m_volume - newVolume) / 2.0f;
+                if (m_volume - (newVolume + vol) > newVolume)
+                    newVolume += vol;
+
+                stretch(newVolume);
+            }
         }
+    }
+
+    void LateUpdate()
+    {
+        m_collisionTreated = false;
     }
 
     // Spawn a new drop smaller and reducing the current radius
     private void stretch(float _volume)
     {
         //Debug.Break();
-        setVolume(m_volume - _volume);
 
-        Drop newDrop = GameObject.Instantiate<Transform>(m_waterProjectile.m_dropPrefab).GetComponent<Drop>();
-        m_waterProjectile.m_dropPool.Add(newDrop);
+//         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+//         sphere.transform.position = transform.position;
+//         sphere.transform.localScale = transform.localScale;
 
-        Vector3 position = transform.position /* - m_velocity.normalized * transform.localScale.x / 2.0f
-                                                + m_velocity.normalized * newDrop.transform.localScale.x / 2.0f*/;
-        newDrop.init(m_waterProjectile, position, m_dropMovement.m_underControl, m_dropMovement.m_id + 1);
-        newDrop.m_velocity = m_dropMovement.m_velocity;
+        Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterProjectile.m_dropPrefab).GetComponent<Drop>();
+        m_waterProjectile.m_dropPool.Add(newSmallerDrop);
 
-        DropTarget newDropTarget = newDrop.GetComponent<DropTarget>();
+        newSmallerDrop.GetComponent<DropVolume>().init(m_waterProjectile, _volume);
+
+        Vector3 position = transform.position + m_dropMovement.m_velocity.normalized * transform.localScale.x / 2.0f
+                                              - m_dropMovement.m_velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
+        newSmallerDrop.init(m_waterProjectile, position, m_dropMovement.m_underControl, m_dropMovement.m_id + 1);
+        newSmallerDrop.m_velocity = m_dropMovement.m_velocity;
+
+        DropTarget newDropTarget = newSmallerDrop.GetComponent<DropTarget>();
         newDropTarget.enabled = m_dropMovement.m_underControl;
         if (m_dropMovement.m_underControl)
         {
-            newDropTarget.Init(m_dropTarget.m_target, newDrop.m_velocity);
+            newDropTarget.Init(m_dropTarget.m_target, newSmallerDrop.m_velocity);
         }
 
-        newDrop.GetComponent<DropVolume>().init(m_waterProjectile, _volume);
+        float oldRadius = transform.localScale.x / 2.0f;
+        setVolume(m_volume - _volume);
+        transform.position = transform.position - m_dropMovement.m_velocity.normalized * oldRadius
+                                                + m_dropMovement.m_velocity.normalized * transform.localScale.x / 2.0f;
     }
 
     void OnTriggerStay(Collider _collider)
     {
-        Drop drop = _collider.GetComponent<Drop>();
-        if (drop)
+        DropVolume dropVolume = _collider.GetComponent<DropVolume>();
+        if (dropVolume && m_dropMovement.m_underControl)
         {
-//             if (m_waterProjectile == drop.m_waterProjectile)
-//             {
-//                 // Merge drops
-//                 if (m_collisionTreated || drop.m_collisionTreated)
-//                 {
-//                     return;
-//                 }
-// 
-//                 Drop largestDrop;
-//                 Drop smallestDrop;
-//                 if (transform.localScale.x > drop.transform.localScale.x)
-//                 {
-//                     largestDrop = this;
-//                     smallestDrop = drop;
-//                 }
-//                 else
-//                 {
-//                     smallestDrop = this;
-//                     largestDrop = drop;
-//                 }
-// 
-//                 // Didn't just spawned AND distance between drops less than the largest radius
-//                 if (!smallestDrop.m_justSpawned && Vector3.Distance(largestDrop.transform.position, smallestDrop.transform.position) < largestDrop.transform.localScale.x / 2.0f)
-//                 {
-//                     largestDrop.setVolume(largestDrop.getVolume() + smallestDrop.getVolume());
-//                     Destroy(smallestDrop.gameObject);
-//                 }
-// 
-//                 // Destroy happen once all triggers are treated, so we need to prevent merge from the smallest one
-//                 m_collisionTreated = true;
-//                 drop.m_collisionTreated = true;
-//             }
+            if (m_waterProjectile == dropVolume.m_waterProjectile)
+            {
+                // Merge drops
+                if (m_collisionTreated || dropVolume.m_collisionTreated)
+                {
+                    return;
+                }
+
+                DropVolume nearestToTarget;
+                DropVolume farthestToTarget;
+
+                float distThis = Vector3.Distance(m_dropTarget.m_target.transform.position, transform.position);
+                float distOther = Vector3.Distance(dropVolume.m_dropTarget.m_target.transform.position, dropVolume.transform.position);
+                if (distThis <= distOther)
+                {
+                    nearestToTarget = this;
+                    farthestToTarget = dropVolume;
+                }
+                else
+                {
+                    nearestToTarget = dropVolume;
+                    farthestToTarget = this;
+                }
+
+                if (Vector3.Distance(nearestToTarget.transform.position, farthestToTarget.transform.position) < nearestToTarget.transform.localScale.x / 4.0f)
+                {
+                    nearestToTarget.setVolume(nearestToTarget.m_volume + farthestToTarget.m_volume);
+                    farthestToTarget.m_dropMovement.destroy();
+                }
+
+                // Destroy happen once all triggers are treated, so we need to prevent merge from the smallest one
+                m_collisionTreated = true;
+                dropVolume.m_collisionTreated = true;
+            }
             return;
         }
+    }
+
+    float getDistanceToTarget()
+    {
+        Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
+        float dist = AB.magnitude;
+        Vector3 v = Vector3.Project(m_dropMovement.m_velocity, AB.normalized);
+        if (v.normalized == AB.normalized)
+            return -dist;
+        else
+            return dist;
     }
 }
