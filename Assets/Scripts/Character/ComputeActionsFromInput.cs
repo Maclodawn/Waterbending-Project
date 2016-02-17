@@ -50,26 +50,26 @@ public class ComputeActionsFromInput : Character
         }
         
         //Actions
-//         if (Input.GetButton("Fire1") && !Input.GetButton("Fire2"))
-//         {
-//             action = EAction.SelectWaterToPush;
-//         }
-//         else if (Input.GetButtonUp("Fire1"))
-//         {
-//             action = EAction.PushWater;
-//         }
-//         else if (Input.GetButton("Fire2") && !Input.GetButton("Fire1"))
-//         {
-//             action = EAction.PullWater;
-//         }
-//         else if (Input.GetButtonUp("Fire2"))
-//         {
-//             action = EAction.ReleaseWaterControl;
-//         }
-//         else if (Input.GetButton("Fire1") && Input.GetButton("Fire2"))
-//         {
-//             action = EAction.TurnWaterAround;
-//         }
+        if (Input.GetButton("Fire1") && !Input.GetButton("Fire2"))
+        {
+            action = EAction.SelectWaterToPush;
+        }
+        else if (Input.GetButtonUp("Fire1"))
+        {
+            action = EAction.PushWater;
+        }
+        else if (Input.GetButtonDown("Fire2") && !Input.GetButton("Fire1"))
+        {
+            action = EAction.PullWater;
+        }
+        else if (Input.GetButtonUp("Fire2"))
+        {
+            action = EAction.ReleaseWaterControl;
+        }
+        else if (Input.GetButton("Fire1") && Input.GetButton("Fire2"))
+        {
+            action = EAction.TurnWaterAround;
+        }
 
         handleMovementAndAction(movement, action);
 
