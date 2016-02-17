@@ -15,8 +15,9 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     WaterProjectile m_waterProjectile;
     DropVolume m_dropVolume;
-    DropTarget m_dropTarget;
+    public DropTarget m_dropTarget;
 
+    public static int s_id = 0;
     public int m_id = 0;
 
     private bool m_goingBack;
@@ -57,7 +58,7 @@ public class Drop/*Movement*/ : MonoBehaviour
                 {
                     if (m_goingBack)
                     {
-                        m_velocity += m_velocity;
+                        m_velocity -= m_velocity * 7.0f / 6.0f;
                         m_goingBack = false;
                     }
                     m_velocity += velocity;
@@ -66,7 +67,7 @@ public class Drop/*Movement*/ : MonoBehaviour
                 {
                     if (!m_goingBack)
                     {
-                        m_velocity -= m_velocity;
+                        m_velocity -= m_velocity * 7.0f / 6.0f;
                         m_goingBack = true;
                     }
                     m_velocity -= velocity;
@@ -87,7 +88,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         float speedPercent = 1;
         if (m_underControl && m_velocity.magnitude != 0)
         {
-            speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_velocity.magnitude);
+            speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropTarget.m_initialVelocity);
         }
         transform.position += m_velocity * speedPercent * Time.deltaTime;
     }

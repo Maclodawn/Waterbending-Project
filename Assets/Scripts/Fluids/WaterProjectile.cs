@@ -29,6 +29,16 @@ public class WaterProjectile : MonoBehaviour
     {
         if (m_dropPool.Count == 0)
             Destroy(gameObject);
+
+//         bool bobo = true;
+//         foreach (Drop drop in m_dropPool)
+//         {
+//             if (Vector3.Distance(drop.m_dropTarget.m_target.transform.position, drop.transform.position) >= 0.01f)
+//                 bobo = false;
+//         }
+// 
+//         if (bobo)
+//             Debug.Break();
     }
 
     void computeAngles()

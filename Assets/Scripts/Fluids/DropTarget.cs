@@ -8,10 +8,17 @@ public class DropTarget : MonoBehaviour
     public Vector3 lastTargetPos;
     private float tf, ti;
     public float accelerationCap;
+    [System.NonSerialized]
+    public float m_initialVelocity;
 
     void OnEnable()
     {
 
+    }
+
+    void Awake()
+    {
+        m_drop = GetComponent<Drop>();
     }
 
     // Update is called once per frame
@@ -23,8 +30,8 @@ public class DropTarget : MonoBehaviour
 
     public void Init(GameObject _target, float _speed, float _alpha, float _beta)
     {
+        m_initialVelocity = _speed;
         m_target = _target;
-        m_drop = GetComponent<Drop>();
         Vector3 AB = _target.transform.position - transform.position;
         Vector3 x = AB.normalized;
         Vector3 z = Vector3.Cross(x, new Vector3(0, 1, 0)).normalized;
@@ -45,8 +52,8 @@ public class DropTarget : MonoBehaviour
 
     public void Init(GameObject target, Vector3 speed)
     {
+        m_initialVelocity = m_drop.m_velocity.magnitude;
         m_target = target;
-        m_drop = GetComponent<Drop>();
         Vector3 AB = target.transform.position - transform.position;
         Vector3 x = AB.normalized;
         Vector3 z = Vector3.Cross(x, speed).normalized;

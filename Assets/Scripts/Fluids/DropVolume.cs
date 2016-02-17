@@ -23,7 +23,7 @@ public class DropVolume : MonoBehaviour
 
     public void setMinVolume(float _minVolume)
     {
-        m_stretchRatio = _minVolume * m_dropMovement.m_velocity.magnitude;
+        m_stretchRatio = _minVolume * m_dropTarget.m_initialVelocity;
     }
 
     // Use this for initialization
@@ -79,7 +79,7 @@ public class DropVolume : MonoBehaviour
 
         Vector3 position = transform.position + m_dropMovement.m_velocity.normalized * transform.localScale.x / 2.0f
                                               - m_dropMovement.m_velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
-        newSmallerDrop.init(m_waterProjectile, position, m_dropMovement.m_underControl, m_dropMovement.m_id + 1);
+        newSmallerDrop.init(m_waterProjectile, position, m_dropMovement.m_underControl, ++Drop.s_id);
         newSmallerDrop.m_velocity = m_dropMovement.m_velocity;
 
         DropTarget newDropTarget = newSmallerDrop.GetComponent<DropTarget>();
