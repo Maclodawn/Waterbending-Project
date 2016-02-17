@@ -13,6 +13,7 @@ GameObject:
   - 23: {fileID: 2310346}
   - 114: {fileID: 11489896}
   - 54: {fileID: 5421522}
+  - 114: {fileID: 11447572}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Untagged
@@ -80,6 +81,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11447572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e830bd73136e94ab418fc46fc02150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_target: {fileID: 0}
+  lastTargetPos: {x: 0, y: 0, z: 0}
+  accelerationCap: 5.12
 --- !u!114 &11489896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf0eabe4f45bf14ba08c65042494fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {x: 0, y: 0, z: 0}
   m_gravity: {x: 0, y: 0, z: 0}
+  initTime: 0.2
 --- !u!135 &13596300
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -127,6 +142,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: accelerationCap
+      value: 5.12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
