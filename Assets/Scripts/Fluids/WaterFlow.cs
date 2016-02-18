@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WaterFlow : MonoBehaviour {
+public class WaterFlow : MonoBehaviour
+{
     public Transform dropPrefab;
     public float spawnDelay;
     private float time;
-    private List<Drop> drops = new List<Drop>();
     public float minRadius, maxRadius;
 
     public float alpha, beta, speed, deltaAlpha, deltaBeta;
@@ -14,13 +14,13 @@ public class WaterFlow : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         time += Time.deltaTime;
 
@@ -29,7 +29,7 @@ public class WaterFlow : MonoBehaviour {
         {
             alpha += 0.1f;
         }
-        else if(Input.GetAxis("Test") < 0)
+        else if (Input.GetAxis("Test") < 0)
         {
             alpha -= 0.1f;
         }
@@ -40,13 +40,14 @@ public class WaterFlow : MonoBehaviour {
             Drop drop = GameObject.Instantiate<Transform>(dropPrefab).GetComponent<Drop>();
             Vector3 speed = GetRandomSpeed();
             drop.transform.position = transform.position;
-            drop.SetTarget(target.transform.position, speed);
-            drop.SetSpeed(speed);
+            //drop.SetTarget(target.transform.position, speed);
+            //drop.SetSpeed(speed);
+            drop.m_velocity = speed;
             float radius = Random.value * (maxRadius - minRadius) + minRadius;
             drop.transform.localScale = new Vector3(radius, radius, radius);
             drop.GetComponent<DropTarget>().Init(target, speed);
         }
-	}
+    }
 
     private Vector3 GetRandomSpeed()
     {
