@@ -5,7 +5,7 @@ public class Drop/*Movement*/ : MonoBehaviour
 {
     public Vector3 m_gravity;
     [System.NonSerialized]
-    public Vector3 m_velocity;
+    private Vector3 m_velocity;
     public float m_initTime = 0.2f;
 
     private List<GameObject> m_initCollisions = new List<GameObject>();
@@ -27,6 +27,14 @@ public class Drop/*Movement*/ : MonoBehaviour
     private bool m_goingBack;
     public bool m_featureStop = false;
 
+    public Vector3 velocity
+    {
+        get
+        {
+            return m_velocity;
+        }
+    }
+
     void Start()
     {
         m_dropVolume = GetComponent<DropVolume>();
@@ -42,6 +50,12 @@ public class Drop/*Movement*/ : MonoBehaviour
         gameObject.name = m_id.ToString();
         m_featureHover = true;
         m_featureStop = true;
+        m_velocity = velocity;
+    }
+
+    public void initVelocity(Vector3 _velocity)
+    {
+        m_velocity = _velocity;
     }
 
     // Update is called once per frame
@@ -126,7 +140,6 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     public void destroy()
     {
-        print("DESTROOOOOOOY");
         if (m_waterProjectile)
             m_waterProjectile.m_dropPool.Remove(this);
         Destroy(gameObject);
@@ -141,4 +154,9 @@ public class Drop/*Movement*/ : MonoBehaviour
 //     {
 //         SetTarget(_target, m_velocity);
 //     }
+
+    public void AddForce(Vector3 _force)
+    {
+        m_velocity += _force;
+    }
 }

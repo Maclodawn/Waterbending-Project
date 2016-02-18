@@ -3,7 +3,6 @@ using System.Collections;
 
 public class DropVolume : MonoBehaviour
 {
-
     Drop m_dropMovement;
     DropTarget m_dropTarget;
     WaterProjectile m_waterProjectile;
@@ -47,7 +46,7 @@ public class DropVolume : MonoBehaviour
         if (m_dropMovement.m_underControl)
         {
             // Equation to respect otherwise stretch is needed
-            float newVolume = m_stretchRatio / m_dropMovement.m_velocity.magnitude;
+            float newVolume = m_stretchRatio / m_dropMovement.velocity.magnitude;
             if (m_volume - newVolume > newVolume)
             {
                 float vol = (m_volume - newVolume) / 2.0f;
@@ -78,22 +77,22 @@ public class DropVolume : MonoBehaviour
 
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterProjectile, _volume);
 
-        Vector3 position = transform.position + m_dropMovement.m_velocity.normalized * transform.localScale.x / 2.0f
-                                              - m_dropMovement.m_velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
+        Vector3 position = transform.position + m_dropMovement.velocity.normalized * transform.localScale.x / 2.0f
+                                              - m_dropMovement.velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
         newSmallerDrop.init(m_waterProjectile, position, m_dropMovement.m_underControl, ++Drop.s_id);
-        newSmallerDrop.m_velocity = m_dropMovement.m_velocity;
+        newSmallerDrop.initVelocity(m_dropMovement.velocity);
 
         DropTarget newDropTarget = newSmallerDrop.GetComponent<DropTarget>();
         newDropTarget.enabled = m_dropMovement.m_underControl;
         if (m_dropMovement.m_underControl)
         {
-            newDropTarget.Init(m_dropTarget.m_target, newSmallerDrop.m_velocity);
+            newDropTarget.Init(m_dropTarget.m_target, newSmallerDrop.velocity);
         }
 
         float oldRadius = transform.localScale.x / 2.0f;
         setVolume(m_volume - _volume);
-        transform.position = transform.position - m_dropMovement.m_velocity.normalized * oldRadius
-                                                + m_dropMovement.m_velocity.normalized * transform.localScale.x / 2.0f;
+        transform.position = transform.position - m_dropMovement.velocity.normalized * oldRadius
+                                                + m_dropMovement.velocity.normalized * transform.localScale.x / 2.0f;
     }
 
     void OnTriggerStay(Collider _collider)
@@ -143,7 +142,7 @@ public class DropVolume : MonoBehaviour
     {
         Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
         float dist = AB.magnitude;
-        Vector3 v = Vector3.Project(m_dropMovement.m_velocity, AB.normalized);
+        Vector3 v = Vector3.Project(m_dropMovement.velocity, AB.normalized);
         if (v.normalized == AB.normalized)
             return -dist;
         else
