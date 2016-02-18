@@ -15,12 +15,17 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     WaterProjectile m_waterProjectile;
     DropVolume m_dropVolume;
+    [System.NonSerialized]
     public DropTarget m_dropTarget;
 
+    [System.NonSerialized]
     public static int s_id = 0;
+    [System.NonSerialized]
     public int m_id = 0;
 
+    public bool m_featureHover = false;
     private bool m_goingBack;
+    public bool m_featureStop = false;
 
     void Start()
     {
@@ -35,6 +40,8 @@ public class Drop/*Movement*/ : MonoBehaviour
         m_underControl = _underControl;
         m_id = _id;
         gameObject.name = m_id.ToString();
+        m_featureHover = true;
+        m_featureStop = true;
     }
 
     void OnEnable()
@@ -49,12 +56,12 @@ public class Drop/*Movement*/ : MonoBehaviour
         {
             Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
             float distance = AB.magnitude;
-            if (distance >= 0.01f)
+            if (distance >= 0.01f || !m_featureStop)
             {
                 // Going and hovering
                 Vector3 velocity = m_gravity * Time.fixedDeltaTime;
                 Vector3 v = Vector3.Project(m_velocity, AB.normalized);
-                if (v.normalized == AB.normalized)
+                if (v.normalized == AB.normalized || !m_featureHover)
                 {
                     if (m_goingBack)
                     {

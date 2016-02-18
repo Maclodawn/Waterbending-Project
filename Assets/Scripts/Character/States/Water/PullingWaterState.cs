@@ -52,6 +52,12 @@ public class PullingWaterState : AbleToFallState
         base.handleAction(_character, _action);
     }
 
+    public override void update(Character _character)
+    {
+
+        base.update(_character);
+    }
+
     private void cancel(Character _character)
     {
         m_waterProjectile.releaseControl();
