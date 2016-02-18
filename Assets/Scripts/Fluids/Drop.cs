@@ -44,13 +44,8 @@ public class Drop/*Movement*/ : MonoBehaviour
         m_featureStop = true;
     }
 
-    void OnEnable()
-    {
-
-    }
-
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (m_underControl)
         {
@@ -97,7 +92,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         {
             speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropTarget.m_initialVelocity);
         }
-        transform.position += m_velocity * speedPercent * Time.deltaTime;
+        transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
     }
 
     void LateUpdate()
@@ -131,6 +126,7 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     public void destroy()
     {
+        print("DESTROOOOOOOY");
         if (m_waterProjectile)
             m_waterProjectile.m_dropPool.Remove(this);
         Destroy(gameObject);

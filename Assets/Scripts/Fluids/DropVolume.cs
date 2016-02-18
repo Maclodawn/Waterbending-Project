@@ -101,7 +101,7 @@ public class DropVolume : MonoBehaviour
         DropVolume dropVolume = _collider.GetComponent<DropVolume>();
         if (dropVolume && m_dropMovement.m_underControl)
         {
-            if (m_waterProjectile == dropVolume.m_waterProjectile)
+            if (m_waterProjectile && m_waterProjectile == dropVolume.m_waterProjectile)
             {
                 // Merge drops
                 if (m_collisionTreated || dropVolume.m_collisionTreated)
