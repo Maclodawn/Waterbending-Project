@@ -17,7 +17,7 @@ GameObject:
   - 114: {fileID: 11436514}
   m_Layer: 4
   m_Name: Drop
-  m_TagString: Untagged
+  m_TagString: Drop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,6 +161,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: accelerationCap
       value: 5.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Drop
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

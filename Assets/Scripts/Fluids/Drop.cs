@@ -86,7 +86,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         }
 
         float speedPercent = 1;
-        if (m_underControl && m_velocity.magnitude != 0)
+        if (m_underControl && m_velocity.magnitude != 0 && m_dropVolume.m_volume != 0)
         {
             speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropTarget.m_initialVelocity);
         }
@@ -106,13 +106,13 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_initCollisions.Add(collider.gameObject);
         }
 
-        if (!m_initCollisions.Contains(collider.gameObject))
+        if (!m_initCollisions.Contains(collider.gameObject) && collider.gameObject.tag != "Drop")
         {
             Drop drop = collider.GetComponent<Drop>();
-            if (!m_waterProjectile || !drop || m_waterProjectile != drop.m_waterProjectile)
-            {
+            //if (!m_waterProjectile || !drop || m_waterProjectile != drop.m_waterProjectile)
+            //{
                 destroy();
-            }
+            //}
         }
     }
 
