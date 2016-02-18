@@ -62,42 +62,7 @@ public class Drop/*Movement*/ : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (m_underControl)
-        {
-            Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
-            float distance = AB.magnitude;
-            if (distance >= 0.01f || !m_featureStop)
-            {
-                // Going and hovering
-                Vector3 velocity = m_gravity * Time.fixedDeltaTime;
-                Vector3 v = Vector3.Project(m_velocity, AB.normalized);
-                if (v.normalized == AB.normalized || !m_featureHover)
-                {
-                    if (m_goingBack)
-                    {
-                        m_velocity -= m_velocity * 7.0f / 6.0f;
-                        m_goingBack = false;
-                    }
-                    m_velocity += velocity;
-                }
-                else
-                {
-                    if (!m_goingBack)
-                    {
-                        m_velocity -= m_velocity * 7.0f / 6.0f;
-                        m_goingBack = true;
-                    }
-                    m_velocity -= velocity;
-                }
-            }
-            else
-            {
-                m_dropTarget.enabled = false;
-                // Stopping
-                m_velocity = Vector3.zero;
-            }
-        }
-        else
+        if (!m_underControl)
         {
             m_velocity = -Vector3.up * 10;
         }
