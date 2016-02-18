@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DropPull : MonoBehaviour
+public class DropHover : MonoBehaviour
 {
     Drop m_drop;
     DropTarget m_dropTarget;
@@ -25,31 +25,31 @@ public class DropPull : MonoBehaviour
         {
             // Going and hovering
             Vector3 velocity = m_drop.m_gravity * Time.fixedDeltaTime;
-            Vector3 v = Vector3.Project(m_drop.m_velocity, AB.normalized);
+            Vector3 v = Vector3.Project(m_drop.velocity, AB.normalized);
             if (v.normalized == AB.normalized)
             {
                 if (m_goingBack)
                 {
-                    m_drop.m_velocity -= m_drop.m_velocity * 7.0f / 6.0f;
+                    m_drop.AddForce(-m_drop.velocity * 7.0f / 6.0f);
                     m_goingBack = false;
                 }
-                m_drop.m_velocity += velocity;
+                m_drop.AddForce(velocity);
             }
             else
             {
                 if (!m_goingBack)
                 {
-                    m_drop.m_velocity -= m_drop.m_velocity * 7.0f / 6.0f;
+                    m_drop.AddForce(-m_drop.velocity * 7.0f / 6.0f);
                     m_goingBack = true;
                 }
-                m_drop.m_velocity -= velocity;
+                m_drop.AddForce(-velocity);
             }
         }
         else
         {
             m_dropTarget.enabled = false;
             // Stopping
-            m_drop.m_velocity = Vector3.zero;
+            m_drop.AddForce(-m_drop.velocity);
         }
     }
 }
