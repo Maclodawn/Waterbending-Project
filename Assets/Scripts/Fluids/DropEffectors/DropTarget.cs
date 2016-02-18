@@ -10,6 +10,7 @@ public class DropTarget : MonoBehaviour
     public float accelerationCap;
     [System.NonSerialized]
     public float m_initialVelocity;
+    private Vector3 m_gravity;
 
     void OnEnable()
     {
@@ -22,10 +23,11 @@ public class DropTarget : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (m_target != null)
             UpdateTarget();
+        m_drop.AddForce(m_gravity * Time.fixedDeltaTime);
     }
 
     public void Init(GameObject _target, float _speed, float _alpha, float _beta)
@@ -46,7 +48,7 @@ public class DropTarget : MonoBehaviour
         ti = Time.time;
 
         float g = 2 * vx * vy / AB.magnitude;
-        m_drop.m_gravity = -y * g;
+        m_gravity = -y * g;
         lastTargetPos = m_target.transform.position;
     }
 
@@ -67,7 +69,7 @@ public class DropTarget : MonoBehaviour
         ti = Time.time;
 
         float g = 2 * vx * vy / AB.magnitude;
-        m_drop.m_gravity = -y * g;
+        m_gravity = -y * g;
         lastTargetPos = m_target.transform.position;
     }
 
@@ -76,7 +78,7 @@ public class DropTarget : MonoBehaviour
         Vector3 acceleration = 2 * (m_target.transform.position - lastTargetPos) / (tf + ti - Time.time) / (tf + ti - Time.time);
         if (acceleration.sqrMagnitude > accelerationCap * accelerationCap)
             acceleration = acceleration.normalized * accelerationCap;
-        m_drop.m_gravity += acceleration;
+        m_gravity += acceleration;
         lastTargetPos = m_target.transform.position;
     }
 }

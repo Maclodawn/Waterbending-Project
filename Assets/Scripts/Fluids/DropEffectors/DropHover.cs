@@ -15,6 +15,7 @@ public class DropHover : MonoBehaviour
         m_dropTarget = GetComponent<DropTarget>();
         m_stopFeature = true;
         m_hoverFeature = true;
+        m_drop = GetComponent<Drop>();
     }
 
     void FixedUpdate()
@@ -24,7 +25,8 @@ public class DropHover : MonoBehaviour
         if (distance >= 0.01f)
         {
             // Going and hovering
-            Vector3 velocity = m_drop.m_gravity * Time.fixedDeltaTime;
+            // TODO : force calculation
+            Vector3 velocity = Vector3.zero * Time.fixedDeltaTime;
             Vector3 v = Vector3.Project(m_drop.velocity, AB.normalized);
             if (v.normalized == AB.normalized)
             {

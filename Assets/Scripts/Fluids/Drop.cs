@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class Drop/*Movement*/ : MonoBehaviour
 {
-    public Vector3 m_gravity;
     [System.NonSerialized]
     private Vector3 m_velocity;
     public float m_initTime = 0.2f;

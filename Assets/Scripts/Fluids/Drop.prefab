@@ -90,7 +90,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 442797e08d2a47a4ba6c9567172f3b60, type: 3}
   m_Name: 
@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf0eabe4f45bf14ba08c65042494fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gravity: {x: 0, y: 0, z: 0}
   m_initTime: 0.2
   m_featureHover: 0
   m_featureStop: 0
@@ -142,7 +141,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f7f9c0844ab384459847d83d01fab70, type: 3}
   m_Name: 
@@ -203,6 +202,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_stopFeature
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
