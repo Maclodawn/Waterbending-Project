@@ -13,6 +13,6 @@ public class DropGravity : MonoBehaviour {
 
     void FixedUpdate()
     {
-        m_drop.AddForce(gravity * Vector3.down);
+        m_drop.AddForce(gravity * Vector3.down * Time.fixedDeltaTime);
     }
 }
