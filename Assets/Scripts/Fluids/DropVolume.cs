@@ -12,6 +12,7 @@ public class DropVolume : MonoBehaviour
 
     public float m_stretchRatio { get; private set; }
 
+    [System.NonSerialized]
     public bool m_collisionTreated;
 
     public void setVolume(float _volume)
