@@ -2,14 +2,17 @@
 using System.Collections;
 
 public class DropGravity : MonoBehaviour {
+    private Drop m_drop;
+    public float gravity;
 
 	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Awake()
+    {
+        m_drop = GetComponent<Drop>();
+    }
+
+    void FixedUpdate()
+    {
+        m_drop.AddForce(gravity * Vector3.down);
+    }
 }

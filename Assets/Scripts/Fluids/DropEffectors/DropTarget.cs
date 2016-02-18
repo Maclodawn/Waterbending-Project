@@ -37,10 +37,10 @@ public class DropTarget : MonoBehaviour
         Vector3 z = Vector3.Cross(x, new Vector3(0, 1, 0)).normalized;
         Vector3 y = Vector3.Cross(z, x);
 
-        m_drop.m_velocity = (x * Mathf.Cos(_alpha) + y * Mathf.Sin(_alpha) * Mathf.Cos(_beta) + z * Mathf.Sin(_alpha) * Mathf.Sin(_beta)) * _speed;
+        m_drop.initVelocity((x * Mathf.Cos(_alpha) + y * Mathf.Sin(_alpha) * Mathf.Cos(_beta) + z * Mathf.Sin(_alpha) * Mathf.Sin(_beta)) * _speed);
 
-        float vx = Vector3.Project(m_drop.m_velocity, x).magnitude;
-        float vy = Vector3.Project(m_drop.m_velocity, y).magnitude;
+        float vx = Vector3.Project(m_drop.velocity, x).magnitude;
+        float vy = Vector3.Project(m_drop.velocity, y).magnitude;
 
         tf = AB.magnitude / vx;
         ti = Time.time;
@@ -52,7 +52,7 @@ public class DropTarget : MonoBehaviour
 
     public void Init(GameObject target, Vector3 speed)
     {
-        m_initialVelocity = m_drop.m_velocity.magnitude;
+        m_initialVelocity = m_drop.velocity.magnitude;
         m_target = target;
         Vector3 AB = target.transform.position - transform.position;
         Vector3 x = AB.normalized;
