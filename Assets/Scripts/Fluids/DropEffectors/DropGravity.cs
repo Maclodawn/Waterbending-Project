@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DropGravity : MonoBehaviour {
     private Drop m_drop;
-    public Vector3 m_gravity;
+    public float gravity;
 
 	// Use this for initialization
 	void Awake()
@@ -13,6 +13,6 @@ public class DropGravity : MonoBehaviour {
 
     void FixedUpdate()
     {
-        m_drop.AddForce(m_gravity);
+        m_drop.AddForce(gravity * Vector3.down);
     }
 }

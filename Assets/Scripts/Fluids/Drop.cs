@@ -53,6 +53,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         m_velocity = velocity;
     }
 
+    // Used ONLY for initialization, otherwise use AddForce
     public void initVelocity(Vector3 _velocity)
     {
         m_velocity = _velocity;
