@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(SphereCollider))]
 public class WaterDeflect : MonoBehaviour
 {
     public float m_avoidRadius, m_deflectRange, m_duration;
     private float m_time;
 
-    private List<Drop> drops;
+    public List<Drop> drops = new List<Drop>();
 
 	// Use this for initialization
 	void Start ()
@@ -17,13 +18,14 @@ public class WaterDeflect : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_deflectRange);
-
-        foreach(Collider collider in colliders)
+        for(int i=drops.Count-1; i >= 0; i--)
         {
-            if(collider.tag == "Drop")
+            if(drops[i] != null)
             {
-
+                GameObject obj = drops[i].gameObject;
+                print("DROP TEST");
+                Destroy(obj);
+                drops.RemoveAt(i);
             }
         }
 	}

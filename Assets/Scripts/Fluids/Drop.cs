@@ -65,13 +65,9 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_initCollisions.Add(collider.gameObject);
         }
 
-        if (!m_initCollisions.Contains(collider.gameObject) && collider.gameObject.tag != "Drop")
+        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null && collider.GetComponent<WaterDetector>() == null)
         {
-            Drop drop = collider.GetComponent<Drop>();
-            if (!m_waterGroup || !drop || m_waterGroup != drop.m_waterGroup)
-            {
-                destroy();
-            }
+            Destroy(gameObject);
         }
     }
 
@@ -81,11 +77,10 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_initCollisions.Remove(collider.gameObject);
     }
 
-    public void destroy()
+    void OnDestroy()
     {
         if (m_waterGroup)
             m_waterGroup.m_dropPool.Remove(this);
-        Destroy(gameObject);
     }
 
     public void AddForce(Vector3 _force)
