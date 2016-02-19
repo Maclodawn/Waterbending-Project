@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Drop))]
+[RequireComponent(typeof(DropTarget))]
 public class DropHover : MonoBehaviour
 {
     Drop m_drop;
@@ -12,45 +14,44 @@ public class DropHover : MonoBehaviour
 
     void Start()
     {
+        m_drop = GetComponent<Drop>();
         m_dropTarget = GetComponent<DropTarget>();
         m_stopFeature = true;
         m_hoverFeature = true;
-        m_drop = GetComponent<Drop>();
     }
 
     void FixedUpdate()
     {
         Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
         float distance = AB.magnitude;
-        if (distance >= 0.01f)
+        if (distance >= 0.01f || !m_stopFeature)
         {
-            // Going and hovering
-            // TODO : force calculation
-            Vector3 velocity = Vector3.zero * Time.fixedDeltaTime;
-            Vector3 v = Vector3.Project(m_drop.velocity, AB.normalized);
-            if (v.normalized == AB.normalized)
+            // Hovering
+            if (m_hoverFeature)
             {
-                if (m_goingBack)
+                Vector3 v = Vector3.Project(m_drop.velocity, AB.normalized);
+                if (v.normalized == AB.normalized)
                 {
-                    m_drop.AddForce(-m_drop.velocity * 7.0f / 6.0f);
-                    m_goingBack = false;
+                    if (m_goingBack)
+                    {
+                        m_drop.AddForce(-m_drop.velocity * 7.0f / 6.0f);
+                        m_goingBack = false;
+                    }
                 }
-                m_drop.AddForce(velocity);
-            }
-            else
-            {
-                if (!m_goingBack)
+                else
                 {
-                    m_drop.AddForce(-m_drop.velocity * 7.0f / 6.0f);
-                    m_goingBack = true;
+                    if (!m_goingBack)
+                    {
+                        m_drop.AddForce(-m_drop.velocity * 7.0f / 6.0f);
+                        m_goingBack = true;
+                    }
                 }
-                m_drop.AddForce(-velocity);
             }
         }
-        else
+        else if (m_dropTarget.enabled)
         {
-            m_dropTarget.enabled = false;
             // Stopping
+            m_dropTarget.enabled = false;
             m_drop.AddForce(-m_drop.velocity);
         }
     }

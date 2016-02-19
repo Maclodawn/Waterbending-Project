@@ -42,6 +42,8 @@ public class Manager : MonoBehaviour
     [SerializeField]
     GameObject m_UI;
 
+    public float m_waterGravity;
+
     bool m_gameIsPaused = false;
 
     void Awake()

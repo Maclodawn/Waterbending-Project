@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 466204}
   - 114: {fileID: 11428272}
   m_Layer: 0
-  m_Name: WaterProjectile
+  m_Name: WaterGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WaterProjectile : MonoBehaviour
+public class WaterGroup : MonoBehaviour
 {
 
     public Transform m_dropPrefab;
@@ -17,11 +17,20 @@ public class WaterProjectile : MonoBehaviour
     public void init(WaterReserve _waterReserve, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
     {
         Drop drop = _waterReserve.pullWater(_volumeWanted);
-        drop.init(this, transform.position, true, 0);
-        drop.GetComponent<DropTarget>().Init(_target, _speed, m_alpha, m_beta);
+        drop.init(transform.position, this);
+        
+        drop.gameObject.AddComponent<DropTarget>();
+        drop.m_dropTarget = drop.GetComponent<DropTarget>();
+        drop.m_dropTarget.GetComponent<DropTarget>().Init(_target, _speed, m_alpha, m_beta);
+        
         DropVolume dropVolume = drop.GetComponent<DropVolume>();
-        dropVolume.init(this, dropVolume.m_volume);
-        dropVolume.setMinVolume(_minVolume);
+        dropVolume.init(this, _minVolume, dropVolume.m_volume);
+        
+        drop.gameObject.AddComponent<DropHover>();
+        DropHover dropHover = drop.GetComponent<DropHover>();
+        dropHover.m_hoverFeature = true;
+        dropHover.m_stopFeature = true;
+
         m_dropPool.Add(drop);
     }
 
@@ -29,16 +38,6 @@ public class WaterProjectile : MonoBehaviour
     {
         if (m_dropPool.Count == 0)
             Destroy(gameObject);
-
-//         bool bobo = true;
-//         foreach (Drop drop in m_dropPool)
-//         {
-//             if (Vector3.Distance(drop.m_dropTarget.m_target.transform.position, drop.transform.position) >= 0.01f)
-//                 bobo = false;
-//         }
-// 
-//         if (bobo)
-//             Debug.Break();
     }
 
     void computeAngles()
@@ -52,7 +51,7 @@ public class WaterProjectile : MonoBehaviour
         //Debug.Break();
         foreach (Drop drop in m_dropPool)
         {
-            drop.m_underControl = false;
+            drop.releaseControl();
         }
     }
 }

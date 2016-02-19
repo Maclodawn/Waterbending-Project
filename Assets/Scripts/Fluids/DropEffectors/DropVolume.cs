@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Drop))]
 public class DropVolume : MonoBehaviour
 {
     Drop m_dropMovement;
     DropTarget m_dropTarget;
-    WaterProjectile m_waterProjectile;
+    WaterGroup m_waterGroup;
 
     public float m_volume { get; private set; }
 
@@ -13,6 +14,8 @@ public class DropVolume : MonoBehaviour
 
     [System.NonSerialized]
     public bool m_collisionTreated;
+
+    private float m_minVolume;
 
     public void setVolume(float _volume)
     {
@@ -23,6 +26,7 @@ public class DropVolume : MonoBehaviour
 
     public void setMinVolume(float _minVolume)
     {
+        m_minVolume = _minVolume;
         m_stretchRatio = _minVolume * m_dropTarget.m_initialVelocity;
     }
 
@@ -30,20 +34,21 @@ public class DropVolume : MonoBehaviour
     void Awake()
     {
         m_dropMovement = GetComponent<Drop>();
-        m_dropTarget = GetComponent<DropTarget>();
         m_stretchRatio = 2.5f;
     }
 
-    public void init(WaterProjectile _waterProjectile, float _volume)
+    public void init(WaterGroup _waterProjectile, float _minVolume, float _volume)
     {
-        m_waterProjectile = _waterProjectile;
+        m_waterGroup = _waterProjectile;
+        m_dropTarget = GetComponent<DropTarget>();
+        setMinVolume(_minVolume);
         setVolume(_volume);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_dropMovement.m_underControl)
+        if (m_dropTarget)
         {
             // Equation to respect otherwise stretch is needed
             float newVolume = m_stretchRatio / m_dropMovement.velocity.magnitude;
@@ -68,26 +73,24 @@ public class DropVolume : MonoBehaviour
     {
         //Debug.Break();
 
-//         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-//         sphere.transform.position = transform.position;
-//         sphere.transform.localScale = transform.localScale;
-
-        Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterProjectile.m_dropPrefab).GetComponent<Drop>();
-        m_waterProjectile.m_dropPool.Add(newSmallerDrop);
-
-        newSmallerDrop.GetComponent<DropVolume>().init(m_waterProjectile, _volume);
+        Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterGroup.m_dropPrefab).GetComponent<Drop>();
+        m_waterGroup.m_dropPool.Add(newSmallerDrop);
 
         Vector3 position = transform.position + m_dropMovement.velocity.normalized * transform.localScale.x / 2.0f
                                               - m_dropMovement.velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
-        newSmallerDrop.init(m_waterProjectile, position, m_dropMovement.m_underControl, ++Drop.s_id);
+        newSmallerDrop.init(position, m_waterGroup);
         newSmallerDrop.initVelocity(m_dropMovement.velocity);
 
-        DropTarget newDropTarget = newSmallerDrop.GetComponent<DropTarget>();
-        newDropTarget.enabled = m_dropMovement.m_underControl;
-        if (m_dropMovement.m_underControl)
-        {
-            newDropTarget.Init(m_dropTarget.m_target, newSmallerDrop.velocity);
-        }
+        newSmallerDrop.gameObject.AddComponent<DropTarget>();
+        newSmallerDrop.m_dropTarget = newSmallerDrop.GetComponent<DropTarget>();
+        newSmallerDrop.m_dropTarget.Init(m_dropTarget.m_target, newSmallerDrop.velocity);
+
+        newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_minVolume, _volume);
+
+        newSmallerDrop.gameObject.AddComponent<DropHover>();
+        DropHover dropHover = newSmallerDrop.GetComponent<DropHover>();
+        dropHover.m_hoverFeature = true;
+        dropHover.m_stopFeature = true;
 
         float oldRadius = transform.localScale.x / 2.0f;
         setVolume(m_volume - _volume);
@@ -97,13 +100,13 @@ public class DropVolume : MonoBehaviour
 
     void OnTriggerStay(Collider _collider)
     {
-        DropVolume dropVolume = _collider.GetComponent<DropVolume>();
-        if (dropVolume && m_dropMovement.m_underControl)
+        DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
+        if (colliderDropVolume && m_dropTarget)
         {
-            if (m_waterProjectile && m_waterProjectile == dropVolume.m_waterProjectile)
+            if (m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup)
             {
                 // Merge drops
-                if (m_collisionTreated || dropVolume.m_collisionTreated)
+                if (m_collisionTreated || colliderDropVolume.m_collisionTreated)
                 {
                     return;
                 }
@@ -112,15 +115,15 @@ public class DropVolume : MonoBehaviour
                 DropVolume farthestToTarget;
 
                 float distThis = Vector3.Distance(m_dropTarget.m_target.transform.position, transform.position);
-                float distOther = Vector3.Distance(dropVolume.m_dropTarget.m_target.transform.position, dropVolume.transform.position);
+                float distOther = Vector3.Distance(colliderDropVolume.m_dropTarget.m_target.transform.position, colliderDropVolume.transform.position);
                 if (distThis <= distOther)
                 {
                     nearestToTarget = this;
-                    farthestToTarget = dropVolume;
+                    farthestToTarget = colliderDropVolume;
                 }
                 else
                 {
-                    nearestToTarget = dropVolume;
+                    nearestToTarget = colliderDropVolume;
                     farthestToTarget = this;
                 }
 
@@ -132,7 +135,7 @@ public class DropVolume : MonoBehaviour
 
                 // Destroy happen once all triggers are treated, so we need to prevent merge from the smallest one
                 m_collisionTreated = true;
-                dropVolume.m_collisionTreated = true;
+                colliderDropVolume.m_collisionTreated = true;
             }
             return;
         }
