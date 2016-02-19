@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Drop))]
 public class DropTarget : MonoBehaviour
 {
     private Drop m_drop;
     public GameObject m_target;
     public Vector3 lastTargetPos;
     private float tf, ti;
-    public float accelerationCap;
+    public float accelerationCap = 5.12f;
     [System.NonSerialized]
     public float m_initialVelocity;
     private Vector3 m_gravity;

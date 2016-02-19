@@ -1,30 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(DropVolume))]
 public class Drop/*Movement*/ : MonoBehaviour
 {
-    [System.NonSerialized]
     private Vector3 m_velocity;
     public float m_initTime = 0.2f;
 
     private List<GameObject> m_initCollisions = new List<GameObject>();
 
-    [System.NonSerialized]
-    public bool m_underControl = true;
-
-    WaterProjectile m_waterProjectile;
-    DropVolume m_dropVolume;
+    private DropVolume m_dropVolume;
     [System.NonSerialized]
     public DropTarget m_dropTarget;
 
-    [System.NonSerialized]
-    public static int s_id = 0;
-    [System.NonSerialized]
-    public int m_id = 0;
-
-    public bool m_featureHover = false;
-    private bool m_goingBack;
-    public bool m_featureStop = false;
+    public WaterGroup m_waterGroup;
 
     public Vector3 velocity
     {
@@ -37,19 +26,13 @@ public class Drop/*Movement*/ : MonoBehaviour
     void Start()
     {
         m_dropVolume = GetComponent<DropVolume>();
-        m_dropTarget = GetComponent<DropTarget>();
     }
 
-    public void init(WaterProjectile _waterProjectile, Vector3 _position, bool _underControl, int _id)
+    // Used ONLY for initialization, otherwise use AddForce
+    public void init(Vector3 _position, WaterGroup _waterGroup)
     {
-        m_waterProjectile = _waterProjectile;
         transform.position = _position;
-        m_underControl = _underControl;
-        m_id = _id;
-        gameObject.name = m_id.ToString();
-        m_featureHover = true;
-        m_featureStop = true;
-        m_velocity = velocity;
+        m_waterGroup = _waterGroup;
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -61,13 +44,8 @@ public class Drop/*Movement*/ : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!m_underControl)
-        {
-            m_velocity = -Vector3.up * 10;
-        }
-
         float speedPercent = 1;
-        if (m_underControl && m_velocity.magnitude != 0 && m_dropVolume.m_volume != 0)
+        if (m_velocity.magnitude != 0 && m_dropVolume.m_volume != 0 && m_dropTarget)
         {
             speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropTarget.m_initialVelocity);
         }
@@ -90,10 +68,10 @@ public class Drop/*Movement*/ : MonoBehaviour
         if (!m_initCollisions.Contains(collider.gameObject) && collider.gameObject.tag != "Drop")
         {
             Drop drop = collider.GetComponent<Drop>();
-            //if (!m_waterProjectile || !drop || m_waterProjectile != drop.m_waterProjectile)
-            //{
+            if (!m_waterGroup || !drop || m_waterGroup != drop.m_waterGroup)
+            {
                 destroy();
-            //}
+            }
         }
     }
 
@@ -105,23 +83,22 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     public void destroy()
     {
-        if (m_waterProjectile)
-            m_waterProjectile.m_dropPool.Remove(this);
+        if (m_waterGroup)
+            m_waterGroup.m_dropPool.Remove(this);
         Destroy(gameObject);
     }
-
-//     public void SetTarget(Vector3 _target, Vector3 _velocity)
-//     {
-// 
-//     }
-// 
-//     public void SetTarget(Vector3 _target)
-//     {
-//         SetTarget(_target, m_velocity);
-//     }
 
     public void AddForce(Vector3 _force)
     {
         m_velocity += _force;
+    }
+
+    //TODO DestroyAllDropEffectors
+
+    public void releaseControl()
+    {
+        Destroy(GetComponent<DropHover>());
+        Destroy(m_dropTarget);
+        gameObject.AddComponent<DropGravity>();
     }
 }

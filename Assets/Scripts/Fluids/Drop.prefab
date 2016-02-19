@@ -13,10 +13,7 @@ GameObject:
   - 23: {fileID: 2310346}
   - 114: {fileID: 11489896}
   - 54: {fileID: 5421522}
-  - 114: {fileID: 11447572}
   - 114: {fileID: 11436514}
-  - 114: {fileID: 11400150}
-  - 114: {fileID: 11496042}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -84,18 +81,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &11400150
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 442797e08d2a47a4ba6c9567172f3b60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: 9.81
 --- !u!114 &11436514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,20 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60339b6333c895740b2277f80d5a3c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11447572
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79e830bd73136e94ab418fc46fc02150, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_target: {fileID: 0}
-  lastTargetPos: {x: 0, y: 0, z: 0}
-  accelerationCap: 5.12
 --- !u!114 &11489896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,21 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_initTime: 0.2
-  m_featureHover: 0
-  m_featureStop: 0
---- !u!114 &11496042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f7f9c0844ab384459847d83d01fab70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_stopFeature: 1
-  m_hoverFeature: 1
+  m_waterGroup: {fileID: 0}
 --- !u!135 &13596300
 SphereCollider:
   m_ObjectHideFlags: 1

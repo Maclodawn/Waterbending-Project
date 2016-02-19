@@ -7,7 +7,7 @@ public class PullingWaterState : AbleToFallState
     private WaterReserve m_waterReserve;
 
     public GameObject m_waterProjectilePrefab;
-    private WaterProjectile m_waterProjectile;
+    private WaterGroup m_waterProjectile;
 
     private GameObject m_target;
 
@@ -27,7 +27,7 @@ public class PullingWaterState : AbleToFallState
         m_EState = EStates.PullingWaterState;
 
         m_waterReserve = getNearestWaterReserve(_character);
-        m_waterProjectile = Instantiate<GameObject>(m_waterProjectilePrefab).GetComponent<WaterProjectile>();
+        m_waterProjectile = Instantiate<GameObject>(m_waterProjectilePrefab).GetComponent<WaterGroup>();
         m_target.transform.position = m_waterReserve.transform.position + Vector3.up * 2;
         m_waterProjectile.transform.position = m_waterReserve.transform.position;
         m_waterProjectile.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
