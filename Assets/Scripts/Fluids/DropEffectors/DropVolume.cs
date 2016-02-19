@@ -127,7 +127,7 @@ public class DropVolume : MonoBehaviour
                 if (Vector3.Distance(nearestToTarget.transform.position, farthestToTarget.transform.position) < nearestToTarget.transform.localScale.x / 4.0f)
                 {
                     nearestToTarget.setVolume(nearestToTarget.m_volume + farthestToTarget.m_volume);
-                    farthestToTarget.m_dropMovement.destroy();
+                    Destroy(farthestToTarget.m_dropMovement.gameObject);
                 }
 
                 // Destroy happen once all triggers are treated, so we need to prevent merge from the smallest one

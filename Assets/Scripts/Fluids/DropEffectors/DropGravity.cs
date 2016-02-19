@@ -6,6 +6,11 @@ public class DropGravity : MonoBehaviour
     private Drop m_drop;
     public float gravity;
 
+    void OnEnable()
+    {
+        m_drop.registerEffector(this);
+    }
+
     // Use this for initialization
     void Awake()
     {

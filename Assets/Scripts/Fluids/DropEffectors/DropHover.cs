@@ -12,7 +12,7 @@ public class DropHover : MonoBehaviour
     public bool m_stopFeature;
     public bool m_hoverFeature;
 
-    void Start()
+    void Awake()
     {
         m_drop = GetComponent<Drop>();
     }
@@ -22,6 +22,11 @@ public class DropHover : MonoBehaviour
         m_target = _target;
         m_stopFeature = _stopFeature;
         m_hoverFeature = _hoverFeature;
+    }
+
+    void OnEnable()
+    {
+        m_drop.registerEffector(this);
     }
 
     void FixedUpdate()

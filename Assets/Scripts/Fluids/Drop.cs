@@ -12,12 +12,28 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     private DropVolume m_dropVolume;
 
+    private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
+
+    public float radius { get { return transform.localScale.x/2; } }
+
     public Vector3 velocity
     {
         get
         {
             return m_velocity;
         }
+    }
+
+    public void registerEffector(MonoBehaviour _effector)
+    {
+        m_effectors.Add(_effector);
+    }
+
+    public void removeEffectors()
+    {
+        foreach(MonoBehaviour effector in m_effectors)
+            Destroy(effector);
+        m_effectors.Clear();
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -57,9 +73,9 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_initCollisions.Add(collider.gameObject);
         }
 
-        if (!m_initCollisions.Contains(collider.gameObject) && collider.gameObject.tag != "Drop")
+        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null && collider.GetComponent<WaterDetector>() == null)
         {
-            destroy();
+            Destroy(gameObject);
         }
     }
 
@@ -69,26 +85,15 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_initCollisions.Remove(collider.gameObject);
     }
 
-    public void destroy()
+    void OnDestroy()
     {
         if (m_waterGroup)
             m_waterGroup.m_dropPool.Remove(this);
-        Destroy(gameObject);
     }
 
     public void AddForce(Vector3 _force)
     {
         m_velocity += _force;
-    }
-
-    //TODO DestroyAllDropEffectors
-
-    // OnDestroy TODO
-    public void releaseControl()
-    {
-        m_waterGroup = null;
-        Destroy(GetComponent<DropHover>());
-        gameObject.AddComponent<DropGravity>();
     }
 
     private DropVolume getDropVolume()

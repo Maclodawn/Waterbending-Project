@@ -59,7 +59,9 @@ public class WaterGroup : MonoBehaviour
     {
         foreach (Drop drop in m_dropPool)
         {
-            drop.releaseControl();
+            drop.m_waterGroup = null;
+            drop.removeEffectors();
+            drop.gameObject.AddComponent<DropGravity>();
         }
         Destroy(gameObject);
     }
