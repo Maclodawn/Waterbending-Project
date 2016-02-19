@@ -101,7 +101,7 @@ public class DropVolume : MonoBehaviour
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
         if (colliderDropVolume && !GetComponent<DropGravity>())
         {
-            if (m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup)
+            if ((m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup) || Vector3.Dot(m_dropMovement.velocity, colliderDropVolume.m_dropMovement.velocity) > 0)
             {
                 // Merge drops
                 if (m_collisionTreated || colliderDropVolume.m_collisionTreated)

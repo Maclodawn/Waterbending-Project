@@ -65,11 +65,7 @@ public class Drop/*Movement*/ : MonoBehaviour
 
         if (!m_initCollisions.Contains(collider.gameObject) && collider.gameObject.tag != "Drop")
         {
-            Drop drop = collider.GetComponent<Drop>();
-            if (!m_waterGroup || !drop || m_waterGroup != drop.m_waterGroup)
-            {
-                destroy();
-            }
+            destroy();
         }
     }
 
@@ -96,6 +92,7 @@ public class Drop/*Movement*/ : MonoBehaviour
     // OnDestroy TODO
     public void releaseControl()
     {
+        m_waterGroup = null;
         Destroy(GetComponent<DropHover>());
         gameObject.AddComponent<DropGravity>();
     }

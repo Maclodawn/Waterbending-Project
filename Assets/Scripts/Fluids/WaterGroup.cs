@@ -57,10 +57,10 @@ public class WaterGroup : MonoBehaviour
 
     public void releaseControl()
     {
-        //Debug.Break();
         foreach (Drop drop in m_dropPool)
         {
             drop.releaseControl();
         }
+        Destroy(gameObject);
     }
 }
