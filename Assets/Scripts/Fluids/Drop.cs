@@ -17,6 +17,8 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
 
+    public float radius { get { return transform.localScale.x/2; } }
+
     public Vector3 velocity
     {
         get

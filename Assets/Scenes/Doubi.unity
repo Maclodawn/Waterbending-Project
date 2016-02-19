@@ -483,10 +483,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9fc80e0527a564d85f2769c2105a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_avoidRadius: 0
-  m_deflectRange: 0
+  m_radius: 5
+  m_minForce: 0
+  m_maxForce: 30
   m_duration: 0
-  drops: []
 --- !u!135 &1639512362
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -506,7 +506,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1639512358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.94, z: 3.56}
+  m_LocalPosition: {x: 0, y: 10.79, z: -2.48}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
