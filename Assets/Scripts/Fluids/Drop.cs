@@ -10,8 +10,6 @@ public class Drop/*Movement*/ : MonoBehaviour
     private List<GameObject> m_initCollisions = new List<GameObject>();
 
     private DropVolume m_dropVolume;
-    [System.NonSerialized]
-    public DropTarget m_dropTarget;
 
     public WaterGroup m_waterGroup;
 
@@ -45,9 +43,9 @@ public class Drop/*Movement*/ : MonoBehaviour
     void FixedUpdate()
     {
         float speedPercent = 1;
-        if (m_velocity.magnitude != 0 && m_dropVolume.m_volume != 0 && m_dropTarget)
+        if (m_velocity.magnitude != 0 && m_dropVolume.m_volume != 0 && !GetComponent<DropGravity>())
         {
-            speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropTarget.m_initialVelocity);
+            speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropVolume.m_initialSpeed);
         }
         transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
     }
@@ -95,10 +93,10 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     //TODO DestroyAllDropEffectors
 
+    // OnDestroy TODO
     public void releaseControl()
     {
         Destroy(GetComponent<DropHover>());
-        Destroy(m_dropTarget);
         gameObject.AddComponent<DropGravity>();
     }
 }

@@ -2,11 +2,11 @@
 using System.Collections;
 
 [RequireComponent(typeof(Drop))]
-[RequireComponent(typeof(DropTarget))]
 public class DropHover : MonoBehaviour
 {
     Drop m_drop;
-    DropTarget m_dropTarget;
+    [System.NonSerialized]
+    public GameObject m_target;
 
     bool m_goingBack;
     public bool m_stopFeature;
@@ -15,16 +15,20 @@ public class DropHover : MonoBehaviour
     void Start()
     {
         m_drop = GetComponent<Drop>();
-        m_dropTarget = GetComponent<DropTarget>();
-        m_stopFeature = true;
-        m_hoverFeature = true;
+    }
+
+    public void init(GameObject _target, bool _stopFeature, bool _hoverFeature)
+    {
+        m_target = _target;
+        m_stopFeature = _stopFeature;
+        m_hoverFeature = _hoverFeature;
     }
 
     void FixedUpdate()
     {
-        Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
+        Vector3 AB = m_target.transform.position - transform.position;
         float distance = AB.magnitude;
-        if (distance >= 0.01f || !m_stopFeature)
+        if (distance >= transform.localScale.x / 4.0f || !m_stopFeature)
         {
             // Hovering
             if (m_hoverFeature)
@@ -48,10 +52,9 @@ public class DropHover : MonoBehaviour
                 }
             }
         }
-        else if (m_dropTarget.enabled)
+        else
         {
             // Stopping
-            m_dropTarget.enabled = false;
             m_drop.AddForce(-m_drop.velocity);
         }
     }

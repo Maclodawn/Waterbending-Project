@@ -9,8 +9,6 @@ public class DropTarget : MonoBehaviour
     public Vector3 lastTargetPos;
     private float tf, ti;
     public float accelerationCap = 5.12f;
-    [System.NonSerialized]
-    public float m_initialVelocity;
     private Vector3 m_gravity;
 
     void OnEnable()
@@ -33,7 +31,6 @@ public class DropTarget : MonoBehaviour
 
     public void Init(GameObject _target, float _speed, float _alpha, float _beta)
     {
-        m_initialVelocity = _speed;
         m_target = _target;
         Vector3 AB = _target.transform.position - transform.position;
         Vector3 x = AB.normalized;
@@ -55,7 +52,6 @@ public class DropTarget : MonoBehaviour
 
     public void Init(GameObject target, Vector3 speed)
     {
-        m_initialVelocity = m_drop.velocity.magnitude;
         m_target = target;
         Vector3 AB = target.transform.position - transform.position;
         Vector3 x = AB.normalized;

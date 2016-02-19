@@ -5,7 +5,6 @@ using System.Collections;
 public class DropVolume : MonoBehaviour
 {
     Drop m_dropMovement;
-    DropTarget m_dropTarget;
     WaterGroup m_waterGroup;
 
     public float m_volume { get; private set; }
@@ -17,6 +16,11 @@ public class DropVolume : MonoBehaviour
 
     private float m_minVolume;
 
+    [System.NonSerialized]
+    public float m_initialSpeed;
+
+    private GameObject m_target;
+
     public void setVolume(float _volume)
     {
         m_volume = _volume;
@@ -27,7 +31,7 @@ public class DropVolume : MonoBehaviour
     public void setMinVolume(float _minVolume)
     {
         m_minVolume = _minVolume;
-        m_stretchRatio = _minVolume * m_dropTarget.m_initialVelocity;
+        m_stretchRatio = _minVolume * m_initialSpeed;
     }
 
     // Use this for initialization
@@ -37,10 +41,10 @@ public class DropVolume : MonoBehaviour
         m_stretchRatio = 2.5f;
     }
 
-    public void init(WaterGroup _waterProjectile, float _minVolume, float _volume)
+    public void init(WaterGroup _waterProjectile, float _initialSpeed, float _minVolume, float _volume)
     {
         m_waterGroup = _waterProjectile;
-        m_dropTarget = GetComponent<DropTarget>();
+        m_initialSpeed = _initialSpeed;
         setMinVolume(_minVolume);
         setVolume(_volume);
     }
@@ -48,7 +52,7 @@ public class DropVolume : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_dropTarget)
+        if (!GetComponent<DropGravity>())
         {
             // Equation to respect otherwise stretch is needed
             float newVolume = m_stretchRatio / m_dropMovement.velocity.magnitude;
@@ -82,15 +86,9 @@ public class DropVolume : MonoBehaviour
         newSmallerDrop.initVelocity(m_dropMovement.velocity);
 
         newSmallerDrop.gameObject.AddComponent<DropTarget>();
-        newSmallerDrop.m_dropTarget = newSmallerDrop.GetComponent<DropTarget>();
-        newSmallerDrop.m_dropTarget.Init(m_dropTarget.m_target, newSmallerDrop.velocity);
+        newSmallerDrop.GetComponent<DropTarget>().Init(getTarget(), newSmallerDrop.velocity);
 
-        newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_minVolume, _volume);
-
-        newSmallerDrop.gameObject.AddComponent<DropHover>();
-        DropHover dropHover = newSmallerDrop.GetComponent<DropHover>();
-        dropHover.m_hoverFeature = true;
-        dropHover.m_stopFeature = true;
+        newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
 
         float oldRadius = transform.localScale.x / 2.0f;
         setVolume(m_volume - _volume);
@@ -101,7 +99,7 @@ public class DropVolume : MonoBehaviour
     void OnTriggerStay(Collider _collider)
     {
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
-        if (colliderDropVolume && m_dropTarget)
+        if (colliderDropVolume && !GetComponent<DropGravity>())
         {
             if (m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup)
             {
@@ -114,8 +112,8 @@ public class DropVolume : MonoBehaviour
                 DropVolume nearestToTarget;
                 DropVolume farthestToTarget;
 
-                float distThis = Vector3.Distance(m_dropTarget.m_target.transform.position, transform.position);
-                float distOther = Vector3.Distance(colliderDropVolume.m_dropTarget.m_target.transform.position, colliderDropVolume.transform.position);
+                float distThis = Vector3.Distance(getTarget().transform.position, transform.position);
+                float distOther = Vector3.Distance(colliderDropVolume.getTarget().transform.position, colliderDropVolume.transform.position);
                 if (distThis <= distOther)
                 {
                     nearestToTarget = this;
@@ -143,12 +141,31 @@ public class DropVolume : MonoBehaviour
 
     float getDistanceToTarget()
     {
-        Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;
+        Vector3 AB = getTarget().transform.position - transform.position;
         float dist = AB.magnitude;
         Vector3 v = Vector3.Project(m_dropMovement.velocity, AB.normalized);
         if (v.normalized == AB.normalized)
             return -dist;
         else
             return dist;
+    }
+
+    GameObject getTarget()
+    {
+        if (m_target)
+            return m_target;
+
+        DropTarget dropTarget = GetComponent<DropTarget>();
+        DropHover dropHover = GetComponent<DropHover>();
+        if (dropTarget)
+            m_target = dropTarget.m_target;
+        else if (dropHover)
+            m_target = dropHover.m_target;
+        else
+        {
+            Debug.LogException(new System.Exception("Stretch with no DropTarget or no DropHover"), this);
+        }
+
+        return m_target;
     }
 }
