@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(DropVolume))]
 public class Drop/*Movement*/ : MonoBehaviour
 {
     private Vector3 m_velocity;
@@ -9,9 +8,9 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     private List<GameObject> m_initCollisions = new List<GameObject>();
 
-    private DropVolume m_dropVolume;
-
     public WaterGroup m_waterGroup;
+
+    private DropVolume m_dropVolume;
 
     public Vector3 velocity
     {
@@ -19,11 +18,6 @@ public class Drop/*Movement*/ : MonoBehaviour
         {
             return m_velocity;
         }
-    }
-
-    void Start()
-    {
-        m_dropVolume = GetComponent<DropVolume>();
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -43,9 +37,9 @@ public class Drop/*Movement*/ : MonoBehaviour
     void FixedUpdate()
     {
         float speedPercent = 1;
-        if (m_velocity.magnitude != 0 && m_dropVolume.m_volume != 0 && !GetComponent<DropGravity>())
+        if (getDropVolume() && m_velocity.magnitude != 0 && getDropVolume().m_volume != 0 && !GetComponent<DropGravity>())
         {
-            speedPercent = m_dropVolume.m_stretchRatio / (m_dropVolume.m_volume * m_dropVolume.m_initialSpeed);
+            speedPercent = getDropVolume().m_stretchRatio / (getDropVolume().m_volume * getDropVolume().m_initialSpeed);
         }
         transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
     }
@@ -95,5 +89,14 @@ public class Drop/*Movement*/ : MonoBehaviour
         m_waterGroup = null;
         Destroy(GetComponent<DropHover>());
         gameObject.AddComponent<DropGravity>();
+    }
+
+    private DropVolume getDropVolume()
+    {
+        if (m_dropVolume)
+            return m_dropVolume;
+
+        m_dropVolume = GetComponent<DropVolume>();
+        return m_dropVolume;
     }
 }

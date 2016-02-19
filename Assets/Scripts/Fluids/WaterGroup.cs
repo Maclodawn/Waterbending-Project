@@ -25,7 +25,7 @@ public class WaterGroup : MonoBehaviour
         
         drop.gameObject.AddComponent<DropTarget>();
         drop.GetComponent<DropTarget>().Init(_target, _speed, m_alpha, m_beta);
-        
+
         DropVolume dropVolume = drop.GetComponent<DropVolume>();
         dropVolume.init(this, _speed, _minVolume, dropVolume.m_volume);
 

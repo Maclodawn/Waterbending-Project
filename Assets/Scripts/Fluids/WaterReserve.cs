@@ -25,6 +25,7 @@ public class WaterReserve : MonoBehaviour
     public Drop pullWater(float _volume)
     {
         Drop drop = GameObject.Instantiate<Transform>(m_dropPrefab).GetComponent<Drop>();
+        drop.gameObject.AddComponent<DropVolume>();
 
         float volumeDiff = m_volume - _volume;
         if (volumeDiff < 0)

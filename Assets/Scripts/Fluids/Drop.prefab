@@ -13,7 +13,6 @@ GameObject:
   - 23: {fileID: 2310346}
   - 114: {fileID: 11489896}
   - 54: {fileID: 5421522}
-  - 114: {fileID: 11436514}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -81,17 +80,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &11436514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60339b6333c895740b2277f80d5a3c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11489896
 MonoBehaviour:
   m_ObjectHideFlags: 1

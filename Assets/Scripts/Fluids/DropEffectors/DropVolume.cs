@@ -75,8 +75,6 @@ public class DropVolume : MonoBehaviour
     // Spawn a new drop smaller and reducing the current radius
     private void stretch(float _volume)
     {
-        //Debug.Break();
-
         Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterGroup.m_dropPrefab).GetComponent<Drop>();
         m_waterGroup.m_dropPool.Add(newSmallerDrop);
 
@@ -88,6 +86,7 @@ public class DropVolume : MonoBehaviour
         newSmallerDrop.gameObject.AddComponent<DropTarget>();
         newSmallerDrop.GetComponent<DropTarget>().Init(getTarget(), newSmallerDrop.velocity);
 
+        newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
 
         float oldRadius = transform.localScale.x / 2.0f;
