@@ -16,7 +16,7 @@ public class WaterDeflect : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
         for(int i=drops.Count-1; i >= 0; i--)
         {
@@ -32,17 +32,16 @@ public class WaterDeflect : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Drop")
-        {
-            drops.Add(other.GetComponent<Drop>());
-        }
+        Drop drop = other.GetComponent<Drop>();
+        if (drop != null)
+            drops.Add(drop);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Drop")
+        Drop drop = other.GetComponent<Drop>();
+        if (drop != null)
         {
-            Drop drop = other.GetComponent<Drop>();
             drops.Remove(drop);
         }
     }
