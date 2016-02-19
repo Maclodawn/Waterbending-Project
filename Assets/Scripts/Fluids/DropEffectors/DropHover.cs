@@ -20,6 +20,11 @@ public class DropHover : MonoBehaviour
         m_hoverFeature = true;
     }
 
+    void OnEnable()
+    {
+        m_drop.registerEffector(this);
+    }
+
     void FixedUpdate()
     {
         Vector3 AB = m_dropTarget.m_target.transform.position - transform.position;

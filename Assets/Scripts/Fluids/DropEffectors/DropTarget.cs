@@ -15,7 +15,7 @@ public class DropTarget : MonoBehaviour
 
     void OnEnable()
     {
-
+        m_drop.registerEffector(this);
     }
 
     void Awake()

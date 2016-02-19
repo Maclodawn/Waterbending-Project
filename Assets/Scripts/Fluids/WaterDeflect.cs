@@ -23,9 +23,7 @@ public class WaterDeflect : MonoBehaviour
             if(drops[i] != null)
             {
                 GameObject obj = drops[i].gameObject;
-                print("DROP TEST");
-                Destroy(obj);
-                drops.RemoveAt(i);
+                drops[i].removeEffectors();
             }
         }
 	}

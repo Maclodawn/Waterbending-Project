@@ -15,6 +15,8 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     public WaterGroup m_waterGroup;
 
+    private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
+
     public Vector3 velocity
     {
         get
@@ -26,6 +28,18 @@ public class Drop/*Movement*/ : MonoBehaviour
     void Start()
     {
         m_dropVolume = GetComponent<DropVolume>();
+    }
+
+    public void registerEffector(MonoBehaviour _effector)
+    {
+        m_effectors.Add(_effector);
+    }
+
+    public void removeEffectors()
+    {
+        foreach(MonoBehaviour effector in m_effectors)
+            Destroy(effector);
+        m_effectors.Clear();
     }
 
     // Used ONLY for initialization, otherwise use AddForce
