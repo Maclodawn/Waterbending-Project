@@ -6,10 +6,11 @@ public class PullingWaterState : AbleToFallState
     public GameObject m_waterReservePrefab;
     private WaterReserve m_waterReserve;
 
-    public GameObject m_waterProjectilePrefab;
-    private WaterGroup m_waterProjectile;
+    public GameObject m_waterGroupPrefab;
+    private WaterGroup m_waterGroup;
 
     private GameObject m_target;
+    public Vector3 m_targetOffset;
 
     public float m_minDropVolume = 0.25f;
     public float m_volumeWanted = 10.0f;
@@ -27,10 +28,10 @@ public class PullingWaterState : AbleToFallState
         m_EState = EStates.PullingWaterState;
 
         m_waterReserve = getNearestWaterReserve(_character);
-        m_waterProjectile = Instantiate<GameObject>(m_waterProjectilePrefab).GetComponent<WaterGroup>();
+        m_waterGroup = Instantiate<GameObject>(m_waterGroupPrefab).GetComponent<WaterGroup>();
         m_target.transform.position = m_waterReserve.transform.position + Vector3.up * 2;
-        m_waterProjectile.transform.position = m_waterReserve.transform.position;
-        m_waterProjectile.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
+        m_waterGroup.transform.position = m_waterReserve.transform.position;
+        m_waterGroup.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
 
         base.enter(_character);
     }
@@ -54,13 +55,15 @@ public class PullingWaterState : AbleToFallState
 
     public override void update(Character _character)
     {
-
+        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
+        Vector3 vect = quaternion * m_targetOffset;
+        m_target.transform.position = transform.position + vect;
         base.update(_character);
     }
 
     private void cancel(Character _character)
     {
-        m_waterProjectile.releaseControl();
+        m_waterGroup.releaseControl();
         _character.m_currentActionState = null;
     }
 

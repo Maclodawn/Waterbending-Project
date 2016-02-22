@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Drop))]
 public class DropVolume : MonoBehaviour
 {
-    Drop m_dropMovement;
+    Drop m_drop;
     WaterGroup m_waterGroup;
 
     public float m_volume { get; private set; }
@@ -20,6 +20,8 @@ public class DropVolume : MonoBehaviour
     public float m_initialSpeed;
 
     private GameObject m_target;
+
+    private int m_counterFrameForMerge = 0;
 
     public void setVolume(float _volume)
     {
@@ -37,7 +39,7 @@ public class DropVolume : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        m_dropMovement = GetComponent<Drop>();
+        m_drop = GetComponent<Drop>();
         m_stretchRatio = 2.5f;
     }
 
@@ -55,7 +57,7 @@ public class DropVolume : MonoBehaviour
         if (!GetComponent<DropGravity>())
         {
             // Equation to respect otherwise stretch is needed
-            float newVolume = m_stretchRatio / m_dropMovement.velocity.magnitude;
+            float newVolume = m_stretchRatio / m_drop.velocity.magnitude;
             if (m_volume - newVolume > newVolume)
             {
                 float vol = (m_volume - newVolume) / 2.0f;
@@ -78,21 +80,21 @@ public class DropVolume : MonoBehaviour
         Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterGroup.m_dropPrefab).GetComponent<Drop>();
         m_waterGroup.m_dropPool.Add(newSmallerDrop);
 
-        Vector3 position = transform.position + m_dropMovement.velocity.normalized * transform.localScale.x / 2.0f
-                                              - m_dropMovement.velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
+        Vector3 position = transform.position + m_drop.velocity.normalized * transform.localScale.x / 2.0f
+                                              - m_drop.velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
         newSmallerDrop.init(position, m_waterGroup);
-        newSmallerDrop.initVelocity(m_dropMovement.velocity);
+        newSmallerDrop.initVelocity(m_drop.velocity);
 
-        newSmallerDrop.gameObject.AddComponent<DropTarget>();
-        newSmallerDrop.GetComponent<DropTarget>().init(getTarget(), newSmallerDrop.velocity);
+        newSmallerDrop.gameObject.AddComponent<DropPullEffector>();
+        newSmallerDrop.GetComponent<DropPullEffector>().init(getTarget(), m_initialSpeed);
 
         newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
 
         float oldRadius = transform.localScale.x / 2.0f;
         setVolume(m_volume - _volume);
-        transform.position = transform.position - m_dropMovement.velocity.normalized * oldRadius
-                                                + m_dropMovement.velocity.normalized * transform.localScale.x / 2.0f;
+        transform.position = transform.position - m_drop.velocity.normalized * oldRadius
+                                                + m_drop.velocity.normalized * transform.localScale.x / 2.0f;
     }
 
     void OnTriggerStay(Collider _collider)
@@ -100,7 +102,7 @@ public class DropVolume : MonoBehaviour
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
         if (colliderDropVolume && !GetComponent<DropGravity>())
         {
-            if ((m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup) || Vector3.Dot(m_dropMovement.velocity, colliderDropVolume.m_dropMovement.velocity) > 0)
+            if ((m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup) || Vector3.Dot(m_drop.velocity, colliderDropVolume.m_drop.velocity) > 0)
             {
                 // Merge drops
                 if (m_collisionTreated || colliderDropVolume.m_collisionTreated)
@@ -124,11 +126,17 @@ public class DropVolume : MonoBehaviour
                     farthestToTarget = this;
                 }
 
-                if (Vector3.Distance(nearestToTarget.transform.position, farthestToTarget.transform.position) < nearestToTarget.transform.localScale.x / 4.0f)
+                if (Vector3.Distance(nearestToTarget.transform.position, farthestToTarget.transform.position) < nearestToTarget.transform.localScale.x / 4.0f /** 3.0f / 8.0f*/
+                    || m_counterFrameForMerge > 5)
                 {
+                    m_counterFrameForMerge = 0;
                     nearestToTarget.setVolume(nearestToTarget.m_volume + farthestToTarget.m_volume);
-                    Destroy(farthestToTarget.m_dropMovement.gameObject);
+                    Destroy(farthestToTarget.m_drop.gameObject);
                 }
+                else if (nearestToTarget.m_drop.velocity == Vector3.zero && farthestToTarget.m_drop.velocity == Vector3.zero)
+                    ++m_counterFrameForMerge;
+                else
+                    m_counterFrameForMerge = 0;
 
                 // Destroy happen once all triggers are treated, so we need to prevent merge from the smallest one
                 m_collisionTreated = true;
@@ -142,7 +150,7 @@ public class DropVolume : MonoBehaviour
     {
         Vector3 AB = getTarget().transform.position - transform.position;
         float dist = AB.magnitude;
-        Vector3 v = Vector3.Project(m_dropMovement.velocity, AB.normalized);
+        Vector3 v = Vector3.Project(m_drop.velocity, AB.normalized);
         if (v.normalized == AB.normalized)
             return -dist;
         else
@@ -155,14 +163,14 @@ public class DropVolume : MonoBehaviour
             return m_target;
 
         DropTarget dropTarget = GetComponent<DropTarget>();
-        DropHover dropHover = GetComponent<DropHover>();
+        DropPullEffector dropPullEffector = GetComponent<DropPullEffector>();
         if (dropTarget)
             m_target = dropTarget.m_target;
-        else if (dropHover)
-            m_target = dropHover.m_target;
+        else if (dropPullEffector)
+            m_target = dropPullEffector.m_target;
         else
         {
-            Debug.LogException(new System.Exception("Stretch with no DropTarget or no DropHover"), this);
+            Debug.LogException(new System.Exception("Stretch with no DropTarget, or no DropPullEffector"), this);
         }
 
         return m_target;

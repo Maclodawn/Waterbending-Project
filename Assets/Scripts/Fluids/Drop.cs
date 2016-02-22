@@ -57,7 +57,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         float speedPercent = 1;
         if (getDropVolume() && m_velocity.magnitude != 0 && getDropVolume().m_volume != 0 && !GetComponent<DropGravity>())
         {
-            speedPercent = getDropVolume().m_stretchRatio / (getDropVolume().m_volume * getDropVolume().m_initialSpeed);
+            speedPercent = Mathf.Min((getDropVolume().m_stretchRatio / (getDropVolume().m_volume * getDropVolume().m_initialSpeed)) * 1.5f, 1);
         }
         transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
     }

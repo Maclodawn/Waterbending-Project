@@ -14,7 +14,6 @@ public class DodgingState : AbleToFallState
         Debug.Log("Enter DodgingState");
         _character.m_currentMoveSpeed = m_dodgeRollSpeed;
         _character.m_animator.SetBool("Dodge", true);
-        //Debug.Break();
         setOrientation(_character);
 
         base.enter(_character);

@@ -3713,8 +3713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
-  m_waterProjectilePrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d,
-    type: 2}
+  m_waterGroupPrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
+  m_targetOffset: {x: 0, y: 2, z: 1}
   m_minDropVolume: 0.25
   m_volumeWanted: 10
   m_speed: 10
@@ -4402,6 +4402,18 @@ Prefab:
       propertyPath: m_speed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_targetOffset.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_targetOffset.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_waterGroupPrefab
+      value: 
+      objectReference: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 114044}

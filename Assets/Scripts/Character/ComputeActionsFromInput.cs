@@ -16,6 +16,9 @@ public class ComputeActionsFromInput : Character
         m_inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"),
                                         Input.GetAxisRaw("Vertical"));
 
+        if (Input.GetKey(KeyCode.P))
+            Debug.Break();
+
         //Movements
         if (m_currentMovementState is FallingState || m_currentMovementState is FallenState)
         {

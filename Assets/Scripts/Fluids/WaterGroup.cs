@@ -8,13 +8,13 @@ public class WaterGroup : MonoBehaviour
 
     [System.NonSerialized]
     public List<Drop> m_dropPool = new List<Drop>();
-
-    Vector3 m_initialVelocity;
-
-    float m_alpha;
-    float m_beta;
+// 
+//     float m_alpha;
+//     float m_beta;
 
     GameObject m_target;
+
+    public float distToUpdateTarget = 0.5f;
 
     public void init(WaterReserve _waterReserve, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
     {
@@ -22,9 +22,10 @@ public class WaterGroup : MonoBehaviour
 
         Drop drop = _waterReserve.pullWater(_volumeWanted);
         drop.init(transform.position, this);
+        drop.initVelocity((m_target.transform.position - transform.position).normalized * _speed);
         
-        drop.gameObject.AddComponent<DropTarget>();
-        drop.GetComponent<DropTarget>().init(_target, _speed, m_alpha, m_beta);
+        drop.gameObject.AddComponent<DropPullEffector>();
+        drop.GetComponent<DropPullEffector>().init(_target, _speed);
 
         DropVolume dropVolume = drop.GetComponent<DropVolume>();
         dropVolume.init(this, _speed, _minVolume, dropVolume.m_volume);
@@ -36,23 +37,12 @@ public class WaterGroup : MonoBehaviour
     {
         if (m_dropPool.Count == 0)
             Destroy(gameObject);
-
-        foreach (Drop drop in m_dropPool)
-        {
-            DropTarget dropTarget = drop.GetComponent<DropTarget>();
-            if (dropTarget && Vector3.Distance(drop.transform.position, m_target.transform.position) < 0.5f)
-            {
-                Destroy(dropTarget);
-                drop.gameObject.AddComponent<DropHover>();
-                drop.GetComponent<DropHover>().init(m_target, true, true);
-            }
-        }
     }
 
     void computeAngles()
     {
-        m_alpha = 0;
-        m_beta = 0;
+//         m_alpha = 0;
+//         m_beta = 0;
     }
 
     public void releaseControl()
