@@ -113,9 +113,9 @@ public class Manager : MonoBehaviour
         Cursor.visible = true;
 
         m_UI.SetActive(false);
-        m_pauseMenu.SetActive(true);
+        //m_pauseMenu.SetActive(true);
 
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         Manager.BroadcastAll("ReceiveMessage", "Pause");
     }
