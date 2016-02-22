@@ -11,6 +11,8 @@ public class DropTarget : MonoBehaviour
     public float accelerationCap = 5.12f;
     private Vector3 m_gravity;
 
+    public bool destinationReached{ get{ return tf + ti < Time.time; } }
+
     void OnEnable()
     {
         m_drop.registerEffector(this);
@@ -29,7 +31,7 @@ public class DropTarget : MonoBehaviour
         m_drop.AddForce(m_gravity * Time.fixedDeltaTime);
     }
 
-    public void Init(GameObject _target, float _speed, float _alpha, float _beta)
+    public void init(GameObject _target, float _speed, float _alpha, float _beta)
     {
         m_target = _target;
         Vector3 AB = _target.transform.position - transform.position;
@@ -50,7 +52,7 @@ public class DropTarget : MonoBehaviour
         lastTargetPos = m_target.transform.position;
     }
 
-    public void Init(GameObject target, Vector3 speed)
+    public void init(GameObject target, Vector3 speed)
     {
         m_target = target;
         Vector3 AB = target.transform.position - transform.position;
@@ -68,6 +70,11 @@ public class DropTarget : MonoBehaviour
         float g = 2 * vx * vy / AB.magnitude;
         m_gravity = -y * g;
         lastTargetPos = m_target.transform.position;
+    }
+
+    public void init(GameObject target)
+    {
+        init(target, m_drop.velocity);
     }
 
     void UpdateTarget()
