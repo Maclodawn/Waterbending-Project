@@ -663,6 +663,8 @@ MonoBehaviour:
   m_minForce: 0
   m_maxForce: 30
   m_duration: 0
+  m_splitRatio: 0.99
+  m_avoidStrength: 5
 --- !u!135 &1639512362
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -919,7 +921,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104910125}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -36.9, y: 1, z: 10.72}
+  m_LocalPosition: {x: -2.8, y: 1, z: 13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
