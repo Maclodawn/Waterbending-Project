@@ -46,7 +46,7 @@ public class WaterFlow : MonoBehaviour
             float radius = Random.value * (maxRadius - minRadius) + minRadius;
             drop.transform.localScale = new Vector3(radius, radius, radius);
             drop.gameObject.AddComponent<DropTarget>();
-            drop.GetComponent<DropTarget>().Init(target, speed);
+            drop.GetComponent<DropTarget>().init(target, speed);
         }
     }
 

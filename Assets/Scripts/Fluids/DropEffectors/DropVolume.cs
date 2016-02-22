@@ -84,7 +84,7 @@ public class DropVolume : MonoBehaviour
         newSmallerDrop.initVelocity(m_dropMovement.velocity);
 
         newSmallerDrop.gameObject.AddComponent<DropTarget>();
-        newSmallerDrop.GetComponent<DropTarget>().Init(getTarget(), newSmallerDrop.velocity);
+        newSmallerDrop.GetComponent<DropTarget>().init(getTarget(), newSmallerDrop.velocity);
 
         newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
