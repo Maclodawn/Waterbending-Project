@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(SphereCollider))]
 public class WaterDeflect : MonoBehaviour
 {
-    public float m_radius, m_minForce, m_maxForce, m_duration;
+    public float m_radius, m_minForce, m_maxForce, m_duration, m_splitRatio, m_avoidStrength;
     private float m_time;
 
 	// Use this for initialization
@@ -26,7 +26,7 @@ public class WaterDeflect : MonoBehaviour
         {
             drop.removeEffectors();
             drop.gameObject.AddComponent<AvoidEffector>();
-            drop.gameObject.GetComponent<AvoidEffector>().init(transform.position, m_radius, m_minForce, m_maxForce);
+            drop.gameObject.GetComponent<AvoidEffector>().init(transform.position, m_radius, m_splitRatio, m_avoidStrength);
         }
     }
 

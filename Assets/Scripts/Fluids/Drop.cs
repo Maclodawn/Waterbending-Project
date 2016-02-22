@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Drop/*Movement*/ : MonoBehaviour
 {
-    private Vector3 m_velocity;
+    public Vector3 m_velocity;
     public float m_initTime = 0.2f;
 
     private List<GameObject> m_initCollisions = new List<GameObject>();
@@ -15,6 +15,8 @@ public class Drop/*Movement*/ : MonoBehaviour
     private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
 
     public float radius { get { return transform.localScale.x/2; } }
+
+    public Transform m_dropPrefab;
 
     public Vector3 velocity
     {
@@ -103,5 +105,35 @@ public class Drop/*Movement*/ : MonoBehaviour
 
         m_dropVolume = GetComponent<DropVolume>();
         return m_dropVolume;
+    }
+
+    private bool test = false;
+    public void split(Vector3 splitDirection, int count, float alpha)
+    {
+        Vector3 x, y, z = m_velocity.normalized;
+        if (Vector3.Dot(z, Vector3.right) == m_velocity.magnitude)
+            x = Vector3.Cross(z, Vector3.right);
+        else x = Vector3.Cross(z, Vector3.up);
+        
+        y = Vector3.Cross(z, x);
+
+        float initAngle = Random.value * 2 * Mathf.PI;
+        /*for (int i = 0; i < count; i++)
+        {
+            //Drop drop = instance.GetComponent<Drop>();
+            float beta = initAngle;
+            Vector3 speedDir = x * Mathf.Sin(alpha) * Mathf.Cos(beta) + y * Mathf.Sin(alpha) * Mathf.Sin(beta) + z * Mathf.Cos(alpha);
+            Transform newDrop = Instantiate<Transform>(m_dropPrefab);
+            newDrop.position = transform.position;
+            Drop drop = newDrop.GetComponent<Drop>();
+            drop.initVelocity(speedDir * m_velocity.magnitude);
+            drop.gameObject.SetActive(false);
+            print(speedDir);
+            drop.gameObject.SetActive(true);
+        }*/
+        //Destroy(gameObject);loat beta = initAngle;
+        float beta = initAngle;
+        Vector3 speedDir = x * Mathf.Sin(alpha) * Mathf.Cos(beta) + y * Mathf.Sin(alpha) * Mathf.Sin(beta) + z * Mathf.Cos(alpha);
+        m_velocity = speedDir * velocity.magnitude; 
     }
 }
