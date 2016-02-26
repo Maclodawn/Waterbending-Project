@@ -7,8 +7,19 @@ public class RotateEffector : MonoBehaviour
     Vector3 m_normal;
     float m_pullForce;
     float m_friction = 0.5f;
-    
-	void Start ()
+    private Drop m_drop;
+
+    void Awake()
+    {
+        m_drop = GetComponent<Drop>();
+    }
+
+    void OnEnable()
+    {
+        m_drop.registerEffector(this);
+    }
+
+    void Start ()
     {
         m_friction = 10f;
 	}
@@ -23,7 +34,7 @@ public class RotateEffector : MonoBehaviour
         Vector3 x = -OM.normalized;
         Vector3 z = Vector3.Cross(Vector3.ProjectOnPlane(drop.velocity, Vector3.up), x);
         Vector3 y = Vector3.Cross(z, x);
-        drop.initVelocity(y * drop.velocity.magnitude);
+        drop.initVelocity(- y * drop.velocity.magnitude);
     }
 	
 	void FixedUpdate ()
