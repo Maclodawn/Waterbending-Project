@@ -288,7 +288,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: myTransform
       value: 
-      objectReference: {fileID: 401614}
+      objectReference: {fileID: 420598, guid: 77a820077ab1df14b829b6895ad5c2d3, type: 2}
     - target: {fileID: 0}
       propertyPath: angularSpeed
       value: 90
