@@ -10,6 +10,7 @@ public class RunningState : RunSprintingState
     {
         Debug.Log("Enter RunnningState");
         m_EState = EStates.RunningState;
+        _character.m_animator.SetBool("Run", true);
 
         base.enter(_character);
     }
@@ -24,7 +25,8 @@ public class RunningState : RunSprintingState
                 {
                     return;
                 }
-                
+
+                _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.SprintingState];
                 _character.m_currentMovementState.enter(_character);
                 break;
@@ -34,20 +36,16 @@ public class RunningState : RunSprintingState
 
     public override void fixedUpdate(Character _character)
     {
-        //UPDATE PHYSIC
+        initFixedUpdate(_character);
+        _character.m_currentMoveSpeed = m_runSpeed;
+
         base.fixedUpdate(_character);
     }
 
-    public override void update(Character _character)
+    public override void exit(Character _character)
     {
-        initUpdate(_character);
-        _character.m_currentMoveSpeed = m_runSpeed;
+        _character.m_animator.SetBool("Run", false);
 
-        //RUN
-        _character.m_animator.SetFloat("Forward", _character.m_localDirection.z, 0.1f, Time.deltaTime);
-        _character.m_animator.SetFloat("Turn", Mathf.Atan2(_character.m_localDirection.x,
-                                                           _character.m_localDirection.z), 0.1f, Time.deltaTime);
-
-        base.update(_character);
+        base.exit(_character);
     }
 }

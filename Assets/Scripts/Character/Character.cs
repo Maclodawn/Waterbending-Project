@@ -12,6 +12,7 @@ public enum EStates
     JumpDescendingState,
     DodgingState,
     FallingState,
+    FallenState,
     //Action FSM
     SelectingWaterToPushState,
     PushingWaterState,
@@ -57,19 +58,28 @@ public class Character : MonoBehaviour
     [System.NonSerialized]
     public Vector2 m_inputDirection;
     [System.NonSerialized]
-    public Vector3 m_direction;
+    public Vector3 m_movementDirection;
     [System.NonSerialized]
     public Vector3 m_localDirection;
     [System.NonSerialized]
     public float m_currentMoveSpeed;
 
-    public float m_smoothMovement = 1.0f;
+//    public float m_smoothMovement = 1.0f;
     public Vector3 m_gravity = new Vector3(0, -1.0f, 0);
+
+    // Initial values of the controller
+    [System.NonSerialized]
+    public float m_radiusController;
+    [System.NonSerialized]
+    public float m_heightController;
 
     // Use this for initialization
     void Start()
     {
         m_controller = GetComponent<CharacterController>();
+        m_radiusController = m_controller.radius;
+        m_heightController = m_controller.height;
+
         m_animator = GetComponent<Animator>();
 
         m_statePool = new List<CharacterState>();
@@ -79,7 +89,9 @@ public class Character : MonoBehaviour
         m_statePool.Add(GetComponent<SprintingState>());
         m_statePool.Add(GetComponent<JumpingState>());
         m_statePool.Add(GetComponent<JumpDescendingState>());
+        m_statePool.Add(GetComponent<DodgingState>());
         m_statePool.Add(GetComponent<FallingState>());
+        m_statePool.Add(GetComponent<FallenState>());
         // Action FSM
         m_statePool.Add(GetComponent<SelectingWaterState>());
         m_statePool.Add(GetComponent<PushingWaterState>());
@@ -88,6 +100,8 @@ public class Character : MonoBehaviour
 
         m_currentMovementState = m_statePool[(int)EStates.JumpDescendingState];
         m_currentActionState = null;
+
+        m_currentMovementState.enter(this);
     }
 
     /*
@@ -109,15 +123,21 @@ public class Character : MonoBehaviour
     {
         m_currentMovementState.fixedUpdate(this);
 
-        m_direction = transform.forward * m_velocity.z + transform.right * m_velocity.x + transform.up * m_velocity.y;
-        m_localDirection = transform.InverseTransformDirection(m_direction);
+        m_movementDirection = transform.forward * m_velocity.z + transform.right * m_velocity.x + transform.up * m_velocity.y;
+        m_localDirection = transform.InverseTransformDirection(m_movementDirection);
 
-        m_controller.Move(m_direction * Time.deltaTime);
+        m_controller.Move(m_movementDirection * Time.deltaTime);
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            AbleToFallState toto = (AbleToFallState)m_currentMovementState;
+            toto.fall(this);
+        }
+
         // Run movement chosen
         m_currentMovementState.update(this);
         
