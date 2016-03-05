@@ -49,7 +49,12 @@ public class DeviationEffector : MonoBehaviour {
 
         m_l = (2 * dy - vy * m_T) / (2 * dy - 3 * vy * m_T);
         m_fy = vy / m_T / (m_l - 1);
-        
+
+        // TODEBUG: m_l == 1 because vy == 0 so m_l == (2*dy)/(2*dy)
+        // NOTE: Happening when vy going out of the cube using WaterDetector and WaterDeviation
+        // QUESTION: Why can't we have a speed on Y axis equal to zero?
+        //if (m_l == 1)
+        //    Debug.Break();
     }
 	
 	// Update is called once per frame
