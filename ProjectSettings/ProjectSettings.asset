@@ -458,7 +458,7 @@ PlayerSettings:
   WebGL::emscriptenArgs: 
   WebGL::template: APPLICATION:Default
   additionalIl2CppArgs::additionalIl2CppArgs: 
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: d3cc4a61-788b-430d-8f8c-a9f1181643a4
+  projectName: Waterbending-Project
+  organizationId: lahouel
   cloudEnabled: 0

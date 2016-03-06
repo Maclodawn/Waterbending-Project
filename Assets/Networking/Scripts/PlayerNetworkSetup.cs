@@ -9,11 +9,22 @@ public class PlayerNetworkSetup : NetworkBehaviour {
 		if (t != null) t.enabled = true;
 	}
 
-	public void Start() {
-		if (isLocalPlayer) {
-			enableScript<Move>();
-			enableScript<Rotate>();
-			enableScript<ComputeActionsFromInput>();
+	//public void Start() {
+	public override void OnStartLocalPlayer() {
+		//if (isLocalPlayer) {
+		enableScript<Move>();
+		enableScript<Rotate>();
+		enableScript<ComputeActionsFromInput>();
+
+		//Network animator
+		Renderer[] rdrs = GetComponentsInChildren<Renderer>();
+		foreach (Renderer rdr in rdrs) {
+			rdr.enabled = false;
 		}
+		GetComponent<NetworkAnimator>().SetParameterAutoSend(0, true);
+	}
+
+	public override void PreStartClient() {
+		GetComponent<NetworkAnimator>().SetParameterAutoSend(0, true);
 	}
 }

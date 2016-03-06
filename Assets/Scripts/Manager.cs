@@ -10,6 +10,7 @@ public class Manager : MonoBehaviour {
             return m_managerInstance;
 
 		m_managerInstance = FindObjectOfType<Manager>();
+
         return m_managerInstance;
     }
 
