@@ -18,6 +18,15 @@ public class PlayerNetworkSetup : NetworkBehaviour {
 
 			if (script != null)
 				script.init();
+
+			//Animator networking
+			for (int i = 0; i < 8; ++i)
+				GetComponent<NetworkAnimator>().SetParameterAutoSend(i, true);
 		}
+	}
+
+	public override void PreStartClient() {
+		for (int i = 0; i < 8; ++i)
+			GetComponent<NetworkAnimator>().SetParameterAutoSend(i, true);
 	}
 }
