@@ -19,6 +19,7 @@ public class PlayerLook : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+		Debug.Log(gameObject);
         m_vectToPlayer = transform.position - m_playerTransform.position;
         m_distToPlayer = m_vectToPlayer.magnitude;
     }
@@ -34,7 +35,7 @@ public class PlayerLook : MonoBehaviour
         m_horizontalObj.transform.Rotate(0, horizontal, 0);
         m_verticalObj.transform.Rotate(vertical, 0, 0);
 
-        transform.position = m_playerTransform.position + new Vector3(0, m_vectToPlayer.y, 0) - transform.forward * m_distToPlayer;
+		transform.position = m_playerTransform.position + new Vector3(0, m_vectToPlayer.y, 0) - transform.forward * m_distToPlayer;
 
 //         transform.localPosition = m_initialLocalPosition;
 

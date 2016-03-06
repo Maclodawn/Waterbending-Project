@@ -3,6 +3,21 @@ using System.Collections;
 
 public class ComputeActionsFromInput : Character
 {
+	Manager mgr = null;
+
+	public GameObject m_mainCamera = null;
+
+	public void Awake() {
+		mgr = Manager.getInstance();
+		mgr.addPlayer(gameObject);
+
+		GameObject camera = Instantiate(m_mainCamera);
+		PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+		playerLook.m_playerTransform = gameObject.transform;
+		m_cameraTransform = camera.transform;
+	}
+
+	//-----
 
     [System.NonSerialized]
     public Transform m_cameraTransform;

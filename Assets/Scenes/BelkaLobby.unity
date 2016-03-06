@@ -227,7 +227,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 134750, guid: f9a58c45a55a5437eb712955d22fe72b, type: 2}
+  m_PlayerPrefab: {fileID: 195816, guid: b49728584c2cf4d07a9b0f69f856ea59, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: BelkaLobby
