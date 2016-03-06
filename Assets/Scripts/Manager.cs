@@ -24,13 +24,13 @@ public class Manager : MonoBehaviour {
 		players.Add(player);
 	}
 
-	[System.Obsolete("use class PlayerInit")]
-    [SerializeField]
-    GameObject m_originalPlayer = null;
+	//[System.Obsolete("use class PlayerInit")]
+    //[SerializeField]
+    //GameObject m_originalPlayer = null;
 
-	[System.Obsolete("use class PlayerInit")]
-    [SerializeField]
-    GameObject m_mainCamera = null;
+	//[System.Obsolete("use class PlayerInit")]
+    //[SerializeField]
+    //GameObject m_mainCamera = null;
 
     [SerializeField]
     HealthBarController m_healthBar;
