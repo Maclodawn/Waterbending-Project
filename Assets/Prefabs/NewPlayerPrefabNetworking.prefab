@@ -3607,7 +3607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_gravity: {x: 0, y: -1, z: 0}
-  m_mainCamera: {fileID: 180994, guid: 7425ea6fae31d244ea738a9a27dda161, type: 2}
+  prefabCamera: {fileID: 180994, guid: 7425ea6fae31d244ea738a9a27dda161, type: 2}
 --- !u!114 &11427610
 MonoBehaviour:
   m_ObjectHideFlags: 1
