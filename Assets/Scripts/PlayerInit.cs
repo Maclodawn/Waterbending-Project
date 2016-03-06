@@ -6,7 +6,7 @@ public class PlayerInit : MonoBehaviour {
 	Manager mgr = null;
 	Camera cam = null;
 
-	public void Start() {
+	public void Awake() {
 		mgr = Manager.getInstance();
 		mgr.addPlayer(gameObject);
 		cam = GetComponentInChildren<Camera>();
