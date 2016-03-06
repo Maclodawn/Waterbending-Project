@@ -5,16 +5,20 @@ public class ComputeActionsFromInput : Character
 {
 	Manager mgr = null;
 
-	public GameObject m_mainCamera = null;
+	public GameObject prefabCamera = null;
+
+	//To be called from PlayerNetworkSetup
+	public void init() {
+		mgr.addPlayer(gameObject);
+		GameObject camera = Instantiate(prefabCamera);
+		PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+		playerLook.m_playerTransform = gameObject.transform;
+		playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;
+		m_cameraTransform = camera.transform;
+	}
 
 	public void Awake() {
 		mgr = Manager.getInstance();
-		mgr.addPlayer(gameObject);
-
-		GameObject camera = Instantiate(m_mainCamera);
-		PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
-		playerLook.m_playerTransform = gameObject.transform;
-		m_cameraTransform = camera.transform;
 	}
 
 	//-----

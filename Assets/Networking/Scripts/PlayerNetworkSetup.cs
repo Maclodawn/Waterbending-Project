@@ -4,16 +4,20 @@ using UnityEngine.Networking;
 
 public class PlayerNetworkSetup : NetworkBehaviour {
 
-	private void enableScript<T>() where T : MonoBehaviour {
+	private T enableScript<T>() where T : MonoBehaviour {
 		T t = GetComponent<T>();
 		if (t != null) t.enabled = true;
+		return t;
 	}
 
 	public void Start() {
 		if (isLocalPlayer) {
 			enableScript<Move>();
 			enableScript<Rotate>();
-			enableScript<ComputeActionsFromInput>();
+			ComputeActionsFromInput script = enableScript<ComputeActionsFromInput>();
+
+			if (script != null)
+				script.init();
 		}
 	}
 }
