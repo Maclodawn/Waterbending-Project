@@ -2,16 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Manager : MonoBehaviour
-{
-
-    private static Manager m_managerInstance = null;
-    public static Manager getManager()
+public class Manager : MonoBehaviour {
+	private static Manager m_managerInstance = null;
+	public static Manager getInstance()
     {
         if (m_managerInstance)
             return m_managerInstance;
 
-        m_managerInstance = FindObjectOfType<Manager>();
+		m_managerInstance = FindObjectOfType<Manager>();
         return m_managerInstance;
     }
 
@@ -21,11 +19,18 @@ public class Manager : MonoBehaviour
     GameObject m_originalAI;
     public int nAI;
 
-    [SerializeField]
-    GameObject m_originalPlayer;
+	List<GameObject> players = new List<GameObject>();
+	public void addPlayer(GameObject player) {
+		players.Add(player);
+	}
 
+	[System.Obsolete("use class PlayerInit")]
     [SerializeField]
-    GameObject m_mainCamera;
+    GameObject m_originalPlayer = null;
+
+	[System.Obsolete("use class PlayerInit")]
+    [SerializeField]
+    GameObject m_mainCamera = null;
 
     [SerializeField]
     HealthBarController m_healthBar;
@@ -51,15 +56,20 @@ public class Manager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        GameObject player = Instantiate(m_originalPlayer);
-        GameObject camera = Instantiate(m_mainCamera);
-        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
-        playerLook.m_playerTransform = player.transform;
-        player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
-
 		for (int i = 0; i < nAI; ++i)
 			Instantiate(m_originalAI);
 
+		//NW1 Moved to PlayerInit
+		/*
+		GameObject player = Instantiate(m_originalPlayer);
+		GameObject camera = Instantiate(m_mainCamera);
+		PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+		playerLook.m_playerTransform = player.transform;
+		player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
+		*/
+
+		//NW1 TODO: Link that to player
+        /*
         if(m_healthBar != null)
         {
             m_healthBar.Setup(player.GetComponent<HealthComponent>());
@@ -79,6 +89,7 @@ public class Manager : MonoBehaviour
         {
             m_UI.GetComponent<BloodStain>().Setup(player.GetComponent<HealthComponent>());
         }
+        */
     }
 
     void Update()
@@ -117,7 +128,7 @@ public class Manager : MonoBehaviour
 
         //Time.timeScale = 0;
 
-        Manager.BroadcastAll("ReceiveMessage", "Pause");
+		Manager.BroadcastAll("ReceiveMessage", "Pause");
     }
 
     public void UnPauseGame()
@@ -131,7 +142,7 @@ public class Manager : MonoBehaviour
 
         Time.timeScale = 1;
 
-        Manager.BroadcastAll("ReceiveMessage", "UnPause");
+		Manager.BroadcastAll("ReceiveMessage", "UnPause");
     }
 
     public static void BroadcastAll(string fun, System.Object msg)
