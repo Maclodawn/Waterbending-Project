@@ -38,6 +38,21 @@ public class Drop/*Movement*/ : MonoBehaviour
         m_effectors.Clear();
     }
 
+    public void removeEffectorsExceptDropVolume()
+    {
+        if (m_effectors.Count == 0)
+            return;
+
+        for (int i = 0; i < m_effectors.Count; ++i)
+        {
+            if (!(m_effectors[i] is DropVolume))
+            {
+                Destroy(m_effectors[i]);
+                m_effectors.RemoveAt(i--);
+            }
+        }
+    }
+
     // Used ONLY for initialization, otherwise use AddForce
     public void init(Vector3 _position, WaterGroup _waterGroup)
     {

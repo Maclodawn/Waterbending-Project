@@ -51,14 +51,13 @@ public class DropVolume : MonoBehaviour
         setVolume(_volume);
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (!GetComponent<DropGravity>())
         {
             // Equation to respect otherwise stretch is needed
             float newVolume = m_stretchRatio / m_drop.velocity.magnitude;
-            if (m_volume - newVolume > newVolume)
+            if (newVolume >= m_minVolume - 0.1f && m_volume - newVolume > newVolume)
             {
                 float vol = (m_volume - newVolume) / 2.0f;
                 if (m_volume - (newVolume + vol) > newVolume)
@@ -67,10 +66,7 @@ public class DropVolume : MonoBehaviour
                 stretch(newVolume);
             }
         }
-    }
 
-    void LateUpdate()
-    {
         m_collisionTreated = false;
     }
 
@@ -85,8 +81,21 @@ public class DropVolume : MonoBehaviour
         newSmallerDrop.init(position, m_waterGroup);
         newSmallerDrop.initVelocity(m_drop.velocity);
 
-        newSmallerDrop.gameObject.AddComponent<DropPullEffector>();
-        newSmallerDrop.GetComponent<DropPullEffector>().init(getTarget(), m_initialSpeed);
+        if (GetComponent<DropPullEffector>())
+        {
+            newSmallerDrop.gameObject.AddComponent<DropPullEffector>();
+            newSmallerDrop.GetComponent<DropPullEffector>().init(getTarget(), m_initialSpeed);
+        }
+        else if (GetComponent<DeviationEffector>())
+        {
+            newSmallerDrop.gameObject.AddComponent<DeviationEffector>();
+            newSmallerDrop.GetComponent<DeviationEffector>().init(getTarget(), GetComponent<DeviationEffector>().m_targetRadius);
+        }
+        else if (GetComponent<RotateEffector>())
+        {
+            newSmallerDrop.gameObject.AddComponent<RotateEffector>();
+            newSmallerDrop.GetComponent<RotateEffector>().init(getTarget(), Vector3.up/*, 1*/, GetComponent<RotateEffector>().m_radiusToTurnAround);
+        }
 
         newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
@@ -164,13 +173,21 @@ public class DropVolume : MonoBehaviour
 
         DropTarget dropTarget = GetComponent<DropTarget>();
         DropPullEffector dropPullEffector = GetComponent<DropPullEffector>();
+        DeviationEffector dropDeviationEffector = GetComponent<DeviationEffector>();
+        RotateEffector dropRotateEffector = GetComponent<RotateEffector>();
         if (dropTarget)
             m_target = dropTarget.m_target;
         else if (dropPullEffector)
             m_target = dropPullEffector.m_target;
+        else if (dropDeviationEffector)
+            m_target = dropDeviationEffector.m_target;
+        else if (dropRotateEffector)
+            m_target = dropRotateEffector.m_target;
         else
         {
-            Debug.LogException(new System.Exception("Stretch with no DropTarget, or no DropPullEffector"), this);
+            Debug.Break();
+            Debug.LogException(new System.Exception("Stretch with no DropTarget, no DropPullEffector,"
+                                                  + "no DropDeviationEffector, or no DropRotateEffector"), this);
         }
 
         return m_target;

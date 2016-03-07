@@ -7,7 +7,6 @@ public class PullingWaterState : AbleToFallState
     private WaterReserve m_waterReserve;
 
     public GameObject m_waterGroupPrefab;
-    private WaterGroup m_waterGroup;
 
     private GameObject m_target;
     public Vector3 m_targetOffset;
@@ -28,10 +27,12 @@ public class PullingWaterState : AbleToFallState
         m_EState = EStates.PullingWaterState;
 
         m_waterReserve = getNearestWaterReserve(_character);
-        m_waterGroup = Instantiate<GameObject>(m_waterGroupPrefab).GetComponent<WaterGroup>();
-        m_target.transform.position = m_waterReserve.transform.position + Vector3.up * 2;
-        m_waterGroup.transform.position = m_waterReserve.transform.position;
-        m_waterGroup.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
+        _character.m_waterGroup = Instantiate<GameObject>(m_waterGroupPrefab).GetComponent<WaterGroup>();
+        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
+        Vector3 vect = quaternion * m_targetOffset;
+        m_target.transform.position = transform.position + vect;
+        _character.m_waterGroup.transform.position = m_waterReserve.transform.position;
+        _character.m_waterGroup.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
 
         base.enter(_character);
     }
@@ -63,7 +64,7 @@ public class PullingWaterState : AbleToFallState
 
     private void cancel(Character _character)
     {
-        m_waterGroup.releaseControl();
+        _character.m_waterGroup.releaseControl();
         _character.m_currentActionState = null;
     }
 

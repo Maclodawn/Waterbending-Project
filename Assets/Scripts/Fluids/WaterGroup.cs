@@ -45,6 +45,18 @@ public class WaterGroup : MonoBehaviour
 //         m_beta = 0;
     }
 
+    public void turnAround(Vector3 _newTargetPos, float _radiusToTurnAround)
+    {
+        foreach (Drop drop in m_dropPool)
+        {
+            drop.removeEffectorsExceptDropVolume();
+            
+            DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
+            m_target.transform.position = _newTargetPos;
+            newEffector.init(m_target, _radiusToTurnAround);
+        }
+    }
+
     public void releaseControl()
     {
         foreach (Drop drop in m_dropPool)

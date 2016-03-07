@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WaterDeviation : MonoBehaviour {
-    public GameObject target;
-    private List<DeviationEffector> effectors = new List<DeviationEffector>();
+public class WaterDeviation : MonoBehaviour
+{
+    public GameObject m_target;
+    private List<DeviationEffector> m_effectors = new List<DeviationEffector>();
 
-	void Start () {
-	
-	}
-	
-	void FixedUpdate ()
+    void Start()
+    {
+
+    }
+
+    void FixedUpdate()
     {
 
     }
@@ -21,13 +23,13 @@ public class WaterDeviation : MonoBehaviour {
         {
             drop.removeEffectors();
             DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
-            newEffector.init(target, 10);
-            effectors.Add(newEffector);
+            newEffector.init(m_target, 10);
+            m_effectors.Add(newEffector);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        
+
     }
 }

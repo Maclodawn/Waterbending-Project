@@ -49,6 +49,8 @@ public class Character : MonoBehaviour
     public CharacterState m_currentMovementState { get; set; }
     public CharacterState m_currentActionState { get; set; }
 
+    public WaterGroup m_waterGroup { get; set; }
+
     [System.NonSerialized]
     public Animator m_animator;
     public CharacterController m_controller { get; private set; }
