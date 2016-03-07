@@ -47,7 +47,6 @@ public class PullingWaterState : AbleToFallState
                 break;
             case EAction.TurnWaterAround:
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.TurningWaterAroundState];
-                ((TurningWaterAroundState)_character.m_currentActionState).m_target = m_target;
                 _character.m_currentActionState.enter(_character);
                 break;
         }

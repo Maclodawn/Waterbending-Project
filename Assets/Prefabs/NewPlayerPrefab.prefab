@@ -3673,6 +3673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90141f781cfcf4849a94165d94a7d110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_speed: 10
+  m_offsetToFling: {x: 0.5, y: 0, z: 0}
 --- !u!114 &11457752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4425,6 +4427,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_radiusToTurnAround
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_offsetToFling.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_offsetToFling.x
       value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []

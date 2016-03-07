@@ -85,6 +85,9 @@ public class Drop/*Movement*/ : MonoBehaviour
     {
         if (m_initTime > 0)
             m_initTime -= Time.deltaTime;
+
+        if (transform.position.y < -10.0f)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider collider)

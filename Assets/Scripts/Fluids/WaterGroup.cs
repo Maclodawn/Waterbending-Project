@@ -12,9 +12,20 @@ public class WaterGroup : MonoBehaviour
 //     float m_alpha;
 //     float m_beta;
 
-    GameObject m_target;
+    public GameObject m_target { get; private set; }
 
     public float distToUpdateTarget = 0.5f;
+
+    private bool m_flinging = false;
+    private float m_flingSpeed;
+    private Vector3 m_posToFling;
+    private GameObject m_oldTarget;
+    
+    public void setTarget(GameObject _target)
+    {
+        m_oldTarget = m_target;
+        m_target = _target;
+    }
 
     public void init(WaterReserve _waterReserve, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
     {
@@ -37,6 +48,20 @@ public class WaterGroup : MonoBehaviour
     {
         if (m_dropPool.Count == 0)
             Destroy(gameObject);
+
+        if (m_flinging)
+        {
+            foreach (Drop drop in m_dropPool)
+            {
+                if (drop.GetComponent<RotateEffector>() && Vector3.Distance(drop.transform.position, m_posToFling) < 0.4f)
+                {
+                    drop.removeEffectorsExceptDropVolume();
+
+                    DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
+                    newEffector.init(m_target, m_flingSpeed, 0, 0);
+                }
+            }
+        }
     }
 
     void computeAngles()
@@ -54,6 +79,13 @@ public class WaterGroup : MonoBehaviour
             DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
             newEffector.init(m_target, _radiusToTurnAround);
         }
+    }
+
+    public void fling(float _speed, Vector3 _posToFling)
+    {
+        m_flingSpeed = _speed;
+        m_flinging = true;
+        m_posToFling = _posToFling;
     }
 
     public void releaseControl()

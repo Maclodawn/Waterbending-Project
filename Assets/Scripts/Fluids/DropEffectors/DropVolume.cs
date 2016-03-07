@@ -96,6 +96,11 @@ public class DropVolume : MonoBehaviour
             newSmallerDrop.gameObject.AddComponent<RotateEffector>();
             newSmallerDrop.GetComponent<RotateEffector>().init(getTarget(), Vector3.up/*, 1*/, GetComponent<RotateEffector>().m_radiusToTurnAround);
         }
+        else if (GetComponent<DropTarget>())
+        {
+            newSmallerDrop.gameObject.AddComponent<DropTarget>();
+            newSmallerDrop.GetComponent<DropTarget>().init(m_target, m_initialSpeed, 0.0f, 0.0f);
+        }
 
         newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
