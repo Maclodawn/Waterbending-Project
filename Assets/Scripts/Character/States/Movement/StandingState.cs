@@ -25,6 +25,11 @@ public class StandingState : AbleToJumpState
         switch (_movement)
         {
             case EMovement.Run:
+                // We do not want to be able to change the movement to Run if TurningWaterAroundState action is not over
+                if (_character.m_currentActionState is TurningWaterAroundState)
+                {
+                    return;
+                }
                 _character.m_currentMovementState.exit(_character);
                 _character.m_currentMovementState = _character.m_statePool[(int)EStates.RunningState];
                 _character.m_currentMovementState.enter(_character);

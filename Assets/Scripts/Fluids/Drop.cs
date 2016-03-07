@@ -64,6 +64,10 @@ public class Drop/*Movement*/ : MonoBehaviour
     public void initVelocity(Vector3 _velocity)
     {
         m_velocity = _velocity;
+        if (float.IsNaN(m_velocity.x))
+        {
+            Debug.Break();
+        }
     }
 
     // Update is called once per frame
@@ -111,6 +115,10 @@ public class Drop/*Movement*/ : MonoBehaviour
     public void AddForce(Vector3 _force)
     {
         m_velocity += _force;
+        if (float.IsNaN(m_velocity.x))
+        {
+            Debug.Break();
+        }
     }
 
     private DropVolume getDropVolume()

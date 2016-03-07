@@ -47,6 +47,12 @@ public class DeviationEffector : MonoBehaviour
                 m_drop.AddForce((_target.transform.position - transform.position).normalized * initialSpeed); 
             }
         }
+        
+        //FIXME Why vy couldn't be null?
+        if (m_drop.velocity.y == 0)
+        {
+            m_drop.initVelocity(m_drop.velocity + 0.01f * Vector3.up);
+        }
 
         Vector3 velocityNormalizedWithoutY = m_drop.velocity;
         velocityNormalizedWithoutY.y = 0;
@@ -80,6 +86,11 @@ public class DeviationEffector : MonoBehaviour
 
         m_l = (2 * dy - vy * m_T) / (2 * dy - 3 * vy * m_T);
         m_fy = vy / m_T / (m_l - 1);
+
+        if (float.IsNaN(m_fy))
+        {
+            Debug.Break();
+        }
 
     }
 

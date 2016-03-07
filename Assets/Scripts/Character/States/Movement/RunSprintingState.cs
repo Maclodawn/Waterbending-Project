@@ -11,6 +11,20 @@ public class RunSprintingState : AbleToJumpState
         base.enter(_character);
     }
 
+    public override void handleAction(Character _character, EAction _action)
+    {
+        switch (_action)
+        {
+            case EAction.TurnWaterAround:
+                _character.m_currentMovementState.exit(_character);
+                _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
+                _character.m_currentMovementState.enter(_character);
+                break;
+        }
+
+        base.handleAction(_character, _action);
+    }
+
     public override void handleMovement(Character _character, EMovement _movement)
     {
         switch (_movement)
