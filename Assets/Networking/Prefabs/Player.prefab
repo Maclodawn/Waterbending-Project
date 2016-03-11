@@ -13,11 +13,10 @@ GameObject:
   - 23: {fileID: 2341952}
   - 114: {fileID: 11411030}
   - 114: {fileID: 11453038}
-  - 114: {fileID: 11471852}
+  - 114: {fileID: 11461714}
   - 114: {fileID: 11437860}
   - 114: {fileID: 11403120}
   - 114: {fileID: 11444316}
-  - 114: {fileID: 11461714}
   - 114: {fileID: 11431528}
   m_Layer: 0
   m_Name: Player
@@ -224,7 +223,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 131314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db4a8f870cf34bf88299359d9276f50, type: 3}
+  m_Script: {fileID: 11500000, guid: 32649805097e74751b83493e9b96413d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11444316
@@ -258,23 +257,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131314}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c009df6de1c1f421e848af6fee208709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 155310, guid: 8c5cf65c4b5194b509e65d3f67c11b7a, type: 2}
---- !u!114 &11471852
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131314}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4b2a1a82b44c48278c44c73b6390f4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
