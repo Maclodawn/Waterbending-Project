@@ -11,13 +11,10 @@ GameObject:
   - 33: {fileID: 3377014}
   - 135: {fileID: 13596300}
   - 23: {fileID: 2310346}
-  - 114: {fileID: 11489896}
   - 54: {fileID: 5421522}
-  - 114: {fileID: 11491348}
   - 114: {fileID: 11421432}
-  - 114: {fileID: 11471970}
-  - 114: {fileID: 11443516}
   - 114: {fileID: 11459214}
+  - 114: {fileID: 11491348}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -91,26 +88,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096ea71d445b743b8a7bcd252f50a1b9, type: 3}
+  m_Script: {fileID: 11500000, guid: edf0eabe4f45bf14ba08c65042494fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 471942}
-  lerpRate: 15
---- !u!114 &11443516
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 940a30b199be6455f8b4b048864403aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 471942}
-  lerpRate: 15
+  m_velocity: {x: 0, y: 0, z: 0}
+  m_initTime: 0.2
+  m_waterGroup: {fileID: 0}
+  m_dropPrefab: {fileID: 0}
 --- !u!114 &11459214
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,32 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f623b40552cec406fbee4c00b585b546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11471970
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db4a8f870cf34bf88299359d9276f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11489896
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf0eabe4f45bf14ba08c65042494fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_velocity: {x: 0, y: 0, z: 0}
-  m_initTime: 0.2
-  m_waterGroup: {fileID: 0}
-  m_dropPrefab: {fileID: 0}
 --- !u!114 &11491348
 MonoBehaviour:
   m_ObjectHideFlags: 1
