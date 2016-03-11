@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour {
 	public GameObject bulletPrefab;
 
 	public void Update() {
-		if (Input.GetKeyDown("Space"))
+		if (Input.GetKeyDown("space"))
 			GameObject.Instantiate(bulletPrefab);
 	}
 }

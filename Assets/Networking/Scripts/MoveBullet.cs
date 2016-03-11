@@ -6,7 +6,7 @@ public class MoveBullet : MonoBehaviour {
 	public GameObject myPlayer;
 
 	private Vector3 directionNormalized;
-	private float speed = 1f;
+	public float speed;
 
 	public void Start() {
 		directionNormalized = myPlayer.transform.forward;
