@@ -3720,6 +3720,7 @@ MonoBehaviour:
   m_minDropVolume: 0.25
   m_volumeWanted: 10
   m_speed: 10
+  m_distToPull: 10
 --- !u!114 &11482786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4436,6 +4437,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_offsetToFling.x
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_distToPull
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

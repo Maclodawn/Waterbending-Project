@@ -15,6 +15,8 @@ public class PullingWaterState : AbleToFallState
     public float m_volumeWanted = 10.0f;
     public float m_speed = 10.0f;
 
+    public float m_distToPull = 0.0f;
+
     void Start()
     {
         m_target = new GameObject();
@@ -70,9 +72,29 @@ public class PullingWaterState : AbleToFallState
 
     private WaterReserve getNearestWaterReserve(Character _character)
     {
-        WaterReserve waterReserve = Instantiate<GameObject>(m_waterReservePrefab).GetComponent<WaterReserve>();
-        waterReserve.setVolume(10);
-        waterReserve.transform.position = _character.transform.position + _character.transform.forward;
-        return waterReserve;
+        Collider[] colList = Physics.OverlapSphere(_character.transform.position, m_distToPull,
+                                                   1 << LayerMask.NameToLayer("Reserve"), QueryTriggerInteraction.Collide);
+
+        if (colList.Length < 1)
+        {
+            WaterReserve waterReserve = Instantiate<GameObject>(m_waterReservePrefab).GetComponent<WaterReserve>();
+            waterReserve.setVolume(10);
+            waterReserve.transform.position = _character.transform.position + _character.transform.forward;
+            return waterReserve;
+        }
+
+        int nearestIndex = 0;
+        float distNearest = Vector3.Distance(_character.transform.position, colList[0].transform.position);
+        for (int i = 1; i < colList.Length; ++i)
+        {
+            float dist = Vector3.Distance(_character.transform.position, colList[i].transform.position);
+            if (dist < distNearest)
+            {
+                nearestIndex = i;
+                distNearest = dist;
+            }
+        }
+
+        return colList[nearestIndex].GetComponent<WaterReserve>();
     }
 }

@@ -6,7 +6,7 @@ public class WaterReserve : MonoBehaviour
 
     public Transform m_dropPrefab;
 
-    public float m_volume { get; private set; }
+    public float m_volume;
 
     public void setVolume(float _volume)
     {
@@ -14,6 +14,11 @@ public class WaterReserve : MonoBehaviour
         //float radius = Mathf.Sqrt(m_volume / (transform.localScale.y * Mathf.PI));
         float radius = 2;
         transform.localScale = new Vector3(radius, transform.localScale.y, radius);
+    }
+
+    void Start()
+    {
+        setVolume(m_volume);
     }
 
     public void init(Vector3 _position, float _volume)
