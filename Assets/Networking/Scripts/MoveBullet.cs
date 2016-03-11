@@ -12,6 +12,9 @@ public class MoveBullet : NetworkBehaviour {
 	}
 
 	public void Update() {
+		if (!isServer)
+			return;
+
 		transform.position = transform.position + directionNormalized*speed*Time.deltaTime;
 	}
 }
