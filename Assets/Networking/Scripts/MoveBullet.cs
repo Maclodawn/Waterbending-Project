@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class MoveBullet : MonoBehaviour {
-
-	public GameObject myPlayer;
-
-	private Vector3 directionNormalized;
+public class MoveBullet : NetworkBehaviour {
+	
+	public Vector3 directionNormalized;
 	public float speed;
 
 	public void Start() {
-		directionNormalized = myPlayer.transform.forward;
+		
 	}
 
 	public void Update() {
