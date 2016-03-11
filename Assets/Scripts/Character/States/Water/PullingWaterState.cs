@@ -31,7 +31,7 @@ public class PullingWaterState : AbleToFallState
         m_waterGroup = Instantiate<GameObject>(m_waterGroupPrefab).GetComponent<WaterGroup>();
         m_target.transform.position = m_waterReserve.transform.position + Vector3.up * 2;
         m_waterGroup.transform.position = m_waterReserve.transform.position;
-        m_waterGroup.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
+		m_waterGroup.init(m_waterReserve, _character, m_minDropVolume, m_volumeWanted, m_target, m_speed);
 
         base.enter(_character);
     }

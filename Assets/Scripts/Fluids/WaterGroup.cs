@@ -13,12 +13,14 @@ public class WaterGroup : MonoBehaviour
 //     float m_beta;
 
     GameObject m_target;
+	public Character m_char {get ; private set;}
 
-    public float distToUpdateTarget = 0.5f;
+	public float distToUpdateTarget = 0.5f;
 
-    public void init(WaterReserve _waterReserve, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
+    public void init(WaterReserve _waterReserve, Character _char, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
     {
         m_target = _target;
+		m_char = _char;
 
         Drop drop = _waterReserve.pullWater(_volumeWanted);
         drop.init(transform.position, this);
@@ -35,6 +37,7 @@ public class WaterGroup : MonoBehaviour
 
     void Update()
     {
+		//Debug.Break();
         if (m_dropPool.Count == 0)
             Destroy(gameObject);
     }
