@@ -13,11 +13,9 @@ GameObject:
   - 23: {fileID: 2310346}
   - 114: {fileID: 11489896}
   - 54: {fileID: 5421522}
-  - 114: {fileID: 11491348}
-  - 114: {fileID: 11421432}
-  - 114: {fileID: 11471970}
-  - 114: {fileID: 11443516}
-  - 114: {fileID: 11459214}
+  - 114: {fileID: 11404514}
+  - 114: {fileID: 11467968}
+  - 114: {fileID: 11445634}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -47,7 +45,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b0d11be3c9a701243a7181baa2e45d68, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -85,70 +83,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &11421432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096ea71d445b743b8a7bcd252f50a1b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 471942}
-  lerpRate: 15
---- !u!114 &11443516
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 940a30b199be6455f8b4b048864403aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 471942}
-  lerpRate: 15
---- !u!114 &11459214
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f623b40552cec406fbee4c00b585b546, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11471970
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db4a8f870cf34bf88299359d9276f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11489896
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf0eabe4f45bf14ba08c65042494fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_velocity: {x: 0, y: 0, z: 0}
-  m_initTime: 0.2
-  m_waterGroup: {fileID: 0}
-  m_dropPrefab: {fileID: 0}
---- !u!114 &11491348
+--- !u!114 &11404514
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -179,7 +114,45 @@ MonoBehaviour:
     i14: 18
     i15: 89
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11445634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60339b6333c895740b2277f80d5a3c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11467968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b357f1aa2cb0f24e9031f492282d38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpRate: 15
+--- !u!114 &11489896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf0eabe4f45bf14ba08c65042494fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_velocity: {x: 0, y: 0, z: 0}
+  m_initTime: 0.2
+  m_waterGroup: {fileID: 0}
+  m_dropPrefab: {fileID: 0}
 --- !u!135 &13596300
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -240,75 +213,23 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b0d11be3c9a701243a7181baa2e45d68, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPlayerAuthority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: myTransform
       value: 
       objectReference: {fileID: 471942}
     - target: {fileID: 0}
-      propertyPath: m_AssetId.i0
-      value: 172
+      propertyPath: m_ServerOnly
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_AssetId.i1
-      value: 214
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i2
-      value: 214
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i3
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i4
-      value: 127
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i5
-      value: 217
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i6
-      value: 181
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i7
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i8
-      value: 216
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i9
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i10
-      value: 198
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i11
-      value: 242
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i12
-      value: 191
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i13
-      value: 171
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i14
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i15
-      value: 89
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_LocalPlayerAuthority
+      propertyPath: m_TransformSyncMode
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

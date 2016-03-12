@@ -11,11 +11,8 @@ GameObject:
   - 33: {fileID: 3317736}
   - 23: {fileID: 2318134}
   - 114: {fileID: 11493440}
-  - 114: {fileID: 11458344}
-  - 114: {fileID: 11414084}
-  - 114: {fileID: 11433816}
-  - 114: {fileID: 11490704}
-  - 114: {fileID: 11400304}
+  - 114: {fileID: 11493532}
+  - 114: {fileID: 11456588}
   m_Layer: 0
   m_Name: WaterReserve
   m_TagString: Untagged
@@ -68,7 +65,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144396}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11400304
+--- !u!114 &11456588
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -76,10 +73,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 144396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f623b40552cec406fbee4c00b585b546, type: 3}
+  m_Script: {fileID: 11500000, guid: 692db4dbd4c941344a28ebb31340af74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11414084
+--- !u!114 &11493440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -87,23 +84,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 144396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096ea71d445b743b8a7bcd252f50a1b9, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d9facfe5deeb240934e8d4d4aa28c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 476740}
-  lerpRate: 15
---- !u!114 &11433816
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db4a8f870cf34bf88299359d9276f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11458344
+  m_dropPrefab: {fileID: 471942, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
+--- !u!114 &11493532
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -134,32 +119,7 @@ MonoBehaviour:
     i14: 166
     i15: 170
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &11490704
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 940a30b199be6455f8b4b048864403aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 476740}
-  lerpRate: 15
---- !u!114 &11493440
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144396}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3d9facfe5deeb240934e8d4d4aa28c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_dropPrefab: {fileID: 471942, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -241,7 +201,7 @@ Prefab:
       objectReference: {fileID: 476740}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

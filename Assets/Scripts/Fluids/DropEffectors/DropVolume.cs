@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Drop))]
-public class DropVolume : MonoBehaviour
+public class DropVolume : NetworkBehaviour
 {
     Drop m_drop;
     WaterGroup m_waterGroup;
@@ -36,13 +37,13 @@ public class DropVolume : MonoBehaviour
         m_stretchRatio = _minVolume * m_initialSpeed;
     }
 
-    // Use this for initialization
     void Awake()
     {
         m_drop = GetComponent<Drop>();
         m_stretchRatio = 2.5f;
     }
 
+    [Server]
     public void init(WaterGroup _waterProjectile, float _initialSpeed, float _minVolume, float _volume)
     {
         m_waterGroup = _waterProjectile;
@@ -51,14 +52,16 @@ public class DropVolume : MonoBehaviour
         setVolume(_volume);
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
+        if (!isServer)
+            return;
+
         if (!GetComponent<DropGravity>())
         {
             // Equation to respect otherwise stretch is needed
             float newVolume = m_stretchRatio / m_drop.velocity.magnitude;
-            if (m_volume - newVolume > newVolume)
+            if (newVolume >= m_minVolume - 0.1f && m_volume - newVolume > newVolume)
             {
                 float vol = (m_volume - newVolume) / 2.0f;
                 if (m_volume - (newVolume + vol) > newVolume)
@@ -67,14 +70,12 @@ public class DropVolume : MonoBehaviour
                 stretch(newVolume);
             }
         }
-    }
 
-    void LateUpdate()
-    {
         m_collisionTreated = false;
     }
 
     // Spawn a new drop smaller and reducing the current radius
+    [Server]
     private void stretch(float _volume)
     {
         Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterGroup.m_dropPrefab).GetComponent<Drop>();
@@ -83,13 +84,31 @@ public class DropVolume : MonoBehaviour
         Vector3 position = transform.position + m_drop.velocity.normalized * transform.localScale.x / 2.0f
                                               - m_drop.velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
         newSmallerDrop.init(position, m_waterGroup);
+
+        //newSmallerDrop.gameObject.AddComponent<DropVolume>();
+        newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
+
+        NetworkServer.Spawn(newSmallerDrop.gameObject);
+        //newSmallerDrop.GetComponent<DropSync>().RpcInit();
+
+        // Velocity not synchronised
         newSmallerDrop.initVelocity(m_drop.velocity);
 
-        newSmallerDrop.gameObject.AddComponent<DropPullEffector>();
-        newSmallerDrop.GetComponent<DropPullEffector>().init(getTarget(), m_initialSpeed);
-
-        newSmallerDrop.gameObject.AddComponent<DropVolume>();
-        newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
+        if (GetComponent<DropPullEffector>())
+        {
+            newSmallerDrop.gameObject.AddComponent<DropPullEffector>();
+            newSmallerDrop.GetComponent<DropPullEffector>().init(getTarget(), m_initialSpeed);
+        }
+        else if (GetComponent<DeviationEffector>())
+        {
+            newSmallerDrop.gameObject.AddComponent<DeviationEffector>();
+            newSmallerDrop.GetComponent<DeviationEffector>().init(getTarget(), GetComponent<DeviationEffector>().m_targetRadius);
+        }
+        else if (GetComponent<RotateEffector>())
+        {
+            newSmallerDrop.gameObject.AddComponent<RotateEffector>();
+            newSmallerDrop.GetComponent<RotateEffector>().init(getTarget(), Vector3.up/*, 1*/, GetComponent<RotateEffector>().m_radiusToTurnAround);
+        }
 
         float oldRadius = transform.localScale.x / 2.0f;
         setVolume(m_volume - _volume);
@@ -99,6 +118,9 @@ public class DropVolume : MonoBehaviour
 
     void OnTriggerStay(Collider _collider)
     {
+        if (!isServer)
+            return;
+
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
         if (colliderDropVolume && !GetComponent<DropGravity>())
         {
@@ -131,7 +153,7 @@ public class DropVolume : MonoBehaviour
                 {
                     m_counterFrameForMerge = 0;
                     nearestToTarget.setVolume(nearestToTarget.m_volume + farthestToTarget.m_volume);
-                    Destroy(farthestToTarget.m_drop.gameObject);
+                    NetworkServer.Destroy(farthestToTarget.m_drop.gameObject);
                 }
                 else if (nearestToTarget.m_drop.velocity == Vector3.zero && farthestToTarget.m_drop.velocity == Vector3.zero)
                     ++m_counterFrameForMerge;
@@ -146,6 +168,7 @@ public class DropVolume : MonoBehaviour
         }
     }
 
+    [Server]
     float getDistanceToTarget()
     {
         Vector3 AB = getTarget().transform.position - transform.position;
@@ -157,6 +180,7 @@ public class DropVolume : MonoBehaviour
             return dist;
     }
 
+    [Server]
     GameObject getTarget()
     {
         if (m_target)
@@ -164,13 +188,21 @@ public class DropVolume : MonoBehaviour
 
         DropTarget dropTarget = GetComponent<DropTarget>();
         DropPullEffector dropPullEffector = GetComponent<DropPullEffector>();
+        DeviationEffector dropDeviationEffector = GetComponent<DeviationEffector>();
+        RotateEffector dropRotateEffector = GetComponent<RotateEffector>();
         if (dropTarget)
             m_target = dropTarget.m_target;
         else if (dropPullEffector)
             m_target = dropPullEffector.m_target;
+        else if (dropDeviationEffector)
+            m_target = dropDeviationEffector.m_target;
+        else if (dropRotateEffector)
+            m_target = dropRotateEffector.m_target;
         else
         {
-            Debug.LogException(new System.Exception("Stretch with no DropTarget, or no DropPullEffector"), this);
+            Debug.Break();
+            Debug.LogException(new System.Exception("Stretch with no DropTarget, no DropPullEffector,"
+                                                  + "no DropDeviationEffector, or no DropRotateEffector"), this);
         }
 
         return m_target;

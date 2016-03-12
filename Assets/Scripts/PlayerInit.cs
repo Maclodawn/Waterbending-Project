@@ -4,14 +4,14 @@ using System.Collections;
 public class PlayerInit : MonoBehaviour {
 
 	Manager mgr = null;
-	Camera cam = null;
+	//Camera cam = null;
 
 	public GameObject m_mainCamera = null;
 
 	public void Start() {
 		mgr = Manager.getInstance();
 		mgr.addPlayer(gameObject);
-		cam = GetComponentInChildren<Camera>();
+		//cam = GetComponentInChildren<Camera>();
 
 		//Gab's solution
 		GameObject camera = Instantiate(m_mainCamera);

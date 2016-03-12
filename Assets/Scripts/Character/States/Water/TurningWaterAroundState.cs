@@ -3,12 +3,17 @@ using System.Collections;
 
 public class TurningWaterAroundState : AbleToFallState
 {
+    public float m_radiusToTurnAround = 1;
+    public GameObject m_target;
 
     public override void enter(Character _character)
     {
         Debug.Log("Enter TurningWaterAroundState");
         m_EState = EStates.TurningWaterAroundState;
 
+        m_target.transform.position = _character.transform.position + _character.m_controller.center;
+        _character.m_waterGroup.turnAround(m_radiusToTurnAround);
+        
         base.enter(_character);
     }
 

@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WaterRotation : MonoBehaviour {
+public class WaterRotation : MonoBehaviour
+{
 
     public float m_pullForce;
 
-	void Start () {
-	
-	}
-	
-	void Update () {
-	
-	}
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -20,7 +23,7 @@ public class WaterRotation : MonoBehaviour {
         {
             drop.removeEffectors();
             RotateEffector target = drop.gameObject.AddComponent<RotateEffector>();
-            target.init(transform.position, Vector3.up, m_pullForce);
+            target.init(transform.position, Vector3.up/*, m_pullForce*/);
         }
     }
 

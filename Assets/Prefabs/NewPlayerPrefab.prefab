@@ -3714,7 +3714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
   m_waterGroupPrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
-  m_targetOffset: {x: 0, y: 2, z: 1}
+  m_targetOffset: {x: 0, y: 2, z: 5}
   m_minDropVolume: 0.25
   m_volumeWanted: 10
   m_speed: 10
@@ -3729,6 +3729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cfe97570f32e142aa379f5f83015fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_radiusToTurnAround: 0.5
 --- !u!114 &11485310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4408,88 +4409,24 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_targetOffset.z
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_waterGroupPrefab
       value: 
       objectReference: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
     - target: {fileID: 0}
-      propertyPath: m_AssetId.i0
-      value: 119
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i1
-      value: 168
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i2
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i3
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i4
-      value: 122
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i5
-      value: 177
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i6
-      value: 223
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i7
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i8
-      value: 184
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i9
-      value: 41
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i10
-      value: 182
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i11
-      value: 137
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i12
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i13
-      value: 213
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i14
-      value: 194
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AssetId.i15
-      value: 211
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_LocalPlayerAuthority
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: myTransform
+      propertyPath: m_spherePrefabToTurnAround
       value: 
-      objectReference: {fileID: 420598}
+      objectReference: {fileID: 103598, guid: dad6db1047d3bb84fa7b2654e1955219, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_volumeWanted
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_radiusToTurnAround
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 114044}

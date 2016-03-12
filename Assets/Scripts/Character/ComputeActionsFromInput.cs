@@ -3,25 +3,27 @@ using System.Collections;
 
 public class ComputeActionsFromInput : Character
 {
-	Manager mgr = null;
+    Manager mgr = null;
 
-	public GameObject prefabCamera = null;
+    public GameObject prefabCamera = null;
 
-	//To be called from PlayerNetworkSetup
-	public void init() {
-		mgr.addPlayer(gameObject);
-		GameObject camera = Instantiate(prefabCamera);
-		PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
-		playerLook.m_playerTransform = gameObject.transform;
-		playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;
-		m_cameraTransform = camera.transform;
-	}
+    //To be called from PlayerNetworkSetup
+    public void init()
+    {
+        mgr.addPlayer(gameObject);
+        GameObject camera = Instantiate(prefabCamera);
+        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+        playerLook.m_playerTransform = gameObject.transform;
+        playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;
+        m_cameraTransform = camera.transform;
+    }
 
-	public void Awake() {
-		mgr = Manager.getInstance();
-	}
+    public void Awake()
+    {
+        mgr = Manager.getInstance();
+    }
 
-	//-----
+    //-----
 
     [System.NonSerialized]
     public Transform m_cameraTransform;
@@ -55,7 +57,7 @@ public class ComputeActionsFromInput : Character
             if (m_currentMovementState is StandingState || m_currentMovementState is RunningState
                 || m_currentMovementState is SprintingState)
             {
-                
+
                 if (Input.GetButtonDown("Dodge"))
                 {
                     movement = EMovement.Dodge;
@@ -70,7 +72,7 @@ public class ComputeActionsFromInput : Character
                 }
             }
         }
-        
+
         //Actions
         if (Input.GetButton("Fire1") && !Input.GetButton("Fire2"))
         {

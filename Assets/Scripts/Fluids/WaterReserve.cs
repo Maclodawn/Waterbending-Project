@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class WaterReserve : MonoBehaviour
+public class WaterReserve : NetworkBehaviour
 {
 
     public Transform m_dropPrefab;
 
     public float m_volume { get; private set; }
+
+    [System.NonSerialized][SyncVar]
+    public bool isReady = false;
 
     public void setVolume(float _volume)
     {
@@ -16,16 +20,19 @@ public class WaterReserve : MonoBehaviour
         transform.localScale = new Vector3(radius, transform.localScale.y, radius);
     }
 
+    [Server]
     public void init(Vector3 _position, float _volume)
     {
         transform.position = _position;
-        m_volume = _volume;
+        setVolume(_volume);
+        GetComponent<WaterReserveSync>().initDone = true;
     }
 
+    [Server]
     public Drop pullWater(float _volume)
     {
         Drop drop = GameObject.Instantiate<Transform>(m_dropPrefab).GetComponent<Drop>();
-        drop.gameObject.AddComponent<DropVolume>();
+        //drop.gameObject.AddComponent<DropVolume>();
 
         float volumeDiff = m_volume - _volume;
         if (volumeDiff < 0)
@@ -44,7 +51,7 @@ public class WaterReserve : MonoBehaviour
 
     public void Update()
     {
-        if (m_volume == 0)
+        if (m_volume == 0 && isReady)
             Destroy(gameObject);
     }
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class CharacterState : MonoBehaviour
+public class CharacterState : NetworkBehaviour
 {
     public EStates m_EState { get; set; }
 

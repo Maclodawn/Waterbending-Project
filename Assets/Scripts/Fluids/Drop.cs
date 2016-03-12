@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Drop/*Movement*/ : MonoBehaviour
+public class Drop/*Movement*/ : NetworkBehaviour
 {
     public Vector3 m_velocity;
     public float m_initTime = 0.2f;
@@ -26,11 +27,13 @@ public class Drop/*Movement*/ : MonoBehaviour
         }
     }
 
+    [Server]
     public void registerEffector(MonoBehaviour _effector)
     {
         m_effectors.Add(_effector);
     }
 
+    [Server]
     public void removeEffectors()
     {
         foreach(MonoBehaviour effector in m_effectors)
@@ -38,7 +41,24 @@ public class Drop/*Movement*/ : MonoBehaviour
         m_effectors.Clear();
     }
 
+    [Server]
+    public void removeEffectorsExceptDropVolume()
+    {
+        if (m_effectors.Count == 0)
+            return;
+
+        for (int i = 0; i < m_effectors.Count; ++i)
+        {
+            if (!(m_effectors[i] is DropVolume))
+            {
+                Destroy(m_effectors[i]);
+                m_effectors.RemoveAt(i--);
+            }
+        }
+    }
+
     // Used ONLY for initialization, otherwise use AddForce
+    [Server]
     public void init(Vector3 _position, WaterGroup _waterGroup)
     {
         transform.position = _position;
@@ -46,14 +66,22 @@ public class Drop/*Movement*/ : MonoBehaviour
     }
 
     // Used ONLY for initialization, otherwise use AddForce
+    [Server]
     public void initVelocity(Vector3 _velocity)
     {
         m_velocity = _velocity;
+        if (float.IsNaN(m_velocity.x))
+        {
+            Debug.Break();
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (isClient)
+            return;
+
         float speedPercent = 1;
         if (getDropVolume() && m_velocity.magnitude != 0 && getDropVolume().m_volume != 0 && !GetComponent<DropGravity>())
         {
@@ -64,12 +92,18 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     void LateUpdate()
     {
+        if (isClient)
+            return;
+
         if (m_initTime > 0)
             m_initTime -= Time.deltaTime;
     }
 
     void OnTriggerEnter(Collider collider)
     {
+        if (isClient)
+            return;
+
         if (m_initTime > 0)
         {
             m_initCollisions.Add(collider.gameObject);
@@ -83,21 +117,34 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
+        if (isClient)
+            return;
+
         if (m_initCollisions.Count > 0 && m_initCollisions.Contains(collider.gameObject))
             m_initCollisions.Remove(collider.gameObject);
     }
 
     void OnDestroy()
     {
-        if (m_waterGroup)
-            m_waterGroup.m_dropPool.Remove(this);
+        if (isServer)
+        {
+            if (m_waterGroup)
+                m_waterGroup.m_dropPool.Remove(this);
+            //GetComponent<DropSync>().RpcDestroyOnClient();
+        }
     }
 
+    [Server]
     public void AddForce(Vector3 _force)
     {
         m_velocity += _force;
+        if (float.IsNaN(m_velocity.x))
+        {
+            Debug.Break();
+        }
     }
 
+    [Server]
     private DropVolume getDropVolume()
     {
         if (m_dropVolume)
@@ -107,7 +154,8 @@ public class Drop/*Movement*/ : MonoBehaviour
         return m_dropVolume;
     }
 
-    private bool test = false;
+    //private bool test = false;
+    [Server]
     public void split(Vector3 splitDirection, int count, float alpha)
     {
         Vector3 x, y, z = m_velocity.normalized;

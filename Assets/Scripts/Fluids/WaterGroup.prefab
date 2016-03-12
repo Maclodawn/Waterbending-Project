@@ -9,10 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 466204}
   - 114: {fileID: 11428272}
-  - 114: {fileID: 11446830}
-  - 114: {fileID: 11430710}
-  - 114: {fileID: 11440982}
-  - 114: {fileID: 11418870}
+  - 114: {fileID: 11475080}
   m_Layer: 0
   m_Name: WaterGroup
   m_TagString: Untagged
@@ -32,57 +29,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11418870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 137666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 940a30b199be6455f8b4b048864403aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 466204}
-  lerpRate: 15
 --- !u!114 &11428272
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137666}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a86fd19ac4b63c74daadcdb30ddee1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_dropPrefab: {fileID: 471942, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
   distToUpdateTarget: 0.5
---- !u!114 &11430710
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 137666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db4a8f870cf34bf88299359d9276f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11440982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 137666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096ea71d445b743b8a7bcd252f50a1b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 466204}
-  lerpRate: 15
---- !u!114 &11446830
+--- !u!114 &11475080
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -113,7 +73,7 @@ MonoBehaviour:
     i14: 43
     i15: 125
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -207,7 +167,7 @@ Prefab:
       objectReference: {fileID: 466204}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
