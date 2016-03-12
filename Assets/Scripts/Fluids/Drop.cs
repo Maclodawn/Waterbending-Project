@@ -97,7 +97,8 @@ public class Drop/*Movement*/ : MonoBehaviour
             m_initCollisions.Add(collider.gameObject);
         }
 
-        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null && collider.GetComponent<WaterDetector>() == null)
+        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null
+            && collider.GetComponent<WaterDetector>() == null && collider.gameObject.layer != LayerMask.NameToLayer("Reserve"))
         {
             Destroy(gameObject);
         }
