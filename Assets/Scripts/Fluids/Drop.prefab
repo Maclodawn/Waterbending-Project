@@ -152,7 +152,6 @@ MonoBehaviour:
   m_velocity: {x: 0, y: 0, z: 0}
   m_initTime: 0.2
   m_waterGroup: {fileID: 0}
-  m_dropPrefab: {fileID: 0}
 --- !u!135 &13596300
 SphereCollider:
   m_ObjectHideFlags: 1

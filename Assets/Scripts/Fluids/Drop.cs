@@ -17,8 +17,6 @@ public class Drop/*Movement*/ : NetworkBehaviour
 
     public float radius { get { return transform.localScale.x/2; } }
 
-    public Transform m_dropPrefab;
-
     public Vector3 velocity
     {
         get
@@ -61,6 +59,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
     [Server]
     public void init(Vector3 _position, WaterGroup _waterGroup)
     {
+        name += _waterGroup.name;
         transform.position = _position;
         m_waterGroup = _waterGroup;
     }
@@ -97,6 +96,9 @@ public class Drop/*Movement*/ : NetworkBehaviour
 
         if (m_initTime > 0)
             m_initTime -= Time.deltaTime;
+
+        if (transform.position.y < -10.0f)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider collider)
@@ -109,7 +111,8 @@ public class Drop/*Movement*/ : NetworkBehaviour
             m_initCollisions.Add(collider.gameObject);
         }
 
-        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null && collider.GetComponent<WaterDetector>() == null)
+        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null
+            && collider.GetComponent<WaterDetector>() == null && collider.gameObject.layer != LayerMask.NameToLayer("Reserve"))
         {
             Destroy(gameObject);
         }

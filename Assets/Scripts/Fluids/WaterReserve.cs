@@ -5,9 +5,7 @@ using UnityEngine.Networking;
 public class WaterReserve : NetworkBehaviour
 {
 
-    public Transform m_dropPrefab;
-
-    public float m_volume { get; private set; }
+    public float m_volume;
 
     [System.NonSerialized][SyncVar]
     public bool isReady = false;
@@ -18,6 +16,11 @@ public class WaterReserve : NetworkBehaviour
         //float radius = Mathf.Sqrt(m_volume / (transform.localScale.y * Mathf.PI));
         float radius = 2;
         transform.localScale = new Vector3(radius, transform.localScale.y, radius);
+    }
+
+    void Start()
+    {
+        setVolume(m_volume);
     }
 
     [Server]
@@ -31,8 +34,7 @@ public class WaterReserve : NetworkBehaviour
     [Server]
     public Drop pullWater(float _volume)
     {
-        Drop drop = GameObject.Instantiate<Transform>(m_dropPrefab).GetComponent<Drop>();
-        //drop.gameObject.AddComponent<DropVolume>();
+        Drop drop = GameObject.Instantiate(Manager.getInstance().m_dropPrefab).GetComponent<Drop>();
 
         float volumeDiff = m_volume - _volume;
         if (volumeDiff < 0)

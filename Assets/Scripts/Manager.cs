@@ -2,14 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Manager : MonoBehaviour {
-	private static Manager m_managerInstance = null;
-	public static Manager getInstance()
+public class Manager : MonoBehaviour
+{
+    private static Manager m_managerInstance = null;
+    public static Manager getInstance()
     {
         if (m_managerInstance)
             return m_managerInstance;
 
-		m_managerInstance = FindObjectOfType<Manager>();
+        m_managerInstance = FindObjectOfType<Manager>();
         return m_managerInstance;
     }
 
@@ -19,16 +20,17 @@ public class Manager : MonoBehaviour {
     GameObject m_originalAI;
     public int nAI;
 
-	List<GameObject> players = new List<GameObject>();
-	public void addPlayer(GameObject player) {
-		players.Add(player);
-	}
+    List<GameObject> players = new List<GameObject>();
+    public void addPlayer(GameObject player)
+    {
+        players.Add(player);
+    }
 
-	//[System.Obsolete("use class PlayerInit")]
+    //[System.Obsolete("use class PlayerInit")]
     //[SerializeField]
     //GameObject m_originalPlayer = null;
 
-	//[System.Obsolete("use class PlayerInit")]
+    //[System.Obsolete("use class PlayerInit")]
     //[SerializeField]
     //GameObject m_mainCamera = null;
 
@@ -47,6 +49,10 @@ public class Manager : MonoBehaviour {
     [SerializeField]
     GameObject m_UI;
 
+    public GameObject m_waterReservePrefab;
+    public GameObject m_waterGroupPrefab;
+    public GameObject m_dropPrefab;
+
     public float m_waterGravity;
 
     bool m_gameIsPaused = false;
@@ -56,19 +62,19 @@ public class Manager : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-		for (int i = 0; i < nAI; ++i)
-			Instantiate(m_originalAI);
+        for (int i = 0; i < nAI; ++i)
+            Instantiate(m_originalAI);
 
-		//NW1 Moved to PlayerInit
-		/*
-		GameObject player = Instantiate(m_originalPlayer);
-		GameObject camera = Instantiate(m_mainCamera);
-		PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
-		playerLook.m_playerTransform = player.transform;
-		player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
-		*/
+        //NW1 Moved to PlayerInit
+        /*
+        GameObject player = Instantiate(m_originalPlayer);
+        GameObject camera = Instantiate(m_mainCamera);
+        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+        playerLook.m_playerTransform = player.transform;
+        player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
+        */
 
-		//NW1 TODO: Link that to player
+        //NW1 TODO: Link that to player
         /*
         if(m_healthBar != null)
         {
@@ -94,7 +100,7 @@ public class Manager : MonoBehaviour {
 
     void Update()
     {
-        if(Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause"))
         {
             m_gameIsPaused = !m_gameIsPaused;
             if (!m_gameIsPaused)
@@ -106,7 +112,7 @@ public class Manager : MonoBehaviour {
 
     public void OnButtonClicked(string command)
     {
-        if(command == "Exit")
+        if (command == "Exit")
         {
             Application.Quit();
         }
@@ -128,7 +134,7 @@ public class Manager : MonoBehaviour {
 
         //Time.timeScale = 0;
 
-		Manager.BroadcastAll("ReceiveMessage", "Pause");
+        Manager.BroadcastAll("ReceiveMessage", "Pause");
     }
 
     public void UnPauseGame()
@@ -142,7 +148,7 @@ public class Manager : MonoBehaviour {
 
         Time.timeScale = 1;
 
-		Manager.BroadcastAll("ReceiveMessage", "UnPause");
+        Manager.BroadcastAll("ReceiveMessage", "UnPause");
     }
 
     public static void BroadcastAll(string fun, System.Object msg)

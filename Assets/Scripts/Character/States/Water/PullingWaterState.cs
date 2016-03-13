@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 
 public class PullingWaterState : AbleToFallState
 {
-    public GameObject m_waterReservePrefab;
     private WaterReserve m_waterReserve;
 
     public GameObject m_waterGroupPrefab;
@@ -16,6 +15,9 @@ public class PullingWaterState : AbleToFallState
     public float m_minDropVolume = 0.25f;
     public float m_volumeWanted = 10.0f;
     public float m_speed = 10.0f;
+    
+    public float m_distToPull = 0.0f;
+    int count = 0;
 
     void Start()
     {
@@ -45,10 +47,7 @@ public class PullingWaterState : AbleToFallState
         Debug.Log("Enter PullingWaterState");
         m_EState = EStates.PullingWaterState;
 
-
-        // Other Attributes networked automatically?
         CmdEnter(GetComponent<NetworkIdentity>());
-
 
         base.enter(_character);
     }
@@ -59,17 +58,18 @@ public class PullingWaterState : AbleToFallState
         m_target = GameObject.Instantiate(m_waterTargetPrefab);
         Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
         Vector3 vect = quaternion * m_targetOffset;
-        m_target.transform.position = transform.position + vect;
+
+        Character character = _characterIdentity.GetComponent<Character>();
+        m_waterReserve = getNearestWaterReserve(character);
+
+        character.m_waterGroup = Instantiate<GameObject>(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
+        character.m_waterGroup.name = count.ToString();
+
+        character.m_waterGroup.initPull(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, transform.position + vect, m_speed);
 
         NetworkServer.SpawnWithClientAuthority(m_target, gameObject);
         NetworkIdentity netId = m_target.GetComponent<NetworkIdentity>();
         RpcStart(netId);
-        //--
-        Character character = _characterIdentity.GetComponent<Character>();
-        m_waterReserve = getNearestWaterReserve(character);
-        character.m_waterGroup = Instantiate<GameObject>(m_waterGroupPrefab).GetComponent<WaterGroup>();
-        character.m_waterGroup.transform.position = m_waterReserve.transform.position;
-        character.m_waterGroup.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
     }
 
     public override void handleAction(Character _character, EAction _action)
@@ -82,7 +82,6 @@ public class PullingWaterState : AbleToFallState
                 break;
             case EAction.TurnWaterAround:
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.TurningWaterAroundState];
-                ((TurningWaterAroundState)_character.m_currentActionState).m_target = m_target;
                 _character.m_currentActionState.enter(_character);
                 break;
         }
@@ -98,6 +97,7 @@ public class PullingWaterState : AbleToFallState
             Vector3 vect = quaternion * m_targetOffset;
             m_target.transform.position = transform.position + vect;
         }
+
         base.update(_character);
     }
 
@@ -117,9 +117,29 @@ public class PullingWaterState : AbleToFallState
     [Server]
     private WaterReserve getNearestWaterReserve(Character _character)
     {
-        WaterReserve waterReserve = Instantiate<GameObject>(m_waterReservePrefab).GetComponent<WaterReserve>();
-        waterReserve.init(_character.transform.position + _character.transform.forward, 10);
-        NetworkServer.Spawn(waterReserve.gameObject);
-        return waterReserve;
+        Collider[] colList = Physics.OverlapSphere(_character.transform.position, m_distToPull,
+                                                   1 << LayerMask.NameToLayer("Reserve"), QueryTriggerInteraction.Collide);
+
+        if (colList.Length < 1)
+        {
+            WaterReserve waterReserve = Instantiate<GameObject>(Manager.getInstance().m_waterReservePrefab).GetComponent<WaterReserve>();
+            waterReserve.init(_character.transform.position + _character.transform.forward, 10);
+            NetworkServer.Spawn(waterReserve.gameObject);
+            return waterReserve;
+        }
+
+        int nearestIndex = 0;
+        float distNearest = Vector3.Distance(_character.transform.position, colList[0].transform.position);
+        for (int i = 1; i < colList.Length; ++i)
+        {
+            float dist = Vector3.Distance(_character.transform.position, colList[i].transform.position);
+            if (dist < distNearest)
+            {
+                nearestIndex = i;
+                distNearest = dist;
+            }
+        }
+
+        return colList[nearestIndex].GetComponent<WaterReserve>();
     }
 }

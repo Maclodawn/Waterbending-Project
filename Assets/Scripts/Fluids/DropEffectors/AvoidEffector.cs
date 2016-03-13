@@ -4,7 +4,7 @@ using System.Collections;
 public class AvoidEffector : MonoBehaviour {
     private Drop m_drop;
     private Vector3 m_center;
-    private float /*m_radius,*/ m_minSeparationForce, m_maxSeparationForce;
+    private float /*m_radius, */m_minSeparationForce, m_maxSeparationForce;
     private float m_splitRatio, m_avoidStrength;
 
     void Awake()

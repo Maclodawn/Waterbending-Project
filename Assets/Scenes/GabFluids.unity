@@ -86,6 +86,60 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &26153546
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -16.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 28.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_Name
+      value: WaterReserve (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &26153547 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 26153546}
 --- !u!1001 &86679206
 Prefab:
   m_ObjectHideFlags: 0
@@ -125,6 +179,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
+      propertyPath: m_waterReservePrefab
+      value: 
+      objectReference: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+    - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
+      propertyPath: m_waterGroupPrefab
+      value: 
+      objectReference: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
+    - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
+      propertyPath: m_dropPrefab
+      value: 
+      objectReference: {fileID: 152086, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
   m_IsPrefabParent: 0
@@ -203,6 +269,164 @@ Transform:
   m_Children: []
   m_Father: {fileID: 796294629}
   m_RootOrder: 1
+--- !u!1001 &488474484
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -16.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 13.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_Name
+      value: WaterReserve (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &488474485 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 488474484}
+--- !u!1001 &583090407
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -7.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 6.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &583090408 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 583090407}
+--- !u!1001 &680483680
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -5.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 14.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_Name
+      value: WaterReserve (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &680483681 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 680483680}
 --- !u!1 &796294628
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +454,13 @@ Transform:
   m_Children:
   - {fileID: 2029423260}
   - {fileID: 109275497}
+  - {fileID: 583090408}
+  - {fileID: 488474485}
+  - {fileID: 1327202733}
+  - {fileID: 26153547}
+  - {fileID: 1662754584}
+  - {fileID: 680483681}
+  - {fileID: 2065086879}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &1009420069
@@ -293,6 +524,114 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1001 &1327202732
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -17.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -3.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_Name
+      value: WaterReserve (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1327202733 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 1327202732}
+--- !u!1001 &1662754583
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -12.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 11.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_Name
+      value: WaterReserve (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1662754584 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 1662754583}
 --- !u!1 &2029423256
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,3 +707,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 796294629}
   m_RootOrder: 0
+--- !u!1001 &2065086878
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 796294629}
+    m_Modifications:
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 14.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_Name
+      value: WaterReserve (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493440, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+      propertyPath: m_volume
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &2065086879 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 476740, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
+  m_PrefabInternal: {fileID: 2065086878}

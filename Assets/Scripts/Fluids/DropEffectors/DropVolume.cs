@@ -57,7 +57,7 @@ public class DropVolume : NetworkBehaviour
         if (!isServer)
             return;
 
-        if (!GetComponent<DropGravity>())
+        if (!GetComponent<DropGravity>() && !GetComponent<DropTarget>() && !GetComponent<RotateEffector>())
         {
             // Equation to respect otherwise stretch is needed
             float newVolume = m_stretchRatio / m_drop.velocity.magnitude;
@@ -78,7 +78,7 @@ public class DropVolume : NetworkBehaviour
     [Server]
     private void stretch(float _volume)
     {
-        Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterGroup.m_dropPrefab).GetComponent<Drop>();
+        Drop newSmallerDrop = GameObject.Instantiate(Manager.getInstance().m_dropPrefab).GetComponent<Drop>();
         m_waterGroup.m_dropPool.Add(newSmallerDrop);
 
         Vector3 position = transform.position + m_drop.velocity.normalized * transform.localScale.x / 2.0f
@@ -91,7 +91,7 @@ public class DropVolume : NetworkBehaviour
         NetworkServer.Spawn(newSmallerDrop.gameObject);
         //newSmallerDrop.GetComponent<DropSync>().RpcInit();
 
-        // Velocity not synchronised
+        // Velocity not synchronized
         newSmallerDrop.initVelocity(m_drop.velocity);
 
         if (GetComponent<DropPullEffector>())
@@ -122,7 +122,8 @@ public class DropVolume : NetworkBehaviour
             return;
 
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
-        if (colliderDropVolume && !GetComponent<DropGravity>())
+        if (colliderDropVolume && !GetComponent<DropGravity>() && !GetComponent<DropTarget>() && !GetComponent<RotateEffector>()
+            && !_collider.GetComponent<DropGravity>() && !_collider.GetComponent<DropTarget>() && !_collider.GetComponent<RotateEffector>())
         {
             if ((m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup) || Vector3.Dot(m_drop.velocity, colliderDropVolume.m_drop.velocity) > 0)
             {
@@ -186,13 +187,10 @@ public class DropVolume : NetworkBehaviour
         if (m_target)
             return m_target;
 
-        DropTarget dropTarget = GetComponent<DropTarget>();
         DropPullEffector dropPullEffector = GetComponent<DropPullEffector>();
         DeviationEffector dropDeviationEffector = GetComponent<DeviationEffector>();
         RotateEffector dropRotateEffector = GetComponent<RotateEffector>();
-        if (dropTarget)
-            m_target = dropTarget.m_target;
-        else if (dropPullEffector)
+        if (dropPullEffector)
             m_target = dropPullEffector.m_target;
         else if (dropDeviationEffector)
             m_target = dropDeviationEffector.m_target;
@@ -201,7 +199,7 @@ public class DropVolume : NetworkBehaviour
         else
         {
             Debug.Break();
-            Debug.LogException(new System.Exception("Stretch with no DropTarget, no DropPullEffector,"
+            Debug.LogException(new System.Exception("Stretch with no DropPullEffector,"
                                                   + "no DropDeviationEffector, or no DropRotateEffector"), this);
         }
 
