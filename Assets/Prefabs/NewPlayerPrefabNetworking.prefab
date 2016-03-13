@@ -3568,13 +3568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e06ee4a08abc464c971459df7a63922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
-  m_waterGroupPrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
-  m_waterTargetPrefab: {fileID: 107728, guid: 9e1adb7faf2810e4f8c361c1212fdb19, type: 2}
-  m_targetOffset: {x: 0, y: 2, z: 1}
+  m_targetOffset: {x: 0, y: 2, z: 5}
   m_minDropVolume: 0.25
   m_volumeWanted: 0.25
   m_speed: 10
+  m_distToPull: 10
 --- !u!114 &11409368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3586,6 +3584,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e63a9844707c684195c9cddaaf431d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_distToSelectAuto: 10
+  m_distToSelect: 1000
+  m_minDropVolume: 0.25
+  m_volumeWanted: 10
+  m_speed: 10
 --- !u!114 &11413426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3608,6 +3611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f977f0c717f55b14b907be72b25dd7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  count: 0
   m_gravity: {x: 0, y: -1, z: 0}
   prefabCamera: {fileID: 180994, guid: 7425ea6fae31d244ea738a9a27dda161, type: 2}
 --- !u!114 &11422010
@@ -3746,8 +3750,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cfe97570f32e142aa379f5f83015fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_radiusToTurnAround: 1
-  m_target: {fileID: 0}
+  m_radiusToTurnAround: 0.75
+  m_offsetToFling: {x: 0.75, y: 0, z: 0}
 --- !u!114 &11473046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3759,6 +3763,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90141f781cfcf4849a94165d94a7d110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_speed: 10
+  cooldown: 0
 --- !u!114 &11476404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4470,6 +4476,38 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_volumeWanted
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_distToPull
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_distToSelectAuto
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_distToSelect
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_offsetToFling.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_radiusToTurnAround
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_targetOffset.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: cooldown
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

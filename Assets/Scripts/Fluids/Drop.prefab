@@ -12,10 +12,10 @@ GameObject:
   - 135: {fileID: 13596300}
   - 23: {fileID: 2310346}
   - 114: {fileID: 11489896}
-  - 54: {fileID: 5421522}
   - 114: {fileID: 11404514}
   - 114: {fileID: 11467968}
   - 114: {fileID: 11445634}
+  - 54: {fileID: 5435070}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -68,7 +68,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5421522
+--- !u!54 &5435070
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -77,7 +77,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b357f1aa2cb0f24e9031f492282d38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpRate: 15
+  lerpRate: 0.8
 --- !u!114 &11489896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -230,6 +230,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TransformSyncMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lerpRate
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

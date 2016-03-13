@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-// WaterGroup only on the server
 public class WaterGroup : NetworkBehaviour
 {
 
     [System.NonSerialized]
     public List<Drop> m_dropPool = new List<Drop>();
-// 
-//     float m_alpha;
-//     float m_beta;
 
     public GameObject m_target { get; private set; }
 
@@ -22,33 +18,33 @@ public class WaterGroup : NetworkBehaviour
 
     float m_alpha;
 
-    //--
     float m_volumeToSpawn;
     float m_minVolume;
     float m_speed;
     WaterReserve m_waterReserve;
+
+    public float m_quotient = 1.0f / 4.0f;
     
     void Awake()
     {
-        m_target = new GameObject();
-        m_target.name = "WaterTarget";
         m_flingingFromSelect = false;
         m_flingingFromTurn = false;
     }
 
     public void setTarget(GameObject _target)
     {
-        if (m_oldTarget && m_oldTarget.name == "WaterTarget")
-            Destroy(m_oldTarget);
+        //FIXME
+//         if (m_oldTarget && m_oldTarget.tag == "WaterTarget")
+//             NetworkServer.Destroy(m_oldTarget);
         m_oldTarget = m_target;
         m_target = _target;
     }
 
     [Server]
-    public void initPull(Vector3 _position, WaterReserve _waterReserve, float _minVolume, float _volumeWanted, Vector3 _targetPosition, float _speed)
+    public void initPull(Vector3 _position, WaterReserve _waterReserve, float _minVolume, float _volumeWanted, GameObject _target, float _speed)
     {
         transform.position = _position;
-        m_target.transform.position = _targetPosition;
+        m_target = _target;
 
         Drop drop = _waterReserve.pullWater(_volumeWanted);
         drop.init(transform.position, this);
@@ -60,16 +56,13 @@ public class WaterGroup : NetworkBehaviour
         drop.GetComponent<DropPullEffector>().init(m_target, _speed);
 
         NetworkServer.Spawn(drop.gameObject);
-        //DropSync dropSync = drop.GetComponent<DropSync>();
-        //dropSync.RpcInit();
 
-        // Velocity not synchronised
+        // Velocity not synchronized
         drop.initVelocity((m_target.transform.position - transform.position).normalized * _speed);
 
         m_dropPool.Add(drop);
     }
 
-    //FIXME
     [Server]
     public void initSelect(Vector3 _position, WaterReserve _waterReserve, float _minVolume, float _volumeWanted, float _speed)
     {
@@ -84,12 +77,17 @@ public class WaterGroup : NetworkBehaviour
         Drop drop = _waterReserve.pullWater(_minVolume);
         drop.init(transform.position, this);
 
+        NetworkServer.Spawn(drop.gameObject);
+
         m_dropPool.Add(drop);
     }
 
-    [Server]
+    [ServerCallback]
     void Update()
     {
+        if (!NetworkServer.active)
+            return;
+
         if (m_dropPool.Count == 0)
         {
             NetworkServer.Destroy(gameObject);
@@ -117,7 +115,7 @@ public class WaterGroup : NetworkBehaviour
                 }
             }
         }
-        else if (m_flingingFromSelect)
+        else if (m_flingingFromSelect && m_dropPool.Count > 0)
         {
             if (!m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>())
             {
@@ -127,25 +125,38 @@ public class WaterGroup : NetworkBehaviour
                 newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
             }
 
-            while (m_volumeToSpawn > 0 && m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>()
+            if (m_volumeToSpawn > 0 && m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>()
                 && Vector3.Distance(m_dropPool[m_dropPool.Count - 1].transform.position, transform.position)
-                                > m_dropPool[m_dropPool.Count - 1].transform.localScale.x / 4.0f)
+                                > m_dropPool[m_dropPool.Count - 1].transform.localScale.x * m_quotient)
             {
-                m_volumeToSpawn -= m_minVolume;
-                Drop drop = m_waterReserve.pullWater(m_minVolume);
-                drop.init(transform.position, this);
-
-                DropVolume dropVolume = drop.GetComponent<DropVolume>();
-                dropVolume.init(this, m_speed, m_minVolume, dropVolume.m_volume);
-
-                DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
-                newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
-
-                m_dropPool.Add(drop);
-                if (m_volumeToSpawn <= 0)
-                    m_flingingFromSelect = false;
+                Drop drop = m_dropPool[m_dropPool.Count - 1];
+                float tmpQuotient = 0;
+                while (tmpQuotient <= 1)
+                {
+                    spawn(transform.position + (transform.position - drop.transform.position) * tmpQuotient);
+                    tmpQuotient += m_quotient;
+                }
             }
         }
+    }
+
+    void spawn(Vector3 _position)
+    {
+        m_volumeToSpawn -= m_minVolume;
+        Drop drop = m_waterReserve.pullWater(m_minVolume);
+        drop.init(_position, this);
+
+        DropVolume dropVolume = drop.GetComponent<DropVolume>();
+        dropVolume.init(this, m_speed, m_minVolume, dropVolume.m_volume);
+
+        DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
+        newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
+
+        NetworkServer.Spawn(drop.gameObject);
+
+        m_dropPool.Add(drop);
+        if (m_volumeToSpawn <= 0 || m_waterReserve.m_volume <= 0)
+            m_flingingFromSelect = false;
     }
 
     [Server]
@@ -188,15 +199,21 @@ public class WaterGroup : NetworkBehaviour
             drop.removeEffectors();
             drop.gameObject.AddComponent<DropGravity>();
         }
-        Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 
-    [Server]
     void OnDestroy()
     {
-        if (m_target && m_target.name == "WaterTarget")
-            Destroy(m_target);
-        if (m_oldTarget && m_oldTarget.name == "WaterTarget")
-            Destroy(m_oldTarget);
+        if (!NetworkServer.active)
+            return;
+
+        if (m_target && m_target.tag == "WaterTarget")
+        {
+            NetworkServer.Destroy(m_target);
+        }
+        if (m_oldTarget && m_oldTarget.tag == "WaterTarget")
+        {
+            NetworkServer.Destroy(m_oldTarget);
+        }
     }
 }

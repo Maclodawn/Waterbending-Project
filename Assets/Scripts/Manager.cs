@@ -26,14 +26,6 @@ public class Manager : MonoBehaviour
         players.Add(player);
     }
 
-    //[System.Obsolete("use class PlayerInit")]
-    //[SerializeField]
-    //GameObject m_originalPlayer = null;
-
-    //[System.Obsolete("use class PlayerInit")]
-    //[SerializeField]
-    //GameObject m_mainCamera = null;
-
     [SerializeField]
     HealthBarController m_healthBar;
 
@@ -52,6 +44,7 @@ public class Manager : MonoBehaviour
     public GameObject m_waterReservePrefab;
     public GameObject m_waterGroupPrefab;
     public GameObject m_dropPrefab;
+    public GameObject m_waterTargetPrefab;
 
     public float m_waterGravity;
 
@@ -64,38 +57,6 @@ public class Manager : MonoBehaviour
 
         for (int i = 0; i < nAI; ++i)
             Instantiate(m_originalAI);
-
-        //NW1 Moved to PlayerInit
-        /*
-        GameObject player = Instantiate(m_originalPlayer);
-        GameObject camera = Instantiate(m_mainCamera);
-        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
-        playerLook.m_playerTransform = player.transform;
-        player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
-        */
-
-        //NW1 TODO: Link that to player
-        /*
-        if(m_healthBar != null)
-        {
-            m_healthBar.Setup(player.GetComponent<HealthComponent>());
-        }
-
-        if(m_powerBar != null)
-        {
-            m_powerBar.Setup(player.GetComponent<PowerComponent>());
-        }
-
-        if(m_chargeBar != null)
-        {
-            m_chargeBar.Setup(player.GetComponent<SpellChargingComponent>());
-        }
-
-        if (m_UI != null && m_UI.GetComponent<BloodStain>() != null)
-        {
-            m_UI.GetComponent<BloodStain>().Setup(player.GetComponent<HealthComponent>());
-        }
-        */
     }
 
     void Update()

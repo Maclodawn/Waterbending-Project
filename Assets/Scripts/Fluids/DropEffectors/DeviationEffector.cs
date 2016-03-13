@@ -68,7 +68,7 @@ public class DeviationEffector : MonoBehaviour
         if (z == Vector3.zero)
             z = -Vector3.up;
         Vector3 x = Vector3.Cross(velocityNormalizedWithoutY, z);
-        //FIXME Why divided by 2?
+        //Why divided by 2? -> To do a sinusoid
         Vector3 ON = (vectPosToTargetWithoutY + x * m_targetRadius) / 2;
         float ONx = Vector3.Project(ON, x).magnitude;
         float ONy = Vector3.Project(ON, velocityNormalizedWithoutY).magnitude;

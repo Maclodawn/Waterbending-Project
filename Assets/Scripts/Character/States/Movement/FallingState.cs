@@ -28,7 +28,6 @@ public class FallingState : CharacterState
 
     public override void fixedUpdate(Character _character)
     {
-        //COMPUTE PHYSIC TO FALL
         _character.m_velocity += _character.m_gravity;
     }
 

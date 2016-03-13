@@ -43,6 +43,15 @@ public class DropVolume : NetworkBehaviour
         m_stretchRatio = 2.5f;
     }
 
+    [ClientCallback]
+    void Start()
+    {
+        if (!NetworkClient.active)
+            return;
+
+        setVolume(m_volume);
+    }
+
     [Server]
     public void init(WaterGroup _waterProjectile, float _initialSpeed, float _minVolume, float _volume)
     {
@@ -54,7 +63,7 @@ public class DropVolume : NetworkBehaviour
 
     void LateUpdate()
     {
-        if (!isServer)
+        if (!NetworkServer.active)
             return;
 
         if (!GetComponent<DropGravity>() && !GetComponent<DropTarget>() && !GetComponent<RotateEffector>())
@@ -85,11 +94,9 @@ public class DropVolume : NetworkBehaviour
                                               - m_drop.velocity.normalized * newSmallerDrop.transform.localScale.x / 2.0f;
         newSmallerDrop.init(position, m_waterGroup);
 
-        //newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
 
         NetworkServer.Spawn(newSmallerDrop.gameObject);
-        //newSmallerDrop.GetComponent<DropSync>().RpcInit();
 
         // Velocity not synchronized
         newSmallerDrop.initVelocity(m_drop.velocity);
@@ -118,7 +125,7 @@ public class DropVolume : NetworkBehaviour
 
     void OnTriggerStay(Collider _collider)
     {
-        if (!isServer)
+        if (!NetworkServer.active)
             return;
 
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();

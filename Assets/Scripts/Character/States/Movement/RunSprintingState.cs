@@ -4,13 +4,6 @@ using System.Collections;
 public class RunSprintingState : AbleToJumpState
 {
 
-    public override void enter(Character _character)
-    {
-        ////Debug.Log(">RunSprintingState");
-
-        base.enter(_character);
-    }
-
     public override void handleAction(Character _character, EAction _action)
     {
         switch (_action)

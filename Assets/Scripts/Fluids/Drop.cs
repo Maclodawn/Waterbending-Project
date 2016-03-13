@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 1, sendInterval = 0.0001f)]
 public class Drop/*Movement*/ : NetworkBehaviour
 {
     public Vector3 m_velocity;
@@ -78,7 +79,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isClient)
+        if (NetworkClient.active)
             return;
 
         float speedPercent = 1;
@@ -89,6 +90,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
         transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
     }
 
+    [ServerCallback]
     void LateUpdate()
     {
         if (isClient)
@@ -98,12 +100,13 @@ public class Drop/*Movement*/ : NetworkBehaviour
             m_initTime -= Time.deltaTime;
 
         if (transform.position.y < -10.0f)
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
     }
 
+    [ServerCallback]
     void OnTriggerEnter(Collider collider)
     {
-        if (isClient)
+        if (!NetworkServer.active)
             return;
 
         if (m_initTime > 0)
@@ -114,27 +117,29 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null
             && collider.GetComponent<WaterDetector>() == null && collider.gameObject.layer != LayerMask.NameToLayer("Reserve"))
         {
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
         }
     }
 
     void OnTriggerExit(Collider collider)
     {
-        if (isClient)
+        if (NetworkClient.active)
             return;
 
         if (m_initCollisions.Count > 0 && m_initCollisions.Contains(collider.gameObject))
             m_initCollisions.Remove(collider.gameObject);
     }
 
+    [ServerCallback]
     void OnDestroy()
     {
-        if (isServer)
-        {
-            if (m_waterGroup)
-                m_waterGroup.m_dropPool.Remove(this);
-            //GetComponent<DropSync>().RpcDestroyOnClient();
-        }
+        if (!NetworkServer.active)
+            return;
+
+        Destroy(GetComponent<DropSync>());
+
+        if (m_waterGroup)
+            m_waterGroup.m_dropPool.Remove(this);
     }
 
     [Server]

@@ -5,19 +5,20 @@ using UnityEngine.Networking;
 public class TargetSync : NetworkBehaviour
 {
 
-    [SyncVar]
     private Vector3 syncPos; //Transmits value to all clients when changes
-    [SyncVar]
-    private Quaternion syncRotation; //Transmits value to all clients when changes
     Transform myTransform;
-//     [SerializeField]
-//     float lerpRate = 15f;
-    bool isReady = false;
+    public bool isReady { get; private set; }
+    bool firstTransmissionDone = false;
 
     [Command]
     public void CmdSetReady()
     {
         isReady = true;
+    }
+
+    void Awake()
+    {
+        isReady = false;
     }
 
     void Start()
@@ -29,10 +30,9 @@ public class TargetSync : NetworkBehaviour
     {
         TransmitTransform();
 
-        if (isServer && isReady)
+        if (NetworkServer.active && firstTransmissionDone)
         {
             lerpPosition();
-            lerpRotation();
         }
     }
 
@@ -40,22 +40,15 @@ public class TargetSync : NetworkBehaviour
     private void lerpPosition()
     {
         myTransform.position = syncPos;
-        //myTransform.position = Vector3.Lerp(myTransform.position, syncPos, Time.deltaTime * lerpRate);
-    }
-
-    [Server]
-    private void lerpRotation()
-    {
-        myTransform.rotation = syncRotation;
-        //myTransform.rotation = Quaternion.Lerp(myTransform.rotation, syncRotation, Time.deltaTime * lerpRate);
     }
 
     //Called by client, executed on server
     [Command]
-    private void CmdProvideTransformToServer(Vector3 Pos, Quaternion rotation)
+    private void CmdProvidePositionToServer(Vector3 Pos)
     {
+        if (isReady)
+            firstTransmissionDone = true;
         syncPos = Pos;
-        syncRotation = rotation;
     }
 
     //Only executed by clients
@@ -63,6 +56,6 @@ public class TargetSync : NetworkBehaviour
     private void TransmitTransform()
     {
         if (hasAuthority)
-            CmdProvideTransformToServer(myTransform.position, myTransform.rotation);
+            CmdProvidePositionToServer(myTransform.position);
     }
 }

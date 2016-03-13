@@ -10,12 +10,10 @@ public class WaterReserveSync : NetworkBehaviour
 
     [System.NonSerialized][SyncVar]
     public bool initDone = false;
-    //Client only
     private bool setDone = false;
 
     void Start()
     {
-        //FIXME enable
         myWaterReserve = GetComponent<WaterReserve>();
     }
 
@@ -23,10 +21,9 @@ public class WaterReserveSync : NetworkBehaviour
     {
         TransmitVol();
 
-        if (isClient && setDone)
+        if (NetworkClient.active && setDone)
         {
             myWaterReserve.setVolume(syncVol);
-            myWaterReserve.isReady = true;
         }
     }
 
@@ -40,7 +37,7 @@ public class WaterReserveSync : NetworkBehaviour
     [ServerCallback]
     private void TransmitVol()
     {
-        if (isServer && initDone)
+        if (NetworkServer.active && initDone)
             RpcProvideVolToClient(myWaterReserve.m_volume);
     }
 }

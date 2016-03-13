@@ -36,17 +36,6 @@ public class PlayerLook : MonoBehaviour
         m_verticalObj.transform.Rotate(vertical, 0, 0);
 
 		transform.position = m_playerTransform.position + new Vector3(0, m_vectToPlayer.y, 0) - transform.forward * m_distToPlayer;
-
-//         transform.localPosition = m_initialLocalPosition;
-
-//         RaycastHit hit = new RaycastHit();
-//         int maskID = LayerMask.NameToLayer("Player");
-//         int mask = 1 << maskID;
-//         
-//         if (Physics.Linecast(m_target.transform.position, transform.position, out hit, ~mask))
-//         {
-//             transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-//         }
 	}
 
     void ReceiveMessage(string msg)

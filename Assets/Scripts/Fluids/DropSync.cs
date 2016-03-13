@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 1, sendInterval = 0.0001f)]
 public class DropSync : NetworkBehaviour
 {
 
@@ -10,8 +11,8 @@ public class DropSync : NetworkBehaviour
     float syncVol;
     DropVolume myDropVolume;
 
-//     [SerializeField]
-//     float lerpRate = 15f;
+    [SerializeField]
+    float lerpRate;
 
     bool setDone = false;
 
@@ -25,7 +26,7 @@ public class DropSync : NetworkBehaviour
         TransmitPosition();
         TransmitVolume();
 
-        if (isClient)
+        if (NetworkClient.active)
         {
             if (syncVol > 0)
                 myDropVolume.setVolume(syncVol);
@@ -37,8 +38,7 @@ public class DropSync : NetworkBehaviour
     [Client]
     private void lerpPosition()
     {
-        transform.position = syncPosition;
-        //m_myTransform.position = Vector3.Lerp(m_myTransform.position, m_syncPosition, Time.deltaTime * lerpRate);
+        transform.position = Vector3.Lerp(transform.position, syncPosition, lerpRate);
     }
 
     [ClientRpc]
@@ -51,7 +51,7 @@ public class DropSync : NetworkBehaviour
     [ServerCallback]
     private void TransmitPosition()
     {
-        if (isServer)
+        if (NetworkServer.active)
             RpcProvidePositionToClient(transform.position);
     }
 
@@ -64,7 +64,7 @@ public class DropSync : NetworkBehaviour
     [ServerCallback]
     private void TransmitVolume()
     {
-        if (isServer)
+        if (NetworkServer.active)
             RpcProvideVolumeToClient(myDropVolume.m_volume);
     }
 }
