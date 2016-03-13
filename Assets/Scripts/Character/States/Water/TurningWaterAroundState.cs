@@ -4,6 +4,7 @@ using System.Collections;
 public class TurningWaterAroundState : AbleToFallState
 {
     public float m_radiusToTurnAround = 1;
+    public Vector3 m_offsetToFling;
 
     public override void enter(Character _character)
     {
@@ -11,7 +12,7 @@ public class TurningWaterAroundState : AbleToFallState
         m_EState = EStates.TurningWaterAroundState;
 
         _character.m_waterGroup.m_target.transform.position = _character.transform.position + _character.m_controller.center;
-        _character.m_waterGroup.turnAround(m_radiusToTurnAround);
+        _character.m_waterGroup.stopAndTurnAround(m_radiusToTurnAround);
         
         base.enter(_character);
     }
@@ -22,6 +23,11 @@ public class TurningWaterAroundState : AbleToFallState
         {
             case EAction.PushWater:
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
+
+                Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
+                Vector3 vect = quaternion * m_offsetToFling;
+                (_character.m_currentActionState as PushingWaterState).init(vect, 0, true);
+
                 _character.m_currentActionState.enter(_character);
                 break;
         }

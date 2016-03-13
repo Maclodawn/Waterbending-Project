@@ -9,7 +9,8 @@ public class AbleToJumpState : AbleToFallState
     {
         if (_character.m_currentActionState == null
             || (_character.m_currentActionState.m_EState != EStates.PullingWaterState
-                && _character.m_currentActionState.m_EState != EStates.SelectingWaterToPushState))
+                && _character.m_currentActionState.m_EState != EStates.SelectingWaterToPushState
+                && _character.m_currentActionState.m_EState != EStates.PushingWaterState))
         {
             switch (_action)
             {

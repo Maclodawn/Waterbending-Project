@@ -3,12 +3,8 @@ using System.Collections;
 
 public class PullingWaterState : AbleToFallState
 {
-    public GameObject m_waterReservePrefab;
     private WaterReserve m_waterReserve;
 
-    public GameObject m_waterGroupPrefab;
-
-    private GameObject m_target;
     public Vector3 m_targetOffset;
 
     public float m_minDropVolume = 0.25f;
@@ -16,12 +12,7 @@ public class PullingWaterState : AbleToFallState
     public float m_speed = 10.0f;
 
     public float m_distToPull = 0.0f;
-
-    void Start()
-    {
-        m_target = new GameObject();
-        m_target.name = "WaterTarget";
-    }
+    int count = 0;
 
     public override void enter(Character _character)
     {
@@ -29,12 +20,13 @@ public class PullingWaterState : AbleToFallState
         m_EState = EStates.PullingWaterState;
 
         m_waterReserve = getNearestWaterReserve(_character);
-        _character.m_waterGroup = Instantiate<GameObject>(m_waterGroupPrefab).GetComponent<WaterGroup>();
+
+        _character.m_waterGroup = Instantiate<GameObject>(Manager.getManager().m_waterGroupPrefab).GetComponent<WaterGroup>();
+        _character.m_waterGroup.name = count.ToString();
+
         Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
         Vector3 vect = quaternion * m_targetOffset;
-        m_target.transform.position = transform.position + vect;
-        _character.m_waterGroup.transform.position = m_waterReserve.transform.position;
-        _character.m_waterGroup.init(m_waterReserve, m_minDropVolume, m_volumeWanted, m_target, m_speed);
+        _character.m_waterGroup.initPull(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, transform.position + vect, m_speed);
 
         base.enter(_character);
     }
@@ -60,7 +52,7 @@ public class PullingWaterState : AbleToFallState
     {
         Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
         Vector3 vect = quaternion * m_targetOffset;
-        m_target.transform.position = transform.position + vect;
+        _character.m_waterGroup.m_target.transform.position = transform.position + vect;
         base.update(_character);
     }
 
@@ -77,7 +69,7 @@ public class PullingWaterState : AbleToFallState
 
         if (colList.Length < 1)
         {
-            WaterReserve waterReserve = Instantiate<GameObject>(m_waterReservePrefab).GetComponent<WaterReserve>();
+            WaterReserve waterReserve = Instantiate<GameObject>(Manager.getManager().m_waterReservePrefab).GetComponent<WaterReserve>();
             waterReserve.setVolume(10);
             waterReserve.transform.position = _character.transform.position + _character.transform.forward;
             return waterReserve;

@@ -42,6 +42,10 @@ public class Manager : MonoBehaviour
     [SerializeField]
     GameObject m_UI;
 
+    public GameObject m_waterReservePrefab;
+    public GameObject m_waterGroupPrefab;
+    public GameObject m_dropPrefab;
+
     public float m_waterGravity;
 
     bool m_gameIsPaused = false;

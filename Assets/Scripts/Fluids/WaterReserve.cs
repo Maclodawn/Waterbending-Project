@@ -4,8 +4,6 @@ using System.Collections;
 public class WaterReserve : MonoBehaviour
 {
 
-    public Transform m_dropPrefab;
-
     public float m_volume;
 
     public void setVolume(float _volume)
@@ -29,7 +27,7 @@ public class WaterReserve : MonoBehaviour
 
     public Drop pullWater(float _volume)
     {
-        Drop drop = GameObject.Instantiate<Transform>(m_dropPrefab).GetComponent<Drop>();
+        Drop drop = GameObject.Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
         drop.gameObject.AddComponent<DropVolume>();
 
         float volumeDiff = m_volume - _volume;

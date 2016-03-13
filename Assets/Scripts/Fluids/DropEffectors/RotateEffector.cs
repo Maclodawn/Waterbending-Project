@@ -6,7 +6,7 @@ public class RotateEffector : MonoBehaviour
     [System.NonSerialized]
     public GameObject m_target;
     Vector3 m_center;
-    Vector3 m_normal;
+//     Vector3 m_normal;
 //     float m_pullForce;
 //     float m_friction = 0.5f;
     private Drop m_drop;
@@ -30,7 +30,7 @@ public class RotateEffector : MonoBehaviour
     public void init(Vector3 _center, Vector3 _normal/*, float _pullForce*/)
     {
         m_center = _center;
-        m_normal = _normal;
+//         m_normal = _normal;
 //        m_pullForce = _pullForce;
         Vector3 OM = Vector3.ProjectOnPlane(transform.position - m_center, Vector3.up);
         Vector3 x = -OM.normalized;
@@ -43,7 +43,7 @@ public class RotateEffector : MonoBehaviour
     {
         m_target = _target;
         m_center = _target.transform.position;
-        m_normal = _normal;
+//        m_normal = _normal;
 //        m_pullForce = _pullForce;
         m_radiusToTurnAround = _radiusToTurnAround;
         Vector3 OM = Vector3.ProjectOnPlane(transform.position - m_center, Vector3.up);
@@ -72,8 +72,8 @@ public class RotateEffector : MonoBehaviour
         Vector3 futureOM = Vector3.ProjectOnPlane(futurePos - m_center, Vector3.up);
 
         Vector3 futureX = -futureOM.normalized;
-        Vector3 futureZ = Vector3.Cross(futureVelocity, futureX).normalized;
-        Vector3 futureY = Vector3.Cross(futureZ, futureX);
+        //Vector3 futureZ = Vector3.Cross(futureVelocity, futureX).normalized;
+        //Vector3 futureY = Vector3.Cross(futureZ, futureX);
 
         Vector3 error = (Vector3.Distance(m_center, futurePos) - m_radiusToTurnAround) * futureX;
 

@@ -5,7 +5,16 @@ public class PushingWaterState : AbleToFallState
 {
 
     public float m_speed;
-    public Vector3 m_offsetToFling;
+    Vector3 m_offsetToFling;
+    float m_alpha;
+    bool m_fromTurn = false;
+
+    public void init(Vector3 _offsetToFling, float _alpha, bool _fromTurn)
+    {
+        m_offsetToFling = _offsetToFling;
+        m_alpha = _alpha;
+        m_fromTurn = _fromTurn;
+    }
 
     public override void enter(Character _character)
     {
@@ -14,29 +23,46 @@ public class PushingWaterState : AbleToFallState
 
         Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 1000.0f) && hit.collider.gameObject.tag == "Player")
+        GameObject newTarget;
+        if (Physics.Raycast(ray, out hit, 1000.0f))
         {
-            _character.m_waterGroup.setTarget(hit.collider.gameObject);
+            if (hit.collider.gameObject.tag == "Player")
+            {
+                newTarget = hit.collider.gameObject;
+            }
+            else
+            {
+                newTarget = new GameObject();
+                newTarget.name = "WaterTarget";
+                newTarget.transform.position = hit.point;
+            }
         }
         else
         {
-            _character.m_waterGroup.m_target.transform.position = ray.origin + ray.direction * 1000.0f;
+            newTarget = new GameObject();
+            newTarget.name = "WaterTarget";
+            newTarget.transform.position = ray.origin + ray.direction * 1000.0f;
         }
-        
-        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
-        Vector3 vect = quaternion * m_offsetToFling;
-        _character.m_waterGroup.fling(m_speed, _character.transform.position + _character.m_controller.center + vect);
+
+        _character.m_waterGroup.setTarget(newTarget);
+        if (m_fromTurn)
+            _character.m_waterGroup.flingFromTurn(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
+        else
+            _character.m_waterGroup.flingFromSelect(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
 
         base.enter(_character);
     }
 
     public override void update(Character _character)
     {
-        //FIXME
-//         if (Animation is Over)
-//         {
-        _character.m_currentActionState = null;
-//         }
+        if (!_character.m_waterGroup.m_flingingFromSelect && !_character.m_waterGroup.m_flingingFromTurn)
+        {
+            //FIXME
+            //         if (Animation is Over)
+            //         {
+            _character.m_currentActionState = null;
+            //         }
+        }
 
         base.update(_character);
     }

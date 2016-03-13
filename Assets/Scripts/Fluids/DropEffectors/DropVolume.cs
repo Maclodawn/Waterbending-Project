@@ -53,7 +53,7 @@ public class DropVolume : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!GetComponent<DropGravity>())
+        if (!GetComponent<DropGravity>() && !GetComponent<DropTarget>() && !GetComponent<RotateEffector>())
         {
             // Equation to respect otherwise stretch is needed
             float newVolume = m_stretchRatio / m_drop.velocity.magnitude;
@@ -73,7 +73,7 @@ public class DropVolume : MonoBehaviour
     // Spawn a new drop smaller and reducing the current radius
     private void stretch(float _volume)
     {
-        Drop newSmallerDrop = GameObject.Instantiate<Transform>(m_waterGroup.m_dropPrefab).GetComponent<Drop>();
+        Drop newSmallerDrop = GameObject.Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
         m_waterGroup.m_dropPool.Add(newSmallerDrop);
 
         Vector3 position = transform.position + m_drop.velocity.normalized * transform.localScale.x / 2.0f
@@ -96,11 +96,6 @@ public class DropVolume : MonoBehaviour
             newSmallerDrop.gameObject.AddComponent<RotateEffector>();
             newSmallerDrop.GetComponent<RotateEffector>().init(getTarget(), Vector3.up/*, 1*/, GetComponent<RotateEffector>().m_radiusToTurnAround);
         }
-        else if (GetComponent<DropTarget>())
-        {
-            newSmallerDrop.gameObject.AddComponent<DropTarget>();
-            newSmallerDrop.GetComponent<DropTarget>().init(m_target, m_initialSpeed, 0.0f, 0.0f);
-        }
 
         newSmallerDrop.gameObject.AddComponent<DropVolume>();
         newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
@@ -114,7 +109,8 @@ public class DropVolume : MonoBehaviour
     void OnTriggerStay(Collider _collider)
     {
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
-        if (colliderDropVolume && !GetComponent<DropGravity>())
+        if (colliderDropVolume && !GetComponent<DropGravity>() && !GetComponent<DropTarget>() && !GetComponent<RotateEffector>()
+            && !_collider.GetComponent<DropGravity>() && !_collider.GetComponent<DropTarget>() && !_collider.GetComponent<RotateEffector>())
         {
             if ((m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup) || Vector3.Dot(m_drop.velocity, colliderDropVolume.m_drop.velocity) > 0)
             {
@@ -176,13 +172,10 @@ public class DropVolume : MonoBehaviour
         if (m_target)
             return m_target;
 
-        DropTarget dropTarget = GetComponent<DropTarget>();
         DropPullEffector dropPullEffector = GetComponent<DropPullEffector>();
         DeviationEffector dropDeviationEffector = GetComponent<DeviationEffector>();
         RotateEffector dropRotateEffector = GetComponent<RotateEffector>();
-        if (dropTarget)
-            m_target = dropTarget.m_target;
-        else if (dropPullEffector)
+        if (dropPullEffector)
             m_target = dropPullEffector.m_target;
         else if (dropDeviationEffector)
             m_target = dropDeviationEffector.m_target;
@@ -191,7 +184,7 @@ public class DropVolume : MonoBehaviour
         else
         {
             Debug.Break();
-            Debug.LogException(new System.Exception("Stretch with no DropTarget, no DropPullEffector,"
+            Debug.LogException(new System.Exception("Stretch with no DropPullEffector,"
                                                   + "no DropDeviationEffector, or no DropRotateEffector"), this);
         }
 

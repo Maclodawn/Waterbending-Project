@@ -16,8 +16,6 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     public float radius { get { return transform.localScale.x/2; } }
 
-    public Transform m_dropPrefab;
-
     public Vector3 velocity
     {
         get
@@ -56,6 +54,7 @@ public class Drop/*Movement*/ : MonoBehaviour
     // Used ONLY for initialization, otherwise use AddForce
     public void init(Vector3 _position, WaterGroup _waterGroup)
     {
+        name += _waterGroup.name;
         transform.position = _position;
         m_waterGroup = _waterGroup;
     }
@@ -134,7 +133,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         return m_dropVolume;
     }
 
-    private bool test = false;
+    //private bool test = false;
     public void split(Vector3 splitDirection, int count, float alpha)
     {
         Vector3 x, y, z = m_velocity.normalized;
