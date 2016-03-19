@@ -52,8 +52,15 @@ public class PullingWaterState : AbleToFallState
     {
         Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
         Vector3 vect = quaternion * m_targetOffset;
-        //FIXME
-        _character.m_waterGroup.m_target.transform.position = transform.position + vect;
+        if (_character.m_waterGroup)
+        {
+            _character.m_waterGroup.m_target.transform.position = transform.position + vect;
+        }
+        else
+        {
+            _character.m_currentActionState = null;
+        }
+
         base.update(_character);
     }
 
