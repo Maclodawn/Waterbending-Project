@@ -34,4 +34,11 @@ public class TurningWaterAroundState : AbleToFallState
 
         base.handleAction(_character, _action);
     }
+
+    public override void exit(Character _character)
+    {
+        _character.m_currentActionState = null;
+
+        base.exit(_character);
+    }
 }

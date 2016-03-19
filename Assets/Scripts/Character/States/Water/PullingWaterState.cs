@@ -56,12 +56,17 @@ public class PullingWaterState : AbleToFallState
         {
             _character.m_waterGroup.m_target.transform.position = transform.position + vect;
         }
-        else
-        {
-            _character.m_currentActionState = null;
-        }
+        else if (_character.m_currentActionState)
+            _character.m_currentActionState.exit(_character);
 
         base.update(_character);
+    }
+
+    public override void exit(Character _character)
+    {
+        cancel(_character);
+
+        base.exit(_character);
     }
 
     private void cancel(Character _character)

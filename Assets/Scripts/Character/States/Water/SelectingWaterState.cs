@@ -41,6 +41,13 @@ public class SelectingWaterState : AbleToFallState
         base.handleAction(_character, _action);
     }
 
+    public override void exit(Character _character)
+    {
+        _character.m_currentActionState = null;
+
+        base.exit(_character);
+    }
+
     private WaterReserve getWaterReserve(Character _character)
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));

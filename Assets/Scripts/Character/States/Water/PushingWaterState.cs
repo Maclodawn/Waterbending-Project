@@ -53,6 +53,13 @@ public class PushingWaterState : AbleToFallState
         base.update(_character);
     }
 
+    public override void exit(Character _character)
+    {
+        _character.m_currentActionState = null;
+
+        base.exit(_character);
+    }
+
     GameObject AutoAim()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
