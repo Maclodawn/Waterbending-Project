@@ -4,50 +4,21 @@ using System.Collections;
 public class WaterReserve : MonoBehaviour
 {
 
-    public float m_volume;
-
-    public void setVolume(float _volume)
-    {
-        m_volume = _volume;
-        //float radius = Mathf.Sqrt(m_volume / (transform.localScale.y * Mathf.PI));
-        float radius = 2;
-        transform.localScale = new Vector3(radius, transform.localScale.y, radius);
-    }
+    public float m_radius = 2;
 
     void Start()
     {
-        setVolume(m_volume);
+        transform.localScale = new Vector3(m_radius, transform.localScale.y, m_radius);
     }
 
-    public void init(Vector3 _position, float _volume)
+    public void init(Vector3 _position)
     {
         transform.position = _position;
-        m_volume = _volume;
     }
 
-    public Drop pullWater(float _volume)
+    public Drop pullWater()
     {
-        Drop drop = GameObject.Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
-        drop.gameObject.AddComponent<DropVolume>();
-
-        float volumeDiff = m_volume - _volume;
-        if (volumeDiff < 0)
-        {
-            drop.GetComponent<DropVolume>().setVolume(m_volume);
-            m_volume = 0;
-        }
-        else
-        {
-            drop.GetComponent<DropVolume>().setVolume(_volume);
-            m_volume = volumeDiff;
-        }
-
-        return drop;
-    }
-
-    public void Update()
-    {
-        if (m_volume == 0)
-            Destroy(gameObject);
+        Destroy(gameObject);
+        return Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
     }
 }

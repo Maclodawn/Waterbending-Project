@@ -21,8 +21,6 @@ public class DeviationEffector : MonoBehaviour
     //FIXME
     private float m_l;
 
-    private DropVolume m_dropVolume;
-
     void OnEnable()
     {
         m_drop.registerEffector(this);
@@ -40,12 +38,7 @@ public class DeviationEffector : MonoBehaviour
 
         if (m_drop.velocity == Vector3.zero)
         {
-            m_dropVolume = GetComponent<DropVolume>();
-            if (m_dropVolume)
-            {
-                float initialSpeed = m_dropVolume.m_initialSpeed;
-                m_drop.AddForce((_target.transform.position - transform.position).normalized * initialSpeed); 
-            }
+            m_drop.AddForce((_target.transform.position - transform.position).normalized * m_drop.m_initialSpeed); 
         }
         
         //FIXME Why vy couldn't be null?
@@ -100,8 +93,7 @@ public class DeviationEffector : MonoBehaviour
         if (m_time < 2 * m_T)
         {
             m_drop.AddForce((m_forceDir * m_k * (m_time > m_T ? -1 : 1) + (m_time > m_T ? -m_l : 1) * m_fy * Vector3.up) * Time.fixedDeltaTime);
-            if (m_dropVolume)
-                m_drop.initVelocity(m_drop.velocity.normalized * m_dropVolume.m_initialSpeed);
+            m_drop.initVelocity(m_drop.velocity.normalized * m_drop.m_initialSpeed);
         }
         else
         {

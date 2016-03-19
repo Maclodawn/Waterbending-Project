@@ -5,16 +5,19 @@ public class Drop/*Movement*/ : MonoBehaviour
 {
     public Vector3 m_velocity;
     public float m_initTime = 0.2f;
+    [System.NonSerialized]
+    public float m_initialSpeed;
 
     private List<GameObject> m_initCollisions = new List<GameObject>();
 
     public WaterGroup m_waterGroup;
 
-    private DropVolume m_dropVolume;
-
     private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
+    [System.NonSerialized]
     public DropGravity m_dropGravity;
+    [System.NonSerialized]
     public DropTarget m_dropTarget;
+    [System.NonSerialized]
     public RotateEffector m_dropRotate;
 
     public float radius { get { return transform.localScale.x/2; } }
@@ -61,11 +64,12 @@ public class Drop/*Movement*/ : MonoBehaviour
     }
 
     // Used ONLY for initialization, otherwise use AddForce
-    public void init(Vector3 _position, WaterGroup _waterGroup)
+    public void init(Vector3 _position, WaterGroup _waterGroup, float _speed)
     {
         name += _waterGroup.name;
         transform.position = _position;
         m_waterGroup = _waterGroup;
+        m_initialSpeed = _speed;
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -81,12 +85,7 @@ public class Drop/*Movement*/ : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float speedPercent = 1;
-        if (getDropVolume() && m_velocity.magnitude != 0 && getDropVolume().m_volume != 0 && !GetComponent<DropGravity>())
-        {
-            speedPercent = Mathf.Min((getDropVolume().m_stretchRatio / (getDropVolume().m_volume * getDropVolume().m_initialSpeed)) * 1.5f, 1);
-        }
-        transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
+        transform.position += m_velocity * Time.fixedDeltaTime;
     }
 
     void LateUpdate()
@@ -131,15 +130,6 @@ public class Drop/*Movement*/ : MonoBehaviour
         {
             Debug.Break();
         }
-    }
-
-    private DropVolume getDropVolume()
-    {
-        if (m_dropVolume)
-            return m_dropVolume;
-
-        m_dropVolume = GetComponent<DropVolume>();
-        return m_dropVolume;
     }
 
     //private bool test = false;

@@ -50,15 +50,12 @@ public class WaterGroup : MonoBehaviour
         transform.position = _position;
         m_target.transform.position = _targetPosition;
 
-        Drop drop = _waterReserve.pullWater(_volumeWanted);
-        drop.init(transform.position, this);
+        Drop drop = _waterReserve.pullWater();
+        drop.init(transform.position, this, _speed);
         drop.initVelocity((m_target.transform.position - transform.position).normalized * _speed);
         
         drop.gameObject.AddComponent<DropPullEffector>();
         drop.GetComponent<DropPullEffector>().init(m_target, _speed);
-
-        DropVolume dropVolume = drop.GetComponent<DropVolume>();
-        dropVolume.init(this, _speed, _minVolume, dropVolume.m_volume);
 
         m_dropPool.Add(drop);
     }
@@ -73,11 +70,8 @@ public class WaterGroup : MonoBehaviour
         m_speed = _speed;
 
         m_volumeToSpawn -= m_minVolume;
-        Drop drop = _waterReserve.pullWater(_minVolume);
-        drop.init(transform.position, this);
-
-        DropVolume dropVolume = drop.GetComponent<DropVolume>();
-        dropVolume.init(this, _speed, _minVolume, dropVolume.m_volume);
+        Drop drop = _waterReserve.pullWater();
+        drop.init(transform.position, this, _speed);
 
         m_dropPool.Add(drop);
     }
@@ -117,25 +111,7 @@ public class WaterGroup : MonoBehaviour
                 drop.removeEffectors();
                 DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
                 newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
-            }
-
-            while (m_volumeToSpawn > 0 && m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>()
-                && Vector3.Distance(m_dropPool[m_dropPool.Count - 1].transform.position, transform.position)
-                                > m_dropPool[m_dropPool.Count - 1].transform.localScale.x / 4.0f)
-            {
-                m_volumeToSpawn -= m_minVolume;
-                Drop drop = m_waterReserve.pullWater(m_minVolume);
-                drop.init(transform.position, this);
-
-                DropVolume dropVolume = drop.GetComponent<DropVolume>();
-                dropVolume.init(this, m_speed, m_minVolume, dropVolume.m_volume);
-
-                DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
-                newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
-
-                m_dropPool.Add(drop);
-                if (m_volumeToSpawn <= 0)
-                    m_flingingFromSelect = false;
+                m_flingingFromSelect = false;
             }
         }
     }

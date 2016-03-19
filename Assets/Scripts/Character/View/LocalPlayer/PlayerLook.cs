@@ -27,7 +27,6 @@ public class PlayerLook : MonoBehaviour
     {
         if (m_pause)
             return;
-        print(Input.GetAxis("RightAxisX") + " " + Input.GetAxis("RightAxisY"));
         float horizontal = (Input.GetAxis("Mouse X") + Input.GetAxis("RightAxisX")) * m_rotateSpeed.x;
         float vertical = (Input.GetAxis("Mouse Y") - Input.GetAxis("RightAxisY")) * m_rotateSpeed.y;
         

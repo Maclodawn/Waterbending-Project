@@ -70,7 +70,6 @@ public class PullingWaterState : AbleToFallState
         if (colList.Length < 1)
         {
             WaterReserve waterReserve = Instantiate<GameObject>(Manager.getManager().m_waterReservePrefab).GetComponent<WaterReserve>();
-            waterReserve.setVolume(10);
             waterReserve.transform.position = _character.transform.position + _character.transform.forward;
             return waterReserve;
         }
