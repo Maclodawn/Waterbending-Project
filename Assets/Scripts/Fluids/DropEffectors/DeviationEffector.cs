@@ -105,7 +105,7 @@ public class DeviationEffector : MonoBehaviour
         }
         else
         {
-            m_drop.removeEffectorsExceptDropVolume();
+            m_drop.removeEffectors();
             m_drop.gameObject.AddComponent<RotateEffector>();
             m_drop.GetComponent<RotateEffector>().init(m_target, Vector3.up/*, 1*/, m_targetRadius);
         }

@@ -97,8 +97,8 @@ public class DropVolume : MonoBehaviour
             newSmallerDrop.GetComponent<RotateEffector>().init(getTarget(), Vector3.up/*, 1*/, GetComponent<RotateEffector>().m_radiusToTurnAround);
         }
 
-        newSmallerDrop.gameObject.AddComponent<DropVolume>();
-        newSmallerDrop.GetComponent<DropVolume>().init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
+        DropVolume newSmallerDropVolume = newSmallerDrop.gameObject.AddComponent<DropVolume>();
+        newSmallerDropVolume.init(m_waterGroup, m_initialSpeed, m_minVolume, _volume);
 
         float oldRadius = transform.localScale.x / 2.0f;
         setVolume(m_volume - _volume);
@@ -109,8 +109,8 @@ public class DropVolume : MonoBehaviour
     void OnTriggerStay(Collider _collider)
     {
         DropVolume colliderDropVolume = _collider.GetComponent<DropVolume>();
-        if (colliderDropVolume && !GetComponent<DropGravity>() && !GetComponent<DropTarget>() && !GetComponent<RotateEffector>()
-            && !_collider.GetComponent<DropGravity>() && !_collider.GetComponent<DropTarget>() && !_collider.GetComponent<RotateEffector>())
+        if (colliderDropVolume && !m_drop.m_dropGravity && !m_drop.m_dropTarget && !m_drop.m_dropRotate
+            && !colliderDropVolume.m_drop.m_dropGravity && !colliderDropVolume.m_drop.m_dropTarget && !colliderDropVolume.m_drop.m_dropRotate)
         {
             if ((m_waterGroup && m_waterGroup == colliderDropVolume.m_waterGroup) || Vector3.Dot(m_drop.velocity, colliderDropVolume.m_drop.velocity) > 0)
             {

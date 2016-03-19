@@ -102,7 +102,7 @@ public class WaterGroup : MonoBehaviour
                 if (!dropRotateEffector && !dropDeviationEffector
                     || (/*drop.GetComponent<RotateEffector>() && */Vector3.Distance(drop.transform.position, m_posToFling) < 0.4f))
                 {
-                    drop.removeEffectorsExceptDropVolume();
+                    drop.removeEffectors();
 
                     DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
                     newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
@@ -114,7 +114,7 @@ public class WaterGroup : MonoBehaviour
             if (!m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>())
             {
                 Drop drop = m_dropPool[m_dropPool.Count - 1].GetComponent<Drop>();
-                drop.removeEffectorsExceptDropVolume();
+                drop.removeEffectors();
                 DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
                 newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
             }
@@ -151,7 +151,7 @@ public class WaterGroup : MonoBehaviour
         foreach (Drop drop in m_dropPool)
         {
             drop.AddForce(-drop.velocity);
-            drop.removeEffectorsExceptDropVolume();
+            drop.removeEffectors();
             
             DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
             newEffector.init(m_target, _radiusToTurnAround);
