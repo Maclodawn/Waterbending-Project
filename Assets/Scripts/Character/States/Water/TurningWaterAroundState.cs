@@ -24,7 +24,8 @@ public class TurningWaterAroundState : AbleToFallState
             case EAction.PushWater:
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
 
-                Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
+                Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward,
+                    new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z));
                 Vector3 vect = quaternion * m_offsetToFling;
                 (_character.m_currentActionState as PushingWaterState).init(vect, 0, true);
 
