@@ -19,6 +19,8 @@ public class WaterReserve : MonoBehaviour
     public Drop pullWater()
     {
         Destroy(gameObject);
-        return Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
+        Drop drop = Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
+        Instantiate(Manager.getManager().m_dropParticlesPrefab).GetComponent<DropParticles>().drop = drop;
+        return drop;
     }
 }
