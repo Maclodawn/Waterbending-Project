@@ -20,6 +20,8 @@ public class Drop/*Movement*/ : MonoBehaviour
     [System.NonSerialized]
     public RotateEffector m_dropRotate;
 
+    public ParticleSystem particles;
+
     public float radius { get { return transform.localScale.x/2; } }
 
     public Vector3 velocity
@@ -129,6 +131,7 @@ public class Drop/*Movement*/ : MonoBehaviour
         if (m_waterGroup)
             m_waterGroup.m_dropPool.Remove(this);
     }
+    
 
     public void AddForce(Vector3 _force)
     {

@@ -45,6 +45,7 @@ public class Manager : MonoBehaviour
     public GameObject m_waterReservePrefab;
     public GameObject m_waterGroupPrefab;
     public GameObject m_dropPrefab;
+    public GameObject m_dropParticlesPrefab;
 
     public float m_waterGravity;
 

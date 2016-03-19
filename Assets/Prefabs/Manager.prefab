@@ -52,6 +52,8 @@ MonoBehaviour:
   m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
   m_waterGroupPrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
   m_dropPrefab: {fileID: 152086, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
+  m_dropParticlesPrefab: {fileID: 131964, guid: 2542369e72d8e0840b01206e5d564ecc,
+    type: 2}
   m_waterGravity: 9.81
 --- !u!1001 &100100000
 Prefab:
