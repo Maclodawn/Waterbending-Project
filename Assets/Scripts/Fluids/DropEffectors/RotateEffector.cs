@@ -19,7 +19,7 @@ public class RotateEffector : MonoBehaviour
 
     void OnEnable()
     {
-        m_drop.registerEffector(this);
+        m_drop.registerRotate(this);
     }
 
 //     void Start()

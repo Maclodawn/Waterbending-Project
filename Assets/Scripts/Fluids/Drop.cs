@@ -13,6 +13,9 @@ public class Drop/*Movement*/ : MonoBehaviour
     private DropVolume m_dropVolume;
 
     private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
+    public DropGravity m_dropGravity;
+    public DropTarget m_dropTarget;
+    public RotateEffector m_dropRotate;
 
     public float radius { get { return transform.localScale.x/2; } }
 
@@ -22,6 +25,24 @@ public class Drop/*Movement*/ : MonoBehaviour
         {
             return m_velocity;
         }
+    }
+
+    public void registerGravity(DropGravity _effector)
+    {
+        registerEffector(_effector);
+        m_dropGravity = _effector;
+    }
+
+    public void registerTarget(DropTarget _effector)
+    {
+        registerEffector(_effector);
+        m_dropTarget = _effector;
+    }
+
+    public void registerRotate(RotateEffector _effector)
+    {
+        registerEffector(_effector);
+        m_dropRotate = _effector;
     }
 
     public void registerEffector(MonoBehaviour _effector)
@@ -34,21 +55,9 @@ public class Drop/*Movement*/ : MonoBehaviour
         foreach(MonoBehaviour effector in m_effectors)
             Destroy(effector);
         m_effectors.Clear();
-    }
-
-    public void removeEffectorsExceptDropVolume()
-    {
-        if (m_effectors.Count == 0)
-            return;
-
-        for (int i = 0; i < m_effectors.Count; ++i)
-        {
-            if (!(m_effectors[i] is DropVolume))
-            {
-                Destroy(m_effectors[i]);
-                m_effectors.RemoveAt(i--);
-            }
-        }
+        m_dropGravity = null;
+        m_dropTarget = null;
+        m_dropRotate = null;
     }
 
     // Used ONLY for initialization, otherwise use AddForce

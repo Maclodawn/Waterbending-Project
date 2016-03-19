@@ -8,7 +8,7 @@ public class DropGravity : MonoBehaviour
 
     void OnEnable()
     {
-        m_drop.registerEffector(this);
+        m_drop.registerGravity(this);
     }
 
     // Use this for initialization
