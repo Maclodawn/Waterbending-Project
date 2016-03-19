@@ -21,27 +21,13 @@ public class PushingWaterState : AbleToFallState
         Debug.Log("Enter PushingWaterState");
         m_EState = EStates.PushingWaterState;
 
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
-        RaycastHit hit;
-        GameObject newTarget;
-        if (Physics.Raycast(ray, out hit, 1000.0f))
+        GameObject newTarget = AutoAim();
+        if (!newTarget)
         {
-            if (hit.collider.gameObject.tag == "Player")
-            {
-                newTarget = hit.collider.gameObject;
-            }
-            else
-            {
-                newTarget = new GameObject();
-                newTarget.name = "WaterTarget";
-                newTarget.transform.position = hit.point;
-            }
-        }
-        else
-        {
+            Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
             newTarget = new GameObject();
             newTarget.name = "WaterTarget";
-            newTarget.transform.position = ray.origin + ray.direction * 1000.0f;
+            newTarget.transform.position = ray.origin + ray.direction * 40.0f;
         }
 
         _character.m_waterGroup.setTarget(newTarget);
@@ -65,5 +51,31 @@ public class PushingWaterState : AbleToFallState
         }
 
         base.update(_character);
+    }
+
+    GameObject AutoAim()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closestplayer = null;
+        float closestPlayerDistance = float.MaxValue;
+
+        foreach (GameObject player in players)
+        {
+            if (player == gameObject)
+                continue;
+
+            Vector3 point = Camera.main.WorldToViewportPoint(player.transform.position);
+            if (point.z < 0 || point.x < 0 || point.x > 1 || point.y < 0 || point.y > 1)
+                continue;
+
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            if (closestPlayerDistance > dist)
+            {
+                closestplayer = player;
+                closestPlayerDistance = dist;
+            }
+        }
+
+        return closestplayer;
     }
 }

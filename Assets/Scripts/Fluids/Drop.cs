@@ -99,6 +99,13 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        //Demo
+        FakePlayer fakePlayer = collider.GetComponent<FakePlayer>();
+        if (fakePlayer)
+        {
+            fakePlayer.OnMyCollisionEnter(gameObject);
+        }
+
         if (m_initTime > 0)
         {
             m_initCollisions.Add(collider.gameObject);

@@ -323,7 +323,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294967295
+        rgba: 4294907648
       minMaxState: 0
     startSize:
       scalar: 5
@@ -467,7 +467,7 @@ ParticleSystem:
       minMaxState: 0
     randomizeRotationDirection: 0
     gravityModifier: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     rotation3D: 0
   ShapeModule:
     serializedVersion: 2
@@ -1677,6 +1677,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ShapeModule.radius
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startColor.maxColor.rgba
+      value: 4294907648
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.maxNumParticles
+      value: 10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
