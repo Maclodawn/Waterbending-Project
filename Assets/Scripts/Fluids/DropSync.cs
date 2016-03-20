@@ -2,34 +2,22 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-[NetworkSettings(channel = 1, sendInterval = 0.0001f)]
 public class DropSync : NetworkBehaviour
 {
 
     Vector3 syncPosition;
 
-    float syncVol;
-    DropVolume myDropVolume;
-
     [SerializeField]
-    float lerpRate;
+    float lerpRate = 1.0f;
 
     bool setDone = false;
-
-    void Start()
-    {
-        myDropVolume = GetComponent<DropVolume>();
-    }
 
     void FixedUpdate()
     {
         TransmitPosition();
-        TransmitVolume();
 
         if (NetworkClient.active)
         {
-            if (syncVol > 0)
-                myDropVolume.setVolume(syncVol);
             if (setDone)
                 lerpPosition();
         }
@@ -53,18 +41,5 @@ public class DropSync : NetworkBehaviour
     {
         if (NetworkServer.active)
             RpcProvidePositionToClient(transform.position);
-    }
-
-    [ClientRpc]
-    private void RpcProvideVolumeToClient(float _volume)
-    {
-        syncVol = _volume;
-    }
-
-    [ServerCallback]
-    private void TransmitVolume()
-    {
-        if (NetworkServer.active)
-            RpcProvideVolumeToClient(myDropVolume.m_volume);
     }
 }

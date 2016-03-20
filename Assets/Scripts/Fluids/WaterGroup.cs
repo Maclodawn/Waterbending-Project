@@ -20,8 +20,6 @@ public class WaterGroup : NetworkBehaviour
 
     float m_volumeToSpawn;
     float m_minVolume;
-    float m_speed;
-    WaterReserve m_waterReserve;
 
     public float m_quotient = 1.0f / 4.0f;
     
@@ -65,10 +63,8 @@ public class WaterGroup : NetworkBehaviour
     {
         transform.position = _position;
 
-        m_waterReserve = _waterReserve;
         m_minVolume = _minVolume;
         m_volumeToSpawn = _volumeWanted;
-        m_speed = _speed;
 
         m_volumeToSpawn -= m_minVolume;
 
@@ -124,25 +120,6 @@ public class WaterGroup : NetworkBehaviour
                 m_flingingFromSelect = false;
             }
         }
-    }
-
-    void spawn(Vector3 _position)
-    {
-        m_volumeToSpawn -= m_minVolume;
-        Drop drop = m_waterReserve.pullWater(m_minVolume);
-        drop.init(_position, this);
-
-        DropVolume dropVolume = drop.GetComponent<DropVolume>();
-        dropVolume.init(this, m_speed, m_minVolume, dropVolume.m_volume);
-
-        DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
-        newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
-
-        NetworkServer.Spawn(drop.gameObject);
-
-        m_dropPool.Add(drop);
-        if (m_volumeToSpawn <= 0 || m_waterReserve.m_volume <= 0)
-            m_flingingFromSelect = false;
     }
 
     [Server]

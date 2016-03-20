@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class ComputeActionsFromInput : Character
 {
@@ -8,6 +9,7 @@ public class ComputeActionsFromInput : Character
     public GameObject prefabCamera = null;
 
     //To be called from PlayerNetworkSetup
+    [Client]
     public void init()
     {
         mgr.addPlayer(gameObject);
@@ -31,7 +33,7 @@ public class ComputeActionsFromInput : Character
     // Compute movement/action the character wants to do based on inputs
     protected override void Update()
     {
-        if (Manager.getManager().isGamePaused())
+        if (Manager.getInstance().isGamePaused())
             return;
         EMovement movement = EMovement.None;
         EAction action = EAction.None;

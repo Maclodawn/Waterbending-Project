@@ -28,7 +28,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144396}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -16.17, y: 0.01, z: 13.74}
   m_LocalScale: {x: 1, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,22 +80,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 9
+    i1: 209
+    i2: 45
+    i3: 46
+    i4: 42
+    i5: 72
+    i6: 143
+    i7: 244
+    i8: 136
+    i9: 29
+    i10: 244
+    i11: 220
+    i12: 19
+    i13: 121
+    i14: 166
+    i15: 170
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &11493440
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d9facfe5deeb240934e8d4d4aa28c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_volume: 0
+  m_radius: 2
 --- !u!114 &11495050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,9 +118,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 144396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 692db4dbd4c941344a28ebb31340af74, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d9facfe5deeb240934e8d4d4aa28c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_radius: 2
 --- !u!136 &13695148
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -86,8 +86,12 @@ public class Character : NetworkBehaviour
         m_heightController = m_controller.height;
     }
 
+    [ClientCallback]
     void OnDrawGizmos()
     {
+        if (!NetworkClient.active)
+            return;
+
         Gizmos.matrix = Camera.main.transform.localToWorldMatrix;
         Gizmos.color = Color.red;
         Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);

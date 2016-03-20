@@ -13,18 +13,17 @@ public class WaterReserve : NetworkBehaviour
     }
 
     [Server]
-    public void init(Vector3 _position, float _volume)
+    public void init(Vector3 _position)
     {
         transform.position = _position;
-        GetComponent<WaterReserveSync>().initDone = true;
     }
 
     [Server]
-    public Drop pullWater(float _volume)
+    public Drop pullWater()
     {
         NetworkServer.Destroy(gameObject);
-        Drop drop = Instantiate(Manager.getManager().m_dropPrefab).GetComponent<Drop>();
-        Instantiate(Manager.getManager().m_dropParticlesPrefab).GetComponent<DropParticles>().drop = drop;
+        Drop drop = Instantiate(Manager.getInstance().m_dropPrefab).GetComponent<Drop>();
+
         return drop;
     }
 }

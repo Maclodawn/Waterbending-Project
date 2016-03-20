@@ -43,38 +43,39 @@ public class PushingWaterState : AbleToFallState
         GameObject newTarget = AutoAim();
         if (newTarget)
         {
-            CmdEnter(_character.GetComponent<NetworkIdentity>(), newTarget.GetComponent<NetworkIdentity>());
+            CmdEnterFound(_character.GetComponent<NetworkIdentity>(), newTarget.GetComponent<NetworkIdentity>());
         }
         else
         {
             Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
-            CmdEnter(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
+            CmdEnterNew(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
         }
 
         base.enter(_character);
     }
 
     [Command]
-    void CmdEnter(NetworkIdentity _characterIdentity, NetworkIdentity _targetIdentity)
+    void CmdEnterFound(NetworkIdentity _characterIdentity, NetworkIdentity _targetIdentity)
     {
         GameObject newTarget = _targetIdentity.gameObject;
 
-        enter(_characterIdentity.getComponent<Character>(), newTarget);
+        enter(_characterIdentity.GetComponent<Character>(), newTarget);
     }
 
     [Command]
-    void CmdEnter(NetworkIdentity _characterIdentity, Vector3 _origin, Vector3 _direction)
+    void CmdEnterNew(NetworkIdentity _characterIdentity, Vector3 _origin, Vector3 _direction)
     {
         GameObject newTarget = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
         newTarget.transform.position = _origin + _direction * 40.0f;
         NetworkServer.SpawnWithClientAuthority(newTarget, gameObject);
 
-        enter(_characterIdentity.getComponent<Character>(), newTarget);
+        enter(_characterIdentity.GetComponent<Character>(), newTarget);
     }
 
     [Server]
     void enter(Character _character, GameObject newTarget)
     {
+        isReady = true;
         _character.m_waterGroup.setTarget(newTarget);
         if (m_fromTurn)
             _character.m_waterGroup.flingFromTurn(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
@@ -90,7 +91,7 @@ public class PushingWaterState : AbleToFallState
 
         if (!_character.m_waterGroup.m_flingingFromSelect && !_character.m_waterGroup.m_flingingFromTurn && time > cooldown)
         {
-            _character.m_currentActionState = null;
+            exit(_character);
         }
 
         time += Time.deltaTime;

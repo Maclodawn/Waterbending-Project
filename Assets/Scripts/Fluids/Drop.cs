@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-[NetworkSettings(channel = 1, sendInterval = 0.0001f)]
 public class Drop/*Movement*/ : NetworkBehaviour
 {
     public Vector3 m_velocity;
@@ -71,6 +70,18 @@ public class Drop/*Movement*/ : NetworkBehaviour
         m_dropGravity = null;
         m_dropTarget = null;
         m_dropRotate = null;
+    }
+
+    void Start()
+    {
+//         if (NetworkClient.active)
+//         {
+            Instantiate(Manager.getInstance().m_dropParticlesPrefab).GetComponent<DropParticles>().drop = this;
+//         }
+//         else if (NetworkServer.active)
+//         {
+            GetComponent<MeshRenderer>().enabled = true;
+        //}
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -156,7 +167,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (!NetworkServer.active)
             return;
 
-        Destroy(GetComponent<DropSync>());
+        //Destroy(GetComponent<DropSync>());
 
         if (m_waterGroup)
             m_waterGroup.m_dropPool.Remove(this);

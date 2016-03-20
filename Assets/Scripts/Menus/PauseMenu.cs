@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        Manager.getManager().UnPauseGame();
+        Manager.getInstance().UnPauseGame();
     }
 
     public void OpenOptions()
@@ -27,11 +27,11 @@ public class PauseMenu : MonoBehaviour
 
     public void SetSensitivity()
     {
-        Manager.getManager().m_cameraSpeed = sensitivitySlider.value;
+        Manager.getInstance().m_cameraSpeed = sensitivitySlider.value;
     }
 
     public void SetYCamDir()
     {
-        Manager.getManager().m_yReversed = reverseYToggle.isOn;
+        Manager.getInstance().m_yReversed = reverseYToggle.isOn;
     }
 }
