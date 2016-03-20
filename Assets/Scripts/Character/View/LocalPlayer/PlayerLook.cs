@@ -27,8 +27,10 @@ public class PlayerLook : MonoBehaviour
     {
         if (m_pause)
             return;
-        float horizontal = (Input.GetAxis("Mouse X") + Input.GetAxis("RightAxisX")) * m_rotateSpeed.x;
-        float vertical = (Input.GetAxis("Mouse Y") - Input.GetAxis("RightAxisY")) * m_rotateSpeed.y;
+        float horizontal = (Input.GetAxis("Mouse X") + Input.GetAxis("RightAxisX")) * m_rotateSpeed.x * Manager.getManager().m_cameraSpeed;
+
+        float verticalDir = Manager.getManager().m_yReversed ? 1 : -1;
+        float vertical = (Input.GetAxis("Mouse Y") - Input.GetAxis("RightAxisY")) * m_rotateSpeed.y * Manager.getManager().m_cameraSpeed * verticalDir;
         
         m_horizontalObj.transform.Rotate(0, horizontal, 0);
         m_verticalObj.transform.Rotate(vertical, 0, 0);

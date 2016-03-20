@@ -47,6 +47,9 @@ public class Manager : MonoBehaviour
     public GameObject m_dropPrefab;
     public GameObject m_dropParticlesPrefab;
 
+    public float m_cameraSpeed = 1;
+    public bool m_yReversed = true;
+
     public float m_waterGravity;
 
     bool m_gameIsPaused = false;
