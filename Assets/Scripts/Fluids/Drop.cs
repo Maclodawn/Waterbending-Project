@@ -101,6 +101,13 @@ public class Drop/*Movement*/ : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        //Demo
+        FakePlayer fakePlayer = collider.GetComponent<FakePlayer>();
+        if (fakePlayer)
+        {
+            fakePlayer.OnMyCollisionEnter(gameObject);
+        }
+
         if (m_initTime > 0)
         {
             m_initCollisions.Add(collider.gameObject);
@@ -118,6 +125,13 @@ public class Drop/*Movement*/ : MonoBehaviour
         if (m_initCollisions.Count > 0 && m_initCollisions.Contains(collider.gameObject))
             m_initCollisions.Remove(collider.gameObject);
     }
+
+    void OnDestroy()
+    {
+        if (m_waterGroup)
+            m_waterGroup.m_dropPool.Remove(this);
+    }
+    
 
     public void AddForce(Vector3 _force)
     {
