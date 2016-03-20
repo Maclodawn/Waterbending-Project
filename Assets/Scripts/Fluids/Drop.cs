@@ -7,14 +7,22 @@ public class Drop/*Movement*/ : NetworkBehaviour
 {
     public Vector3 m_velocity;
     public float m_initTime = 0.2f;
+    [System.NonSerialized]
+    public float m_initialSpeed;
 
     private List<GameObject> m_initCollisions = new List<GameObject>();
 
     public WaterGroup m_waterGroup;
 
-    private DropVolume m_dropVolume;
-
     private List<MonoBehaviour> m_effectors = new List<MonoBehaviour>();
+    [System.NonSerialized]
+    public DropGravity m_dropGravity;
+    [System.NonSerialized]
+    public DropTarget m_dropTarget;
+    [System.NonSerialized]
+    public RotateEffector m_dropRotate;
+
+    public ParticleSystem particles;
 
     public float radius { get { return transform.localScale.x/2; } }
 
@@ -24,6 +32,27 @@ public class Drop/*Movement*/ : NetworkBehaviour
         {
             return m_velocity;
         }
+    }
+
+    [Server]
+    public void registerGravity(DropGravity _effector)
+    {
+        registerEffector(_effector);
+        m_dropGravity = _effector;
+    }
+
+    [Server]
+    public void registerTarget(DropTarget _effector)
+    {
+        registerEffector(_effector);
+        m_dropTarget = _effector;
+    }
+
+    [Server]
+    public void registerRotate(RotateEffector _effector)
+    {
+        registerEffector(_effector);
+        m_dropRotate = _effector;
     }
 
     [Server]
@@ -38,31 +67,20 @@ public class Drop/*Movement*/ : NetworkBehaviour
         foreach(MonoBehaviour effector in m_effectors)
             Destroy(effector);
         m_effectors.Clear();
-    }
-
-    [Server]
-    public void removeEffectorsExceptDropVolume()
-    {
-        if (m_effectors.Count == 0)
-            return;
-
-        for (int i = 0; i < m_effectors.Count; ++i)
-        {
-            if (!(m_effectors[i] is DropVolume))
-            {
-                Destroy(m_effectors[i]);
-                m_effectors.RemoveAt(i--);
-            }
-        }
+        
+        m_dropGravity = null;
+        m_dropTarget = null;
+        m_dropRotate = null;
     }
 
     // Used ONLY for initialization, otherwise use AddForce
     [Server]
-    public void init(Vector3 _position, WaterGroup _waterGroup)
+    public void init(Vector3 _position, WaterGroup _waterGroup, float _speed)
     {
         name += _waterGroup.name;
         transform.position = _position;
         m_waterGroup = _waterGroup;
+        m_initialSpeed = _speed;
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -82,12 +100,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (NetworkClient.active)
             return;
 
-        float speedPercent = 1;
-        if (getDropVolume() && m_velocity.magnitude != 0 && getDropVolume().m_volume != 0 && !GetComponent<DropGravity>())
-        {
-            speedPercent = Mathf.Min((getDropVolume().m_stretchRatio / (getDropVolume().m_volume * getDropVolume().m_initialSpeed)) * 1.5f, 1);
-        }
-        transform.position += m_velocity * speedPercent * Time.fixedDeltaTime;
+        transform.position += m_velocity * Time.fixedDeltaTime;
     }
 
     [ServerCallback]
@@ -108,6 +121,13 @@ public class Drop/*Movement*/ : NetworkBehaviour
     {
         if (!NetworkServer.active)
             return;
+
+        //Demo
+        FakePlayer fakePlayer = collider.GetComponent<FakePlayer>();
+        if (fakePlayer)
+        {
+            fakePlayer.OnMyCollisionEnter(gameObject);
+        }
 
         if (m_initTime > 0)
         {
@@ -141,6 +161,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (m_waterGroup)
             m_waterGroup.m_dropPool.Remove(this);
     }
+    
 
     [Server]
     public void AddForce(Vector3 _force)
@@ -150,16 +171,6 @@ public class Drop/*Movement*/ : NetworkBehaviour
         {
             Debug.Break();
         }
-    }
-
-    [Server]
-    private DropVolume getDropVolume()
-    {
-        if (m_dropVolume)
-            return m_dropVolume;
-
-        m_dropVolume = GetComponent<DropVolume>();
-        return m_dropVolume;
     }
 
     //private bool test = false;

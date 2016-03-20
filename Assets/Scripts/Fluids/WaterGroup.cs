@@ -46,11 +46,8 @@ public class WaterGroup : NetworkBehaviour
         transform.position = _position;
         m_target = _target;
 
-        Drop drop = _waterReserve.pullWater(_volumeWanted);
-        drop.init(transform.position, this);
-
-        DropVolume dropVolume = drop.GetComponent<DropVolume>();
-        dropVolume.init(this, _speed, _minVolume, dropVolume.m_volume);
+        Drop drop = _waterReserve.pullWater();
+        drop.init(transform.position, this, _speed);
         
         drop.gameObject.AddComponent<DropPullEffector>();
         drop.GetComponent<DropPullEffector>().init(m_target, _speed);
@@ -74,9 +71,10 @@ public class WaterGroup : NetworkBehaviour
         m_speed = _speed;
 
         m_volumeToSpawn -= m_minVolume;
-        Drop drop = _waterReserve.pullWater(_minVolume);
-        drop.init(transform.position, this);
 
+        Drop drop = _waterReserve.pullWater();
+        drop.init(transform.position, this, _speed);
+       
         NetworkServer.Spawn(drop.gameObject);
 
         m_dropPool.Add(drop);
@@ -108,7 +106,7 @@ public class WaterGroup : NetworkBehaviour
                 if (!dropRotateEffector && !dropDeviationEffector
                     || (/*drop.GetComponent<RotateEffector>() && */Vector3.Distance(drop.transform.position, m_posToFling) < 0.4f))
                 {
-                    drop.removeEffectorsExceptDropVolume();
+                    drop.removeEffectors();
 
                     DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
                     newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
@@ -120,22 +118,10 @@ public class WaterGroup : NetworkBehaviour
             if (!m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>())
             {
                 Drop drop = m_dropPool[m_dropPool.Count - 1].GetComponent<Drop>();
-                drop.removeEffectorsExceptDropVolume();
+                drop.removeEffectors();
                 DropTarget newEffector = drop.gameObject.AddComponent<DropTarget>();
                 newEffector.init(m_target, m_flingSpeed, m_alpha, 0);
-            }
-
-            if (m_volumeToSpawn > 0 && m_dropPool[m_dropPool.Count - 1].GetComponent<DropTarget>()
-                && Vector3.Distance(m_dropPool[m_dropPool.Count - 1].transform.position, transform.position)
-                                > m_dropPool[m_dropPool.Count - 1].transform.localScale.x * m_quotient)
-            {
-                Drop drop = m_dropPool[m_dropPool.Count - 1];
-                float tmpQuotient = 0;
-                while (tmpQuotient <= 1)
-                {
-                    spawn(transform.position + (transform.position - drop.transform.position) * tmpQuotient);
-                    tmpQuotient += m_quotient;
-                }
+                m_flingingFromSelect = false;
             }
         }
     }
@@ -165,7 +151,7 @@ public class WaterGroup : NetworkBehaviour
         foreach (Drop drop in m_dropPool)
         {
             drop.AddForce(-drop.velocity);
-            drop.removeEffectorsExceptDropVolume();
+            drop.removeEffectors();
             
             DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
             newEffector.init(m_target, _radiusToTurnAround);

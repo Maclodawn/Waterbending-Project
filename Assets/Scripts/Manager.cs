@@ -45,6 +45,10 @@ public class Manager : MonoBehaviour
     public GameObject m_waterGroupPrefab;
     public GameObject m_dropPrefab;
     public GameObject m_waterTargetPrefab;
+    public GameObject m_dropParticlesPrefab;
+
+    public float m_cameraSpeed = 1;
+    public bool m_yReversed = true;
 
     public float m_waterGravity;
 
@@ -87,29 +91,37 @@ public class Manager : MonoBehaviour
 
     public void PauseGame()
     {
+        m_gameIsPaused = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         m_UI.SetActive(false);
-        //m_pauseMenu.SetActive(true);
+        m_pauseMenu.SetActive(true);
 
-        //Time.timeScale = 0;
+        Time.timeScale = 0;
 
         Manager.BroadcastAll("ReceiveMessage", "Pause");
     }
 
     public void UnPauseGame()
     {
+        m_gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         m_UI.SetActive(true);
 
         m_pauseMenu.SetActive(false);
+        m_pauseMenu.GetComponent<PauseMenu>().OpenMainMenu();
 
         Time.timeScale = 1;
 
         Manager.BroadcastAll("ReceiveMessage", "UnPause");
+    }
+
+    public bool isGamePaused()
+    {
+        return m_gameIsPaused;
     }
 
     public static void BroadcastAll(string fun, System.Object msg)

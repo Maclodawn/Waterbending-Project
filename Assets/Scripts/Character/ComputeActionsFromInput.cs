@@ -31,11 +31,12 @@ public class ComputeActionsFromInput : Character
     // Compute movement/action the character wants to do based on inputs
     protected override void Update()
     {
+        if (Manager.getManager().isGamePaused())
+            return;
         EMovement movement = EMovement.None;
         EAction action = EAction.None;
-
-        m_inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"),
-                                        Input.GetAxisRaw("Vertical"));
+        m_inputDirection = new Vector2(Input.GetAxisRaw("Horizontal") + Input.GetAxisRaw("LeftAxisX"),
+                                        Input.GetAxisRaw("Vertical") - Input.GetAxisRaw("LeftAxisY"));
 
         if (Input.GetKey(KeyCode.P))
             Debug.Break();

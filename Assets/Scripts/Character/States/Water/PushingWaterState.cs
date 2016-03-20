@@ -40,44 +40,46 @@ public class PushingWaterState : AbleToFallState
         Debug.Log("Enter PushingWaterState");
         m_EState = EStates.PushingWaterState;
 
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
-        CmdEnter(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
+        GameObject newTarget = AutoAim();
+        if (newTarget)
+        {
+            CmdEnter(_character.GetComponent<NetworkIdentity>(), newTarget.GetComponent<NetworkIdentity>());
+        }
+        else
+        {
+            Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
+            CmdEnter(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
+        }
 
         base.enter(_character);
     }
 
     [Command]
+    void CmdEnter(NetworkIdentity _characterIdentity, NetworkIdentity _targetIdentity)
+    {
+        GameObject newTarget = _targetIdentity.gameObject;
+
+        enter(_characterIdentity.getComponent<Character>(), newTarget);
+    }
+
+    [Command]
     void CmdEnter(NetworkIdentity _characterIdentity, Vector3 _origin, Vector3 _direction)
     {
-        isReady = true;
-        RaycastHit hit;
-        GameObject newTarget;
-        if (Physics.Raycast(_origin, _direction, out hit, 1000.0f))
-        {
-            if (hit.collider.gameObject.tag == "Player")
-            {
-                newTarget = hit.collider.gameObject;
-            }
-            else
-            {
-                newTarget = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
-                newTarget.transform.position = hit.point;
-                NetworkServer.SpawnWithClientAuthority(newTarget, gameObject);
-            }
-        }
-        else
-        {
-            newTarget = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
-            newTarget.transform.position = _origin + _direction * 1000.0f;
-            NetworkServer.SpawnWithClientAuthority(newTarget, gameObject);
-        }
+        GameObject newTarget = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
+        newTarget.transform.position = _origin + _direction * 40.0f;
+        NetworkServer.SpawnWithClientAuthority(newTarget, gameObject);
 
-        Character character = _characterIdentity.GetComponent<Character>();
-        character.m_waterGroup.setTarget(newTarget);
+        enter(_characterIdentity.getComponent<Character>(), newTarget);
+    }
+
+    [Server]
+    void enter(Character _character, GameObject newTarget)
+    {
+        _character.m_waterGroup.setTarget(newTarget);
         if (m_fromTurn)
-            character.m_waterGroup.flingFromTurn(m_speed, character.transform.position + character.m_controller.center + m_offsetToFling, m_alpha);
+            _character.m_waterGroup.flingFromTurn(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
         else
-            character.m_waterGroup.flingFromSelect(m_speed, character.transform.position + character.m_controller.center + m_offsetToFling, m_alpha);
+            _character.m_waterGroup.flingFromSelect(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
     }
 
     [Client]
@@ -93,5 +95,39 @@ public class PushingWaterState : AbleToFallState
 
         time += Time.deltaTime;
         base.update(_character);
+    }
+
+    public override void exit(Character _character)
+    {
+        _character.m_currentActionState = null;
+
+        base.exit(_character);
+    }
+
+    [Client]
+    GameObject AutoAim()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closestplayer = null;
+        float closestPlayerDistance = float.MaxValue;
+
+        foreach (GameObject player in players)
+        {
+            if (player == gameObject)
+                continue;
+
+            Vector3 point = Camera.main.WorldToViewportPoint(player.transform.position);
+            if (point.z < 0 || point.x < 0 || point.x > 1 || point.y < 0 || point.y > 1)
+                continue;
+
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            if (closestPlayerDistance > dist)
+            {
+                closestplayer = player;
+                closestPlayerDistance = dist;
+            }
+        }
+
+        return closestplayer;
     }
 }

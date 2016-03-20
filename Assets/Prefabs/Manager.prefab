@@ -42,6 +42,8 @@ MonoBehaviour:
   m_terrain: {fileID: 0}
   m_originalAI: {fileID: 0}
   nAI: 0
+  m_originalPlayer: {fileID: 114044, guid: 77a820077ab1df14b829b6895ad5c2d3, type: 2}
+  m_mainCamera: {fileID: 171570, guid: 7425ea6fae31d244ea738a9a27dda161, type: 2}
   m_healthBar: {fileID: 11453160, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
   m_powerBar: {fileID: 11470942, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
   m_chargeBar: {fileID: 11446988, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
@@ -50,7 +52,8 @@ MonoBehaviour:
   m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
   m_waterGroupPrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
   m_dropPrefab: {fileID: 152086, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
-  m_waterTargetPrefab: {fileID: 107728, guid: 9e1adb7faf2810e4f8c361c1212fdb19, type: 2}
+  m_dropParticlesPrefab: {fileID: 131964, guid: 2542369e72d8e0840b01206e5d564ecc,
+    type: 2}
   m_waterGravity: 9.81
 --- !u!1001 &100100000
 Prefab:

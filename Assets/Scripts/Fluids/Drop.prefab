@@ -8,14 +8,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 471942}
-  - 33: {fileID: 3377014}
-  - 135: {fileID: 13596300}
-  - 23: {fileID: 2310346}
-  - 114: {fileID: 11489896}
-  - 114: {fileID: 11404514}
-  - 114: {fileID: 11467968}
-  - 114: {fileID: 11445634}
-  - 54: {fileID: 5435070}
+  - 33: {fileID: 3348690}
+  - 135: {fileID: 13582450}
+  - 23: {fileID: 2366876}
+  - 114: {fileID: 11436090}
+  - 54: {fileID: 5457962}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -30,18 +27,18 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3689394, y: -2.7973213, z: 2.327138}
+  m_LocalPosition: {x: 0.47935602, y: 0.5, z: 8.796454}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2310346
+--- !u!23 &2366876
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -61,14 +58,14 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3377014
+--- !u!33 &3348690
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152086}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5435070
+--- !u!54 &5457962
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -77,68 +74,13 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &11404514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 172
-    i1: 214
-    i2: 214
-    i3: 30
-    i4: 127
-    i5: 217
-    i6: 181
-    i7: 4
-    i8: 216
-    i9: 150
-    i10: 198
-    i11: 242
-    i12: 191
-    i13: 171
-    i14: 18
-    i15: 89
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &11445634
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60339b6333c895740b2277f80d5a3c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11467968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b357f1aa2cb0f24e9031f492282d38b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lerpRate: 0.8
---- !u!114 &11489896
+--- !u!114 &11436090
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -152,7 +94,8 @@ MonoBehaviour:
   m_velocity: {x: 0, y: 0, z: 0}
   m_initTime: 0.2
   m_waterGroup: {fileID: 0}
---- !u!135 &13596300
+  particles: {fileID: 0}
+--- !u!135 &13582450
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -216,24 +159,16 @@ Prefab:
       value: 
       objectReference: {fileID: 2100000, guid: b0d11be3c9a701243a7181baa2e45d68, type: 2}
     - target: {fileID: 0}
-      propertyPath: m_LocalPlayerAuthority
-      value: 0
+      propertyPath: ShapeModule.radius
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: myTransform
-      value: 
-      objectReference: {fileID: 471942}
-    - target: {fileID: 0}
-      propertyPath: m_ServerOnly
-      value: 0
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_TransformSyncMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: lerpRate
-      value: 0.8
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

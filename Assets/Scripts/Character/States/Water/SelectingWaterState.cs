@@ -12,6 +12,8 @@ public class SelectingWaterState : AbleToFallState
     public float m_volumeWanted = 10.0f;
     public float m_speed = 10.0f;
 
+    public float m_angle = 1f;
+
     WaterReserve m_waterReserve;
 
     [Client]
@@ -48,7 +50,7 @@ public class SelectingWaterState : AbleToFallState
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
 
                 CmdPushWater(_character.GetComponent<NetworkIdentity>(), m_waterReserve.GetComponent<NetworkIdentity>());
-                (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, 1f, false);
+                (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
 
                 _character.m_currentActionState.enter(_character);
                 break;
@@ -83,6 +85,14 @@ public class SelectingWaterState : AbleToFallState
         character.m_waterGroup = waterGroup;
     }
 
+    [Client]
+    public override void exit(Character _character)
+    {
+        _character.m_currentActionState = null;
+
+        base.exit(_character);
+    }
+
     [Server]
     private WaterReserve getWaterReserve(Character _character, Vector3 _origin, Vector3 _direction)
     {
@@ -106,8 +116,9 @@ public class SelectingWaterState : AbleToFallState
         if (colList.Length < 1)
         {
             WaterReserve waterReserve = Instantiate(Manager.getInstance().m_waterReservePrefab).GetComponent<WaterReserve>();
-            waterReserve.init(_character.transform.position + _character.transform.forward, 10);
+            waterReserve.init(_character.transform.position + _character.transform.forward);
             NetworkServer.Spawn(waterReserve.gameObject);
+
             return waterReserve;
         }
 
