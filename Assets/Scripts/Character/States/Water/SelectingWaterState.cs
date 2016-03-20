@@ -11,6 +11,8 @@ public class SelectingWaterState : AbleToFallState
     public float m_volumeWanted = 10.0f;
     public float m_speed = 10.0f;
 
+    public float m_angle = 1f;
+
     WaterReserve m_waterReserve;
 
     public override void enter(Character _character)
@@ -32,7 +34,7 @@ public class SelectingWaterState : AbleToFallState
 
                 _character.m_waterGroup = Instantiate<GameObject>(Manager.getManager().m_waterGroupPrefab).GetComponent<WaterGroup>();
                 _character.m_waterGroup.initSelect(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, m_speed);
-                (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, 1f, false);
+                (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
 
                 _character.m_currentActionState.enter(_character);
                 break;
