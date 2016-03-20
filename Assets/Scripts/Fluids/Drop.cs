@@ -74,14 +74,14 @@ public class Drop/*Movement*/ : NetworkBehaviour
 
     void Start()
     {
-//         if (NetworkClient.active)
-//         {
+        if (NetworkClient.active)
+        {
             Instantiate(Manager.getInstance().m_dropParticlesPrefab).GetComponent<DropParticles>().drop = this;
-//         }
-//         else if (NetworkServer.active)
-//         {
+        }
+        else if (NetworkServer.active)
+        {
             GetComponent<MeshRenderer>().enabled = true;
-        //}
+        }
     }
 
     // Used ONLY for initialization, otherwise use AddForce
@@ -108,7 +108,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (NetworkClient.active)
+        if (!NetworkServer.active)
             return;
 
         transform.position += m_velocity * Time.fixedDeltaTime;
@@ -117,7 +117,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
     [ServerCallback]
     void LateUpdate()
     {
-        if (isClient)
+        if (!NetworkServer.active)
             return;
 
         if (m_initTime > 0)
@@ -154,7 +154,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (NetworkClient.active)
+        if (!NetworkServer.active)
             return;
 
         if (m_initCollisions.Count > 0 && m_initCollisions.Contains(collider.gameObject))
@@ -167,12 +167,9 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (!NetworkServer.active)
             return;
 
-        //Destroy(GetComponent<DropSync>());
-
         if (m_waterGroup)
             m_waterGroup.m_dropPool.Remove(this);
     }
-    
 
     [Server]
     public void AddForce(Vector3 _force)

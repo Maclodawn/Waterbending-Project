@@ -231,7 +231,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: BelkaLobby
-  m_OnlineScene: BelkaFromGabFluids
+  m_OnlineScene: GabFluids
   m_SpawnPrefabs:
   - {fileID: 107728, guid: 9e1adb7faf2810e4f8c361c1212fdb19, type: 2}
   - {fileID: 152086, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}

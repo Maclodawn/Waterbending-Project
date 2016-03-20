@@ -31,9 +31,6 @@ public class WaterGroup : NetworkBehaviour
 
     public void setTarget(GameObject _target)
     {
-        //FIXME
-//         if (m_oldTarget && m_oldTarget.tag == "WaterTarget")
-//             NetworkServer.Destroy(m_oldTarget);
         m_oldTarget = m_target;
         m_target = _target;
     }

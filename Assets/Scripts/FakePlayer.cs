@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class FakePlayer : MonoBehaviour
+public class FakePlayer : NetworkBehaviour
 {
 
     public bool m_featureDestroyOnContact = true;
@@ -21,40 +22,79 @@ public class FakePlayer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (m_featureOscillateBetweenPositions)
+        if (!NetworkServer.active)
         {
-            if (m_going)
+            if (setDone)
+                lerpPosition();
+        }
+        
+        if (NetworkServer.active)
+        {
+            TransmitPosition();
+
+            if (m_featureOscillateBetweenPositions)
             {
-                if (transform.position.x > m_initialPosition.x - m_leftOffset)
+                if (m_going)
                 {
-                    transform.position = Vector3.Lerp(transform.position, transform.position - transform.right * m_speed, 0.25f);
+                    if (transform.position.x > m_initialPosition.x - m_leftOffset)
+                    {
+                        transform.position = Vector3.Lerp(transform.position, transform.position - transform.right * m_speed, 0.25f);
+                    }
+                    else
+                    {
+                        m_going = false;
+                    }
                 }
                 else
                 {
-                    m_going = false;
-                }
-            }
-            else
-            {
-                if (transform.position.x < m_initialPosition.x + m_rightOffset)
-                {
-                    transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * m_speed, 0.25f);
-                }
-                else
-                {
-                    m_going = true;
+                    if (transform.position.x < m_initialPosition.x + m_rightOffset)
+                    {
+                        transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * m_speed, 0.25f);
+                    }
+                    else
+                    {
+                        m_going = true;
+
+                    }
                 }
             }
         }
     }
 
+    [Server]
     public void OnMyCollisionEnter(GameObject go)
     {
         if (m_featureDestroyOnContact && go.tag == "Drop")
         {
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
         }
+    }
+
+    Vector3 syncPosition;
+
+    [SerializeField]
+    float lerpRate = 1.0f;
+
+    bool setDone = false;
+
+    [Client]
+    private void lerpPosition()
+    {
+        transform.position = Vector3.Lerp(transform.position, syncPosition, lerpRate);
+    }
+
+    [ClientRpc]
+    private void RpcProvidePositionToClient(Vector3 _position)
+    {
+        syncPosition = _position;
+        setDone = true;
+    }
+
+    [Server]
+    private void TransmitPosition()
+    {
+        RpcProvidePositionToClient(transform.position);
     }
 }

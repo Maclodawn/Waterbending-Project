@@ -16,7 +16,7 @@ public class DropSync : NetworkBehaviour
     {
         TransmitPosition();
 
-        if (NetworkClient.active)
+        if (!NetworkServer.active)
         {
             if (setDone)
                 lerpPosition();
@@ -39,7 +39,7 @@ public class DropSync : NetworkBehaviour
     [ServerCallback]
     private void TransmitPosition()
     {
-        if (NetworkServer.active)
+        if (!NetworkClient.active)
             RpcProvidePositionToClient(transform.position);
     }
 }

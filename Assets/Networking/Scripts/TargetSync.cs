@@ -30,7 +30,7 @@ public class TargetSync : NetworkBehaviour
     {
         TransmitTransform();
 
-        if (NetworkServer.active && firstTransmissionDone)
+        if (!NetworkClient.active && firstTransmissionDone)
         {
             lerpPosition();
         }
