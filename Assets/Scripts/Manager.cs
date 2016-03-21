@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Manager : MonoBehaviour
+public class Manager : NetworkBehaviour
 {
     private static Manager m_managerInstance = null;
     public static Manager getInstance()
@@ -65,7 +66,7 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (NetworkClient.active && Input.GetButtonDown("Pause"))
         {
             m_gameIsPaused = !m_gameIsPaused;
             if (!m_gameIsPaused)
@@ -84,7 +85,7 @@ public class Manager : MonoBehaviour
 
         if (command == "ExitToMainMenu")
         {
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
             UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         }
     }
@@ -98,7 +99,7 @@ public class Manager : MonoBehaviour
         m_UI.SetActive(false);
         m_pauseMenu.SetActive(true);
 
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         Manager.BroadcastAll("ReceiveMessage", "Pause");
     }
@@ -114,7 +115,7 @@ public class Manager : MonoBehaviour
         m_pauseMenu.SetActive(false);
         m_pauseMenu.GetComponent<PauseMenu>().OpenMainMenu();
 
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
 
         Manager.BroadcastAll("ReceiveMessage", "UnPause");
     }

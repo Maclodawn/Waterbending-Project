@@ -159,11 +159,16 @@ public class WaterGroup : NetworkBehaviour
             drop.removeEffectors();
             drop.gameObject.AddComponent<DropGravity>();
         }
-        NetworkServer.Destroy(gameObject);
+
+        if (!hasBeenDestroyed)
+            NetworkServer.Destroy(gameObject);
     }
+
+    bool hasBeenDestroyed = false;
 
     void OnDestroy()
     {
+        hasBeenDestroyed = true;
         if (!NetworkServer.active)
             return;
 
