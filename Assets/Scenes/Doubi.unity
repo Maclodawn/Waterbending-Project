@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fca69d41e9c79c46807cf46c5e19793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropPrefab: {fileID: 471942, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
+  dropPrefab: {fileID: 471942, guid: 65e38a2a7a4b6374692ef651258032f5, type: 2}
   spawnDelay: 0.05
   minRadius: 1
   maxRadius: 2
