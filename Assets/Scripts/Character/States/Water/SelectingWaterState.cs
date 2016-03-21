@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class SelectingWaterState : AbleToFallState
 {
@@ -15,16 +16,32 @@ public class SelectingWaterState : AbleToFallState
 
     WaterReserve m_waterReserve;
 
+    [Client]
     public override void enter(Character _character)
     {
         Debug.Log("Enter SelectingWaterState");
         m_EState = EStates.SelectingWaterToPushState;
 
-        m_waterReserve = getWaterReserve(_character);
+        Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
+        CmdEnter(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
 
         base.enter(_character);
     }
 
+    [Command]
+    void CmdEnter(NetworkIdentity _characterNetId, Vector3 _origin, Vector3 _direction)
+    {
+        m_waterReserve = getWaterReserve(_characterNetId.GetComponent<Character>(), _origin, _direction);
+        RpcProvideWaterReserveToClient(m_waterReserve.GetComponent<NetworkIdentity>());
+    }
+
+    [ClientRpc]
+    void RpcProvideWaterReserveToClient(NetworkIdentity _waterReserveNetId)
+    {
+        m_waterReserve = _waterReserveNetId.GetComponent<WaterReserve>();
+    }
+
+    [Client]
     public override void handleAction(Character _character, EAction _action)
     {
         switch(_action)
@@ -32,8 +49,7 @@ public class SelectingWaterState : AbleToFallState
             case EAction.PushWater:
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
 
-                _character.m_waterGroup = Instantiate<GameObject>(Manager.getManager().m_waterGroupPrefab).GetComponent<WaterGroup>();
-                _character.m_waterGroup.initSelect(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, m_speed);
+                CmdPushWater(_character.GetComponent<NetworkIdentity>(), m_waterReserve.GetComponent<NetworkIdentity>());
                 (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
 
                 _character.m_currentActionState.enter(_character);
@@ -43,6 +59,33 @@ public class SelectingWaterState : AbleToFallState
         base.handleAction(_character, _action);
     }
 
+    [Command]
+    void CmdPushWater(NetworkIdentity _characterNetId, NetworkIdentity _waterReserveNetId)
+    {
+        if (!_waterReserveNetId)
+            return;
+
+        Character character = _characterNetId.GetComponent<Character>();
+        character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
+        character.m_waterGroup.name = Character.count.ToString();
+
+        WaterReserve waterReserve = _waterReserveNetId.GetComponent<WaterReserve>();
+
+        character.m_waterGroup.initSelect(waterReserve.transform.position, waterReserve, m_minDropVolume, m_volumeWanted, m_speed);
+        NetworkServer.Spawn(character.m_waterGroup.gameObject);
+
+        RpcProvideWaterGroupToClient(character.m_waterGroup.GetComponent<NetworkIdentity>());
+    }
+
+    [ClientRpc]
+    void RpcProvideWaterGroupToClient(NetworkIdentity _waterGroupNetId)
+    {
+        Character character = GetComponent<Character>();
+        WaterGroup waterGroup = _waterGroupNetId.GetComponent<WaterGroup>();
+        character.m_waterGroup = waterGroup;
+    }
+
+    [Client]
     public override void exit(Character _character)
     {
         _character.m_currentActionState = null;
@@ -50,11 +93,11 @@ public class SelectingWaterState : AbleToFallState
         base.exit(_character);
     }
 
-    private WaterReserve getWaterReserve(Character _character)
+    [Server]
+    private WaterReserve getWaterReserve(Character _character, Vector3 _origin, Vector3 _direction)
     {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, m_distToSelect) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Reserve"))
+        if (Physics.Raycast(_origin, _direction, out hit, m_distToSelect) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Reserve"))
         {
             return hit.collider.GetComponent<WaterReserve>();
         }
@@ -64,8 +107,7 @@ public class SelectingWaterState : AbleToFallState
         }
     }
 
-
-
+    [Server]
     private WaterReserve getNearestWaterReserve(Character _character)
     {
         Collider[] colList = Physics.OverlapSphere(_character.transform.position, m_distToSelectAuto,
@@ -73,8 +115,10 @@ public class SelectingWaterState : AbleToFallState
 
         if (colList.Length < 1)
         {
-            WaterReserve waterReserve = Instantiate<GameObject>(Manager.getManager().m_waterReservePrefab).GetComponent<WaterReserve>();
-            waterReserve.transform.position = _character.transform.position + _character.transform.forward;
+            WaterReserve waterReserve = Instantiate(Manager.getInstance().m_waterReservePrefab).GetComponent<WaterReserve>();
+            waterReserve.init(_character.transform.position + _character.transform.forward);
+            NetworkServer.Spawn(waterReserve.gameObject);
+
             return waterReserve;
         }
 

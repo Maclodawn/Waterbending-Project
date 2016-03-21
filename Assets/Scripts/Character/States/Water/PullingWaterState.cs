@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class PullingWaterState : AbleToFallState
 {
@@ -10,27 +11,53 @@ public class PullingWaterState : AbleToFallState
     public float m_minDropVolume = 0.25f;
     public float m_volumeWanted = 10.0f;
     public float m_speed = 10.0f;
-
+    
     public float m_distToPull = 0.0f;
-    int count = 0;
 
+    [ClientRpc]
+    void RpcStart(NetworkIdentity _waterGroupNetId, NetworkIdentity _targetNetId)
+    {
+        Character character = GetComponent<Character>();
+        character.m_waterGroup = _waterGroupNetId.GetComponent<WaterGroup>();
+        character.m_waterGroup.setTarget(_targetNetId.gameObject);
+        character.m_waterGroup.m_target.GetComponent<TargetSync>().CmdSetReady();
+    }
+
+    [Client]
     public override void enter(Character _character)
     {
         Debug.Log("Enter PullingWaterState");
         m_EState = EStates.PullingWaterState;
 
-        m_waterReserve = getNearestWaterReserve(_character);
-
-        _character.m_waterGroup = Instantiate<GameObject>(Manager.getManager().m_waterGroupPrefab).GetComponent<WaterGroup>();
-        _character.m_waterGroup.name = count.ToString();
-
-        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
-        Vector3 vect = quaternion * m_targetOffset;
-        _character.m_waterGroup.initPull(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, transform.position + vect, m_speed);
+        CmdEnter(GetComponent<NetworkIdentity>());
 
         base.enter(_character);
     }
 
+    [Command]
+    void CmdEnter(NetworkIdentity _characterIdentity)
+    {
+        Character character = _characterIdentity.GetComponent<Character>();
+        
+        m_waterReserve = getNearestWaterReserve(character);
+
+        character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
+        character.m_waterGroup.name = Character.count.ToString();
+
+
+        GameObject target = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
+        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
+        Vector3 vect = quaternion * m_targetOffset;
+        target.transform.position = transform.position + vect;
+        NetworkServer.SpawnWithClientAuthority(target, gameObject);
+
+        character.m_waterGroup.initPull(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, target, m_speed);
+        NetworkServer.Spawn(character.m_waterGroup.gameObject);
+
+        RpcStart(character.m_waterGroup.GetComponent<NetworkIdentity>(), character.m_waterGroup.m_target.GetComponent<NetworkIdentity>());
+    }
+
+    [Client]
     public override void handleAction(Character _character, EAction _action)
     {
         switch (_action)
@@ -48,20 +75,27 @@ public class PullingWaterState : AbleToFallState
         base.handleAction(_character, _action);
     }
 
+    [Client]
     public override void update(Character _character)
     {
-        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
-        Vector3 vect = quaternion * m_targetOffset;
-        if (_character.m_waterGroup)
+        if (_character.m_waterGroup && _character.m_waterGroup.m_target)
         {
-            _character.m_waterGroup.m_target.transform.position = transform.position + vect;
+            Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
+            Vector3 vect = quaternion * m_targetOffset;
+            if (_character.m_waterGroup)
+            {
+                _character.m_waterGroup.m_target.transform.position = transform.position + vect;
+            }
+            else if (_character.m_currentActionState)
+            {
+                _character.m_currentActionState.exit(_character);
+            }
         }
-        else if (_character.m_currentActionState)
-            _character.m_currentActionState.exit(_character);
 
         base.update(_character);
     }
 
+    [Client]
     public override void exit(Character _character)
     {
         cancel(_character);
@@ -69,12 +103,20 @@ public class PullingWaterState : AbleToFallState
         base.exit(_character);
     }
 
+    [Client]
     private void cancel(Character _character)
     {
-        _character.m_waterGroup.releaseControl();
+        CmdCancel();
         _character.m_currentActionState = null;
     }
 
+    [Command]
+    private void CmdCancel()
+    {
+        GetComponent<Character>().m_waterGroup.releaseControl();
+    }
+
+    [Server]
     private WaterReserve getNearestWaterReserve(Character _character)
     {
         Collider[] colList = Physics.OverlapSphere(_character.transform.position, m_distToPull,
@@ -82,8 +124,9 @@ public class PullingWaterState : AbleToFallState
 
         if (colList.Length < 1)
         {
-            WaterReserve waterReserve = Instantiate<GameObject>(Manager.getManager().m_waterReservePrefab).GetComponent<WaterReserve>();
-            waterReserve.transform.position = _character.transform.position + _character.transform.forward;
+            WaterReserve waterReserve = Instantiate(Manager.getInstance().m_waterReservePrefab).GetComponent<WaterReserve>();
+            waterReserve.init(_character.transform.position + _character.transform.forward);
+            NetworkServer.Spawn(waterReserve.gameObject);
             return waterReserve;
         }
 

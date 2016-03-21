@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Water Detector
   - Drop
+  - WaterTarget
   layers:
   - Default
   - TransparentFX

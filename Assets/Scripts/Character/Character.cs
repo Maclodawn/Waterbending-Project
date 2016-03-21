@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public enum EStates
 {
@@ -41,8 +42,11 @@ public enum EMovement
     Stabilize
 }
 
-public class Character : MonoBehaviour
+public class Character : NetworkBehaviour
 {
+
+    public static int count = 0;
+
 
     // Final states only
     public List<CharacterState> m_statePool { get; set; }
@@ -75,16 +79,31 @@ public class Character : MonoBehaviour
     [System.NonSerialized]
     public float m_heightController;
 
+    public override void OnStartServer()
+    {
+        m_controller = GetComponent<CharacterController>();
+        m_radiusController = m_controller.radius;
+        m_heightController = m_controller.height;
+    }
+
+    [ClientCallback]
     void OnDrawGizmos()
     {
+        if (!NetworkClient.active)
+            return;
+
         Gizmos.matrix = Camera.main.transform.localToWorldMatrix;
         Gizmos.color = Color.red;
         Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
     }
 
+    static int characterCount = 0;
+
     // Use this for initialization
     void Start()
     {
+        name += characterCount++;
+
         m_controller = GetComponent<CharacterController>();
         m_radiusController = m_controller.radius;
         m_heightController = m_controller.height;

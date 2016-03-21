@@ -13,6 +13,8 @@ GameObject:
   - 23: {fileID: 2366876}
   - 114: {fileID: 11436090}
   - 54: {fileID: 5457962}
+  - 114: {fileID: 11460548}
+  - 114: {fileID: 11481088}
   m_Layer: 4
   m_Name: Drop
   m_TagString: Drop
@@ -95,6 +97,50 @@ MonoBehaviour:
   m_initTime: 0.2
   m_waterGroup: {fileID: 0}
   particles: {fileID: 0}
+--- !u!114 &11460548
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 172
+    i1: 214
+    i2: 214
+    i3: 30
+    i4: 127
+    i5: 217
+    i6: 181
+    i7: 4
+    i8: 216
+    i9: 150
+    i10: 198
+    i11: 242
+    i12: 191
+    i13: 171
+    i14: 18
+    i15: 89
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11481088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b357f1aa2cb0f24e9031f492282d38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpRate: 0.5
 --- !u!135 &13582450
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -169,6 +215,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: InheritVelocityModule.m_Curve.scalar
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lerpRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_initTime
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

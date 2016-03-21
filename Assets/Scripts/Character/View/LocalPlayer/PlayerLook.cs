@@ -19,6 +19,7 @@ public class PlayerLook : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+		Debug.Log(gameObject);
         m_vectToPlayer = transform.position - m_playerTransform.position;
         m_distToPlayer = m_vectToPlayer.magnitude;
     }
@@ -27,26 +28,15 @@ public class PlayerLook : MonoBehaviour
     {
         if (m_pause)
             return;
-        float horizontal = (Input.GetAxis("Mouse X") + Input.GetAxis("RightAxisX")) * m_rotateSpeed.x * Manager.getManager().m_cameraSpeed;
+        float horizontal = (Input.GetAxis("Mouse X") + Input.GetAxis("RightAxisX")) * m_rotateSpeed.x * Manager.getInstance().m_cameraSpeed;
 
-        float verticalDir = Manager.getManager().m_yReversed ? 1 : -1;
-        float vertical = (Input.GetAxis("Mouse Y") - Input.GetAxis("RightAxisY")) * m_rotateSpeed.y * Manager.getManager().m_cameraSpeed * verticalDir;
+        float verticalDir = Manager.getInstance().m_yReversed ? 1 : -1;
+        float vertical = (Input.GetAxis("Mouse Y") - Input.GetAxis("RightAxisY")) * m_rotateSpeed.y * Manager.getInstance().m_cameraSpeed * verticalDir;
         
         m_horizontalObj.transform.Rotate(0, horizontal, 0);
         m_verticalObj.transform.Rotate(vertical, 0, 0);
 
-        transform.position = m_playerTransform.position + new Vector3(0, m_vectToPlayer.y, 0) - transform.forward * m_distToPlayer;
-
-//         transform.localPosition = m_initialLocalPosition;
-
-//         RaycastHit hit = new RaycastHit();
-//         int maskID = LayerMask.NameToLayer("Player");
-//         int mask = 1 << maskID;
-//         
-//         if (Physics.Linecast(m_target.transform.position, transform.position, out hit, ~mask))
-//         {
-//             transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-//         }
+		transform.position = m_playerTransform.position + new Vector3(0, m_vectToPlayer.y, 0) - transform.forward * m_distToPlayer;
 	}
 
     void ReceiveMessage(string msg)

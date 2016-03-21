@@ -7,10 +7,7 @@ public class AbleToJumpState : AbleToFallState
 
     public override void handleAction(Character _character, EAction _action)
     {
-        if (_character.m_currentActionState == null
-            || (_character.m_currentActionState.m_EState != EStates.PullingWaterState
-                && _character.m_currentActionState.m_EState != EStates.SelectingWaterToPushState
-                && _character.m_currentActionState.m_EState != EStates.PushingWaterState))
+        if (_character.m_currentActionState == null)
         {
             switch (_action)
             {

@@ -16,7 +16,6 @@ public class JumpDescendingState : AbleToFallState
 
     public override void fixedUpdate(Character _character)
     {
-        //COMPUTE PHYSIC TO JUMP-DESCEND
         _character.m_velocity += _character.m_gravity;
     }
 

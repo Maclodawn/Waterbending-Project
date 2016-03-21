@@ -1,8 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class ComputeActionsFromInput : Character
 {
+    Manager mgr = null;
+
+    public GameObject prefabCamera = null;
+
+    //To be called from PlayerNetworkSetup
+    [Client]
+    public void init()
+    {
+        mgr.addPlayer(gameObject);
+        GameObject camera = Instantiate(prefabCamera);
+        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
+        playerLook.m_playerTransform = gameObject.transform;
+        playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;
+        m_cameraTransform = camera.transform;
+    }
+
+    public void Awake()
+    {
+        mgr = Manager.getInstance();
+    }
+
+    //-----
 
     [System.NonSerialized]
     public Transform m_cameraTransform;
@@ -10,7 +33,7 @@ public class ComputeActionsFromInput : Character
     // Compute movement/action the character wants to do based on inputs
     protected override void Update()
     {
-        if (Manager.getManager().isGamePaused())
+        if (Manager.getInstance().isGamePaused())
             return;
         EMovement movement = EMovement.None;
         EAction action = EAction.None;
@@ -37,7 +60,7 @@ public class ComputeActionsFromInput : Character
             if (m_currentMovementState is StandingState || m_currentMovementState is RunningState
                 || m_currentMovementState is SprintingState)
             {
-                
+
                 if (Input.GetButtonDown("Dodge"))
                 {
                     movement = EMovement.Dodge;
@@ -52,7 +75,7 @@ public class ComputeActionsFromInput : Character
                 }
             }
         }
-        
+
         //Actions
         //Press LeftClick + Released RightClick
         if (Input.GetButtonDown("Fire1") && !Input.GetButton("Fire2"))

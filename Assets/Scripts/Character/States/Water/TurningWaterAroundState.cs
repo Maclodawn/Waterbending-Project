@@ -1,22 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class TurningWaterAroundState : AbleToFallState
 {
     public float m_radiusToTurnAround = 1;
     public Vector3 m_offsetToFling;
 
+    [Client]
     public override void enter(Character _character)
     {
         Debug.Log("Enter TurningWaterAroundState");
         m_EState = EStates.TurningWaterAroundState;
 
         _character.m_waterGroup.m_target.transform.position = _character.transform.position + _character.m_controller.center;
-        _character.m_waterGroup.stopAndTurnAround(m_radiusToTurnAround);
+        CmdEnter(_character.GetComponent<NetworkIdentity>(), _character.m_waterGroup.m_target.transform.position, m_radiusToTurnAround);
         
         base.enter(_character);
     }
 
+    [Command]
+    void CmdEnter(NetworkIdentity _characterIdentity, Vector3 _targetPos, float _radiusToTurnAround)
+    {
+        Character character = _characterIdentity.GetComponent<Character>();
+        character.m_waterGroup.m_target.transform.position = _targetPos;
+        character.m_waterGroup.stopAndTurnAround(_radiusToTurnAround);
+    }
+
+    [Client]
     public override void handleAction(Character _character, EAction _action)
     {
         switch(_action)
@@ -27,7 +38,8 @@ public class TurningWaterAroundState : AbleToFallState
                 Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward,
                     new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z));
                 Vector3 vect = quaternion * m_offsetToFling;
-                (_character.m_currentActionState as PushingWaterState).init(vect, 0, true);
+                PushingWaterState pushingWaterState = (_character.m_currentActionState as PushingWaterState);
+                pushingWaterState.init(vect, 0, true);
 
                 _character.m_currentActionState.enter(_character);
                 break;

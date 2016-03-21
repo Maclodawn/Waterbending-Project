@@ -18,11 +18,6 @@ public class JumpingState : CharacterState
         base.enter(_character);
     }
 
-    public override void fixedUpdate(Character _character)
-    {
-        //COMPUTE PHYSIC TO JUMP-ASCEND
-    }
-
     public override void update(Character _character)
     {
         if (_character.m_controller.velocity.y < 0)

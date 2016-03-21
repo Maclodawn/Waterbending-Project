@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Manager : MonoBehaviour
+public class Manager : NetworkBehaviour
 {
-
     private static Manager m_managerInstance = null;
-    public static Manager getManager()
+    public static Manager getInstance()
     {
         if (m_managerInstance)
             return m_managerInstance;
@@ -21,11 +21,16 @@ public class Manager : MonoBehaviour
     GameObject m_originalAI;
     public int nAI;
 
-    [SerializeField]
-    GameObject m_originalPlayer;
+    List<GameObject> players = new List<GameObject>();
+    public void addPlayer(GameObject player)
+    {
+        players.Add(player);
 
-    [SerializeField]
-    GameObject m_mainCamera;
+        if (NetworkClient.active)
+        {
+            Instantiate(m_tutoPrefab).GetComponent<TutoInfo>().init();
+        }
+    }
 
     [SerializeField]
     HealthBarController m_healthBar;
@@ -42,9 +47,13 @@ public class Manager : MonoBehaviour
     [SerializeField]
     GameObject m_UI;
 
+    [SerializeField]
+    GameObject m_tutoPrefab;
+
     public GameObject m_waterReservePrefab;
     public GameObject m_waterGroupPrefab;
     public GameObject m_dropPrefab;
+    public GameObject m_waterTargetPrefab;
     public GameObject m_dropParticlesPrefab;
 
     public float m_cameraSpeed = 1;
@@ -59,39 +68,13 @@ public class Manager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        GameObject player = Instantiate(m_originalPlayer);
-        GameObject camera = Instantiate(m_mainCamera);
-        PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
-        playerLook.m_playerTransform = player.transform;
-        player.GetComponent<ComputeActionsFromInput>().m_cameraTransform = camera.transform;
-
-		for (int i = 0; i < nAI; ++i)
-			Instantiate(m_originalAI);
-
-        if(m_healthBar != null)
-        {
-            m_healthBar.Setup(player.GetComponent<HealthComponent>());
-        }
-
-        if(m_powerBar != null)
-        {
-            m_powerBar.Setup(player.GetComponent<PowerComponent>());
-        }
-
-        if(m_chargeBar != null)
-        {
-            m_chargeBar.Setup(player.GetComponent<SpellChargingComponent>());
-        }
-
-        if (m_UI != null && m_UI.GetComponent<BloodStain>() != null)
-        {
-            m_UI.GetComponent<BloodStain>().Setup(player.GetComponent<HealthComponent>());
-        }
+        for (int i = 0; i < nAI; ++i)
+            Instantiate(m_originalAI);
     }
 
     void Update()
     {
-        if(Input.GetButtonDown("Pause"))
+        if (NetworkClient.active && Input.GetButtonDown("Pause"))
         {
             m_gameIsPaused = !m_gameIsPaused;
             if (!m_gameIsPaused)
@@ -103,14 +86,14 @@ public class Manager : MonoBehaviour
 
     public void OnButtonClicked(string command)
     {
-        if(command == "Exit")
+        if (command == "Exit")
         {
             Application.Quit();
         }
 
         if (command == "ExitToMainMenu")
         {
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
             UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         }
     }
@@ -124,7 +107,7 @@ public class Manager : MonoBehaviour
         m_UI.SetActive(false);
         m_pauseMenu.SetActive(true);
 
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         Manager.BroadcastAll("ReceiveMessage", "Pause");
     }
@@ -140,7 +123,7 @@ public class Manager : MonoBehaviour
         m_pauseMenu.SetActive(false);
         m_pauseMenu.GetComponent<PauseMenu>().OpenMainMenu();
 
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
 
         Manager.BroadcastAll("ReceiveMessage", "UnPause");
     }

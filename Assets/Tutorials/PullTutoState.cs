@@ -24,7 +24,7 @@ public class PullTutoState : TutoState
         foreach (GameObject go in goList)
         {
             player = go.GetComponent<Character>();
-            if (player)
+            if (player && player.hasAuthority)
                 break;
         }
 
