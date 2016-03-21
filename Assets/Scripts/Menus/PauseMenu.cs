@@ -34,4 +34,9 @@ public class PauseMenu : MonoBehaviour
     {
         Manager.getInstance().m_yReversed = reverseYToggle.isOn;
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
