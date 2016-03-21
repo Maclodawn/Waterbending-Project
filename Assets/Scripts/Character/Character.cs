@@ -97,9 +97,13 @@ public class Character : NetworkBehaviour
         Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
     }
 
+    static int characterCount = 0;
+
     // Use this for initialization
     void Start()
     {
+        name += characterCount++;
+
         m_controller = GetComponent<CharacterController>();
         m_radiusController = m_controller.radius;
         m_heightController = m_controller.height;
