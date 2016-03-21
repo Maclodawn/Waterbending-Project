@@ -75,6 +75,10 @@ public class PushingWaterState : AbleToFallState
     [Server]
     void enter(Character _character, GameObject newTarget)
     {
+        Vector3 dir = newTarget.transform.position - _character.transform.position;
+        Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, new Vector3(dir.x, 0, dir.z));
+        m_offsetToFling = quaternion * m_offsetToFling;
+
         isReady = true;
         _character.m_waterGroup.setTarget(newTarget);
         if (m_fromTurn)

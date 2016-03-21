@@ -35,6 +35,16 @@ public class DropTarget : MonoBehaviour
 
     public void init(GameObject _target, float _speed, float _alpha, float _beta)
     {
+        if (!_target)
+        {
+            foreach (Drop drop in m_drop.m_waterGroup.m_dropPool)
+            {
+                drop.m_waterGroup = null;
+                drop.removeEffectors();
+                drop.gameObject.AddComponent<DropGravity>();
+            }
+        }
+
         CharacterController controller = _target.GetComponent<CharacterController>();
         if (controller)
         {
