@@ -47,6 +47,7 @@ MonoBehaviour:
   m_chargeBar: {fileID: 11446988, guid: 58236bb2317b55846801fcf63282c7f2, type: 2}
   m_pauseMenu: {fileID: 0}
   m_UI: {fileID: 117552, guid: 639fd7e4c780a184198f56a0a2bdc5b8, type: 2}
+  m_tutoPrefab: {fileID: 171616, guid: a243c5f966069724c93ce94e83be87b1, type: 2}
   m_waterReservePrefab: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
   m_waterGroupPrefab: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
   m_dropPrefab: {fileID: 152086, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
@@ -62,7 +63,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_tutoPrefab
+      value: 
+      objectReference: {fileID: 171616, guid: a243c5f966069724c93ce94e83be87b1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 139044}

@@ -180,18 +180,6 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
-      propertyPath: m_waterReservePrefab
-      value: 
-      objectReference: {fileID: 144396, guid: 09d12d2e2a488ff4881df4dc1379a6aa, type: 2}
-    - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
-      propertyPath: m_waterGroupPrefab
-      value: 
-      objectReference: {fileID: 137666, guid: 517daf5684530a44b90ffbbe9d8f2b7d, type: 2}
-    - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
-      propertyPath: m_dropPrefab
-      value: 
-      objectReference: {fileID: 152086, guid: acd6d61e7fd9b504d896c6f2bfab1259, type: 2}
-    - target: {fileID: 11461618, guid: 337964fa54055974c9fe393ba36b2733, type: 2}
       propertyPath: m_pauseMenu
       value: 
       objectReference: {fileID: 410250174}

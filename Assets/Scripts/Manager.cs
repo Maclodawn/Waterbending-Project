@@ -25,6 +25,11 @@ public class Manager : NetworkBehaviour
     public void addPlayer(GameObject player)
     {
         players.Add(player);
+
+        if (NetworkClient.active)
+        {
+            Instantiate(m_tutoPrefab).GetComponent<TutoInfo>().init();
+        }
     }
 
     [SerializeField]
@@ -41,6 +46,9 @@ public class Manager : NetworkBehaviour
 
     [SerializeField]
     GameObject m_UI;
+
+    [SerializeField]
+    GameObject m_tutoPrefab;
 
     public GameObject m_waterReservePrefab;
     public GameObject m_waterGroupPrefab;
