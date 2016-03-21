@@ -41,3 +41,17 @@ Thumbs.db
 # .ssh/
 Assets/UnityVS*
 ProjectSettings/ProjectVersion.txt
+
+#Unity3D Lighting baked for maps
+*.exr*
+*LightingData.asset*
+Assets/Scenes/AttributesComponentsDemo.meta
+Assets/Scenes/BelkaFromGabFluids.meta
+Assets/Scenes/BelkaLobby.meta
+Assets/Scenes/Doubi.meta
+Assets/Scenes/Gab.meta
+Assets/Scenes/GabFluids.meta
+Assets/Scenes/GabTuto.meta
+Assets/Scenes/Main.meta
+Assets/Scenes/Menu.meta
+Assets/Scenes/testMap.meta
