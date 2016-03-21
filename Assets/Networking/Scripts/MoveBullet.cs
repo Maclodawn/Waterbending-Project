@@ -4,17 +4,17 @@ using UnityEngine.Networking;
 
 public class MoveBullet : NetworkBehaviour {
 	
-	public Vector3 directionNormalized;
+	[SyncVar] private Vector3 directionNormalized;
 	public float speed;
+	public GameObject myPlayer;
 
 	public void Start() {
-		
+		if (isServer)
+			directionNormalized = myPlayer.transform.forward;
 	}
 
 	public void Update() {
-		if (!isServer)
-			return;
-
-		transform.position = transform.position + directionNormalized*speed*Time.deltaTime;
+		if (isServer)
+			transform.position = transform.position + directionNormalized*speed*Time.deltaTime;
 	}
 }

@@ -15,7 +15,7 @@ public class Attack : NetworkBehaviour {
 	[Command]
 	private void CmdShoot() {
 		GameObject bullet = (GameObject) Instantiate(bulletPrefab, transform.position+transform.forward, Quaternion.identity);
-		bullet.GetComponent<MoveBullet>().directionNormalized = transform.forward;
+		bullet.GetComponent<MoveBullet>().myPlayer = gameObject;
 		NetworkServer.Spawn(bullet);
 	}
 }
