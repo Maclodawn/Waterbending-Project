@@ -8,6 +8,7 @@ public class Deathmatch : MonoBehaviour {
 	private LinkedList<HealthComponent> players_alive = null;
 	private LinkedList<HealthComponent> players_dead = null;
 	private HealthComponent my_player = null;
+
 	//Initializations
 	public void Start () {
 		players_alive = new LinkedList<HealthComponent>();
@@ -19,7 +20,7 @@ public class Deathmatch : MonoBehaviour {
 			throw new ArgumentException("HealthComponent missing in player.");
 
 		//Retrieves all players
-		GameObject[] go_players = GameObject.FindGameObjectsWithTag("NewPlayerPrefabNetworking");
+		GameObject[] go_players = GameObject.FindGameObjectsWithTag("Player");
 		foreach (GameObject tmp_go_player in go_players) {
 			//we're only interested in their healths
 			HealthComponent tmp_health = tmp_go_player.GetComponent<HealthComponent>();
@@ -59,6 +60,8 @@ public class Deathmatch : MonoBehaviour {
 		//victory detection
 		else if (players_alive.Count < 2 && players_alive.Contains(my_player))
 			Debug.LogWarning("YOU WIN!"); //TODO GUI message on screen (victory)
+		else
+			Debug.LogWarning(players_alive.Count + " " + players_dead.Count);
 	}
 
 	//TODO implement a way to see if _player is still alive or not

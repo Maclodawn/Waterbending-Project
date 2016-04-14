@@ -13,6 +13,8 @@ GameObject:
   - 23: {fileID: 2384204}
   - 114: {fileID: 11466380}
   - 114: {fileID: 11417656}
+  - 114: {fileID: 11431614}
+  - 114: {fileID: 11469090}
   m_Layer: 0
   m_Name: FakePlayer
   m_TagString: Player
@@ -27,7 +29,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 1.5, z: -73}
+  m_LocalPosition: {x: 0, y: 1.5, z: -15}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,6 +111,17 @@ MonoBehaviour:
     i15: 211
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11431614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6398dbb7d1fd34793af758cb1fa9fd81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,6 +139,21 @@ MonoBehaviour:
   m_leftOffset: 10
   m_speed: 1
   lerpRate: 0.5
+--- !u!114 &11469090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d44949969eb242244aacb47503771f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingHealth: 100
+  MaxHealth: 100
+  CanHaveNegativeHealth: 0
+  CanHaveMoreThanMaxHealth: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
