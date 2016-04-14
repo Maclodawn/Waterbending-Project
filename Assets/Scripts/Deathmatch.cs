@@ -7,11 +7,16 @@ public class Deathmatch : MonoBehaviour {
 
 	private LinkedList<HealthComponent> players_alive = null;
 	private LinkedList<HealthComponent> players_dead = null;
-
+	private HealthComponent my_player = null;
 	//Initializations
 	public void Start () {
 		players_alive = new LinkedList<HealthComponent>();
 		players_dead = new LinkedList<HealthComponent>();
+
+		//Retrieving my own player
+		my_player = gameObject.GetComponentInParent<HealthComponent>();
+		if (my_player == null)
+			throw new ArgumentException("HealthComponent missing in player.");
 
 		//Retrieves all players
 		GameObject[] go_players = GameObject.FindGameObjectsWithTag("NewPlayerPrefabNetworking");
@@ -46,10 +51,18 @@ public class Deathmatch : MonoBehaviour {
 			else break; //We assume we go through the list in order and newly dead players are upfront;
 						//therefore we don't need to check the rest of the list 
 		}
+
+		//you're dead if your current player is dead
+		if (players_dead.Contains(my_player))
+			Debug.LogWarning("YOU'RE DEAD"); //TODO GUI message on screen (loss)
+		
+		//victory detection
+		else if (players_alive.Count < 2 && players_alive.Contains(my_player))
+			Debug.LogWarning("YOU WIN!"); //TODO GUI message on screen (victory)
 	}
 
 	//TODO implement a way to see if _player is still alive or not
-	private bool isAlive(HealthComponent _player) {
-		return false;
+	private bool isAlive(HealthComponent player_health) {
+		return player_health.Health > -1;
 	}
 }
