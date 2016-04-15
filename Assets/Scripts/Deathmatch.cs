@@ -61,7 +61,7 @@ public class Deathmatch : MonoBehaviour {
 		else if (players_alive.Count < 2 && players_alive.Contains(my_player))
 			Debug.LogWarning("YOU WIN!"); //TODO GUI message on screen (victory)
 		else
-			Debug.LogWarning(players_alive.Count + " " + players_dead.Count);
+			Debug.LogWarning(my_player.Health + " " + players_alive.Count + " " + players_dead.Count);
 	}
 
 	//TODO implement a way to see if _player is still alive or not
