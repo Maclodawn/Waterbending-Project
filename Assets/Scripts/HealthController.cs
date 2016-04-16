@@ -24,8 +24,11 @@ public class HealthController : NetworkBehaviour {
 	public void applyDamage(Collider collider) {
 		if (collider.gameObject.tag.Contains("Drop")) {
 			health.Health -= 10; //TODO way of computing damage=f(power)?
-			if (health.Health < 1)
+			if (health.Health < 1) {
+				//you're dead if your current player is dead
+				Debug.LogError(gameObject.name + " IS DEAD"); //TODO GUIText message... How to control network...
 				NetworkServer.Destroy(gameObject);
+			}
 		}
 	}
 }

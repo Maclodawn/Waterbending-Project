@@ -44,11 +44,8 @@ public class Deathmatch : MonoBehaviour {
 	//At each frame, checks if a new player is dead...
 	//We assume we can only die once!
 	public void Update() {
-		//you're dead if your current player is dead
-		if (players_dead.Contains(my_player))
-			Debug.LogError(gameObject.name + " IS DEAD"); //TODO GUI message on screen (loss)
 		//victory detection
-		else if (players_alive.Count < 2 && players_alive.Contains(my_player))
+		if (players_alive.Count < 2 && players_alive.Contains(my_player))
 			Debug.LogError(gameObject.name + " WINS!"); //TODO GUI message on screen (victory)
 		//else
 		//	Debug.LogError(gameObject.name + " (" + my_player.Health + ") VS " + players_alive.Count + ", RIP: " + players_dead.Count);
