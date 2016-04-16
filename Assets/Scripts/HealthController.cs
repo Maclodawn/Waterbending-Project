@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class HealthController : MonoBehaviour {
+public class HealthController : NetworkBehaviour {
 
 	private HealthComponent health = null;
 
@@ -13,21 +14,18 @@ public class HealthController : MonoBehaviour {
 			throw new ArgumentException("Health Component not found.");
 	}
 
-	//TODO check function name
-	public void OnCollisionEnter(Collision collision) {
-		Debug.LogWarning("OnCollisionEnter");
-		applyDamage(collision.collider);
-	}
-
+	[ServerCallback]
 	public void OnTriggerEnter(Collider collider) {
-		Debug.LogWarning("OnTriggerEnter");
 		applyDamage(collider);
 	}
 
-	//when collision, apply damage to player's health component
-	private void applyDamage(Collider collider) {
-		if (collider.gameObject.name.Contains("Drop")) {
-			health.Health -= 10;
+	//when collision, apply damages to player's health component
+	[Server]
+	public void applyDamage(Collider collider) {
+		if (collider.gameObject.tag.Contains("Drop")) {
+			health.Health -= 10; //TODO way of computing damage=f(power)?
+			if (health.Health < 1)
+				NetworkServer.Destroy(gameObject);
 		}
 	}
 }
