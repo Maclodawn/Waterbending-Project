@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 public class Deathmatch : MonoBehaviour {
 
+	private InformationsLog informations = null;
 	private static LinkedList<HealthComponent> players_alive = null;
 	private static LinkedList<HealthComponent> players_dead = null;
 	private HealthComponent my_player = null;
 	private int ID = -1;
 	private static int NB_INSTANCES = 0;
+	private bool end = false;
 
 	//Initializations
 	public void Start() {
@@ -39,14 +41,19 @@ public class Deathmatch : MonoBehaviour {
 		my_player = gameObject.GetComponentInParent<HealthComponent>();
 		if (my_player == null)
 			throw new ArgumentException("HealthComponent missing in player.");
+
+		//retrieving InformationsLog
+		informations = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
 	}
 
 	//At each frame, checks if a new player is dead...
 	//We assume we can only die once!
 	public void Update() {
 		//victory detection
-		if (players_alive.Count < 2 && players_alive.Contains(my_player))
-			Debug.LogError(gameObject.name + " WINS!"); //TODO GUI message on screen (victory)
+		if (!end && players_alive.Count < 2 && players_alive.Contains(my_player)) {
+			informations.log(gameObject.name + " WINS!"); //TODO GUI message on screen (victory)
+			end = true;
+		}
 		//else
 		//	Debug.LogError(gameObject.name + " (" + my_player.Health + ") VS " + players_alive.Count + ", RIP: " + players_dead.Count);
 		
