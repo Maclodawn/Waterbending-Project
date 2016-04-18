@@ -51,12 +51,10 @@ public class Deathmatch : MonoBehaviour {
 	public void Update() {
 		//victory detection
 		if (!end && players_alive.Count < 2 && players_alive.Contains(my_player)) {
-			informations.log(gameObject.name + " WINS!"); //TODO GUI message on screen (victory)
+			informations.log(gameObject.name + " WINS!");
 			end = true;
 		}
-		//else
-		//	Debug.LogError(gameObject.name + " (" + my_player.Health + ") VS " + players_alive.Count + ", RIP: " + players_dead.Count);
-		
+
 		//find dead players in players_alive and add them to players_dead
 		foreach (HealthComponent tmp_player in players_alive) {
 			if (!isAlive(tmp_player))

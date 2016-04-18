@@ -27,11 +27,12 @@ public class HealthController : NetworkBehaviour {
 	[Server]
 	public void applyDamage(Collider collider) {
 		if (collider.gameObject.tag.Contains("Drop")) {
-			health.Health -= 10; //TODO way of computing damage=f(power)?
-			informations.log(gameObject.name + ": -10pv");
+			int tmp_dmg = UnityEngine.Random.Range(10, 15);
+			health.Health -= tmp_dmg; //TODO way of computing damage=f(power)?
+			informations.log("<b><color=\"blue\">" + gameObject.name + "</color></b>: -" + tmp_dmg + "PV");
 			if (health.Health < 1) {
 				//you're dead if your current player is dead
-				informations.log(gameObject.name + " IS DEAD"); //TODO GUIText message... How to control network...
+				informations.log("<b><color=\"red\">" + gameObject.name + "</color></b> IS DEAD");
 				NetworkServer.Destroy(gameObject);
 			}
 		}
