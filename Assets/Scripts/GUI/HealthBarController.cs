@@ -29,7 +29,7 @@ public class HealthBarController : MonoBehaviour {
 
     private void OnHealthChanged(object sender, float oldHealth, float newHealth)
     {
-        if(sender == m_life)
+		if((HealthComponent) sender == m_life)
         {
             m_bar.rectTransform.localScale = new Vector3(Mathf.Lerp(0, 1, newHealth / m_life.MaxHealth), 1, 1);
         }
