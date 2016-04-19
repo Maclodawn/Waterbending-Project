@@ -930,6 +930,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 452556}
+  - 114: {fileID: 11493094}
   m_Layer: 0
   m_Name: InGame_HealthBar
   m_TagString: Untagged
@@ -4163,6 +4164,19 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &11493094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0bdb4f9123b41c1a177f43f2949cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health_img: {fileID: 11442524}
+  health: {fileID: 11405934}
 --- !u!137 &13703610
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

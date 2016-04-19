@@ -77,6 +77,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 433640}
+  - 114: {fileID: 11478990}
   m_Layer: 0
   m_Name: InGame_HealthBar
   m_TagString: Untagged
@@ -172,6 +173,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11478990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0bdb4f9123b41c1a177f43f2949cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health_img: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &11491616
 MonoBehaviour:
   m_ObjectHideFlags: 1
