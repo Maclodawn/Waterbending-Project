@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Guard : AbleToFallState
+public class GuardState : AbleToFallState
 {
 
 }

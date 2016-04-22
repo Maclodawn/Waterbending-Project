@@ -24,25 +24,23 @@ public class PullingWaterState : AbleToFallState
     }
 
     [Client]
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter PullingWaterState");
         m_EState = EStates.PullingWaterState;
 
-        CmdEnter(GetComponent<NetworkIdentity>());
+        CmdEnter();
 
-        base.enter(_character);
+        base.enter();
     }
 
     [Command]
-    void CmdEnter(NetworkIdentity _characterIdentity)
+    void CmdEnter()
     {
-        Character character = _characterIdentity.GetComponent<Character>();
-        
-        m_waterReserve = getNearestWaterReserve(character);
+        m_waterReserve = getNearestWaterReserve();
 
-        character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
-        character.m_waterGroup.name = Character.count.ToString();
+        m_character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
+        m_character.m_waterGroup.name = Character.count.ToString();
 
 
         GameObject target = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
@@ -51,63 +49,63 @@ public class PullingWaterState : AbleToFallState
         target.transform.position = transform.position + vect;
         NetworkServer.SpawnWithClientAuthority(target, gameObject);
 
-        character.m_waterGroup.initPull(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, target, m_speed);
-        NetworkServer.Spawn(character.m_waterGroup.gameObject);
+        m_character.m_waterGroup.initPull(m_waterReserve.transform.position, m_waterReserve, m_minDropVolume, m_volumeWanted, target, m_speed);
+        NetworkServer.Spawn(m_character.m_waterGroup.gameObject);
 
-        RpcStart(character.m_waterGroup.GetComponent<NetworkIdentity>(), character.m_waterGroup.m_target.GetComponent<NetworkIdentity>());
+        RpcStart(m_character.m_waterGroup.GetComponent<NetworkIdentity>(), m_character.m_waterGroup.m_target.GetComponent<NetworkIdentity>());
     }
 
     [Client]
-    public override void handleAction(Character _character, EAction _action)
+    public override void handleAction(EAction _action)
     {
         switch (_action)
         {
             case EAction.ReleaseWaterControl:
-                cancel(_character);
+                cancel();
                 Debug.Log("ReleaseWaterControl");
                 break;
             case EAction.TurnWaterAround:
-                _character.m_currentActionState = _character.m_statePool[(int)EStates.TurningWaterAroundState];
-                _character.m_currentActionState.enter(_character);
+                m_character.m_currentActionState = m_character.m_statePool[(int)EStates.TurningWaterAroundState];
+                m_character.m_currentActionState.enter();
                 break;
         }
 
-        base.handleAction(_character, _action);
+        base.handleAction(_action);
     }
 
     [Client]
-    public override void update(Character _character)
+    public override void update()
     {
-        if (_character.m_waterGroup && _character.m_waterGroup.m_target)
+        if (m_character.m_waterGroup && m_character.m_waterGroup.m_target)
         {
             Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, transform.forward);
             Vector3 vect = quaternion * m_targetOffset;
-            if (_character.m_waterGroup)
+            if (m_character.m_waterGroup)
             {
-                _character.m_waterGroup.m_target.transform.position = transform.position + vect;
+                m_character.m_waterGroup.m_target.transform.position = transform.position + vect;
             }
-            else if (_character.m_currentActionState)
+            else if (m_character.m_currentActionState)
             {
-                _character.m_currentActionState.exit(_character);
+                m_character.m_currentActionState.exit();
             }
         }
 
-        base.update(_character);
+        base.update();
     }
 
     [Client]
-    public override void exit(Character _character)
+    public override void exit()
     {
-        cancel(_character);
+        cancel();
 
-        base.exit(_character);
+        base.exit();
     }
 
     [Client]
-    private void cancel(Character _character)
+    private void cancel()
     {
         CmdCancel();
-        _character.m_currentActionState = null;
+        m_character.m_currentActionState = null;
     }
 
     [Command]
@@ -117,24 +115,24 @@ public class PullingWaterState : AbleToFallState
     }
 
     [Server]
-    private WaterReserve getNearestWaterReserve(Character _character)
+    private WaterReserve getNearestWaterReserve()
     {
-        Collider[] colList = Physics.OverlapSphere(_character.transform.position, m_distToPull,
+        Collider[] colList = Physics.OverlapSphere(m_character.transform.position, m_distToPull,
                                                    1 << LayerMask.NameToLayer("Reserve"), QueryTriggerInteraction.Collide);
 
         if (colList.Length < 1)
         {
             WaterReserve waterReserve = Instantiate(Manager.getInstance().m_waterReservePrefab).GetComponent<WaterReserve>();
-            waterReserve.init(_character.transform.position + _character.transform.forward);
+            waterReserve.init(m_character.transform.position + m_character.transform.forward);
             NetworkServer.Spawn(waterReserve.gameObject);
             return waterReserve;
         }
 
         int nearestIndex = 0;
-        float distNearest = Vector3.Distance(_character.transform.position, colList[0].transform.position);
+        float distNearest = Vector3.Distance(m_character.transform.position, colList[0].transform.position);
         for (int i = 1; i < colList.Length; ++i)
         {
-            float dist = Vector3.Distance(_character.transform.position, colList[i].transform.position);
+            float dist = Vector3.Distance(m_character.transform.position, colList[i].transform.position);
             if (dist < distNearest)
             {
                 nearestIndex = i;

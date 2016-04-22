@@ -4,36 +4,36 @@ using System.Collections;
 public class FallenState : CharacterState
 {
 
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter FallenState");
         m_EState = EStates.FallenState;
-        _character.m_animator.SetBool("Fallen", true);
-        _character.m_controller.height = 0;
-        _character.m_controller.center = Vector3.up * 1.6f;
+        m_character.m_animator.SetBool("Fallen", true);
+        m_character.m_controller.height = 0;
+        m_character.m_controller.center = Vector3.up * 1.6f;
 
-        base.enter(_character);
+        base.enter();
     }
 
-    public override void handleMovement(Character _character, EMovement _movement)
+    public override void handleMovement(EMovement _movement)
     {
         switch (_movement)
         {
             case EMovement.Stabilize:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
-                ((StandingState)_character.m_currentMovementState).m_gettingUp = true;
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];
+                ((StandingState)m_character.m_currentMovementState).m_gettingUp = true;
+                m_character.m_currentMovementState.enter();
                 break;
         }
     }
 
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_animator.SetBool("Fallen", false);
-        _character.m_controller.height = 1.8f;
-        _character.m_controller.center = Vector3.up * 0.9f;
+        m_character.m_animator.SetBool("Fallen", false);
+        m_character.m_controller.height = 1.8f;
+        m_character.m_controller.center = Vector3.up * 0.9f;
 
-        base.exit(_character);
+        base.exit();
     }
 }

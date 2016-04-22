@@ -35,7 +35,7 @@ public class PushingWaterState : AbleToFallState
     }
 
     [Client]
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter PushingWaterState");
         m_EState = EStates.PushingWaterState;
@@ -43,70 +43,70 @@ public class PushingWaterState : AbleToFallState
         GameObject newTarget = AutoAim();
         if (newTarget)
         {
-            CmdEnterFound(_character.GetComponent<NetworkIdentity>(), newTarget.GetComponent<NetworkIdentity>());
+            CmdEnterFound(newTarget.GetComponent<NetworkIdentity>());
         }
         else
         {
             Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
-            CmdEnterNew(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
+            CmdEnterNew(ray.origin, ray.direction);
         }
 
-        base.enter(_character);
+        base.enter();
     }
 
     [Command]
-    void CmdEnterFound(NetworkIdentity _characterIdentity, NetworkIdentity _targetIdentity)
+    void CmdEnterFound(NetworkIdentity _targetIdentity)
     {
         GameObject newTarget = _targetIdentity.gameObject;
 
-        enter(_characterIdentity.GetComponent<Character>(), newTarget);
+        enter(newTarget);
     }
 
     [Command]
-    void CmdEnterNew(NetworkIdentity _characterIdentity, Vector3 _origin, Vector3 _direction)
+    void CmdEnterNew(Vector3 _origin, Vector3 _direction)
     {
         GameObject newTarget = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);
         newTarget.transform.position = _origin + _direction * 40.0f;
         NetworkServer.SpawnWithClientAuthority(newTarget, gameObject);
 
-        enter(_characterIdentity.GetComponent<Character>(), newTarget);
+        enter(newTarget);
     }
 
     [Server]
-    void enter(Character _character, GameObject newTarget)
+    void enter(GameObject newTarget)
     {
-        Vector3 dir = newTarget.transform.position - _character.transform.position;
+        Vector3 dir = newTarget.transform.position - m_character.transform.position;
         Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, new Vector3(dir.x, 0, dir.z));
         m_offsetToFling = quaternion * m_offsetToFling;
 
         isReady = true;
-        _character.m_waterGroup.setTarget(newTarget);
+        m_character.m_waterGroup.setTarget(newTarget);
         if (m_fromTurn)
-            _character.m_waterGroup.flingFromTurn(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
+            m_character.m_waterGroup.flingFromTurn(m_speed, m_character.transform.position + m_character.m_controller.center + m_offsetToFling, m_alpha);
         else
-            _character.m_waterGroup.flingFromSelect(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
+            m_character.m_waterGroup.flingFromSelect(m_speed, m_character.transform.position + m_character.m_controller.center + m_offsetToFling, m_alpha);
     }
 
     [Client]
-    public override void update(Character _character)
+    public override void update()
     {
         if (!isReady)
             return;
 
-        if (!_character.m_waterGroup.m_flingingFromSelect && !_character.m_waterGroup.m_flingingFromTurn && time > cooldown)
+        if (!m_character.m_waterGroup.m_flingingFromSelect && !m_character.m_waterGroup.m_flingingFromTurn && time > cooldown)
         {
-            exit(_character);
+            exit();
         }
 
         time += Time.deltaTime;
-        base.update(_character);
+        base.update();
     }
 
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_currentActionState = null;
+        m_character.m_currentActionState = null;
 
-        base.exit(_character);
+        base.exit();
     }
 
     [Client]

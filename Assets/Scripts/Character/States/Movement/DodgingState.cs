@@ -9,67 +9,67 @@ public class DodgingState : AbleToFallState
     public float m_radius = 1f;
     public float m_height = 1f;
 
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter DodgingState");
-        _character.m_currentMoveSpeed = m_dodgeRollSpeed;
-        _character.m_animator.SetBool("Dodge", true);
-        setOrientation(_character);
+        m_character.m_currentMoveSpeed = m_dodgeRollSpeed;
+        m_character.m_animator.SetBool("Dodge", true);
+        setOrientation();
 
-        base.enter(_character);
+        base.enter();
     }
 
-    public override void fixedUpdate(Character _character)
+    public override void fixedUpdate()
     {
-        _character.m_velocity = Vector3.zero;
+        m_character.m_velocity = Vector3.zero;
 
-        if (_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("DodgeRoll"))
+        if (m_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("DodgeRoll"))
         {
-            _character.m_currentMoveSpeed = m_dodgeRollSpeed;
-            _character.m_controller.height = m_height;
+            m_character.m_currentMoveSpeed = m_dodgeRollSpeed;
+            m_character.m_controller.height = m_height;
         }
-        else if (_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("DodgeGetUp"))
+        else if (m_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("DodgeGetUp"))
         {
-            _character.m_currentMoveSpeed = m_dodgeGetUpSpeed;
-            _character.m_controller.height = _character.m_heightController;
-        }
-
-        _character.m_velocity.z = _character.m_currentMoveSpeed;
-        _character.m_velocity += _character.m_gravity;
-
-        base.fixedUpdate(_character);
-    }
-
-    public override void update(Character _character)
-    {
-        if (_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("TempDodge"))
-        {
-            _character.m_currentMovementState.exit(_character);
-            _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
-             _character.m_currentMovementState.enter(_character);
+            m_character.m_currentMoveSpeed = m_dodgeGetUpSpeed;
+            m_character.m_controller.height = m_character.m_heightController;
         }
 
-        base.update(_character);
+        m_character.m_velocity.z = m_character.m_currentMoveSpeed;
+        m_character.m_velocity += m_character.m_gravity;
+
+        base.fixedUpdate();
     }
 
-    public override void exit(Character _character)
+    public override void update()
     {
-        _character.m_animator.SetBool("Dodge", false);
+        if (m_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("TempDodge"))
+        {
+            m_character.m_currentMovementState.exit();
+            m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];
+             m_character.m_currentMovementState.enter();
+        }
 
-        _character.m_controller.radius = _character.m_radiusController;
-        _character.m_controller.height = _character.m_heightController;
-
-        base.exit(_character);
+        base.update();
     }
 
-    private void setOrientation(Character _character)
+    public override void exit()
     {
-        ComputeActionsFromInput player = (ComputeActionsFromInput)_character;
+        m_character.m_animator.SetBool("Dodge", false);
+
+        m_character.m_controller.radius = m_character.m_radiusController;
+        m_character.m_controller.height = m_character.m_heightController;
+
+        base.exit();
+    }
+
+    private void setOrientation()
+    {
+        ComputeActionsFromInput player = (ComputeActionsFromInput)m_character;
 
         Vector2 currentForward = new Vector2(transform.forward.x, transform.forward.z);
         float currentAngle = MathHelper.angle(Vector2.up, currentForward);
 
-        float offsetAngle = MathHelper.angle(Vector2.up, _character.m_inputDirection);
+        float offsetAngle = MathHelper.angle(Vector2.up, m_character.m_inputDirection);
 
         float angle;
         if (player == null)

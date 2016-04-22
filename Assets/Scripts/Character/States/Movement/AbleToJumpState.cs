@@ -5,34 +5,34 @@ public class AbleToJumpState : AbleToFallState
 {
     public bool m_gettingUp = false;
 
-    public override void handleAction(Character _character, EAction _action)
+    public override void handleAction(EAction _action)
     {
-        if (_character.m_currentActionState == null)
+        if (m_character.m_currentActionState == null)
         {
             switch (_action)
             {
                 case EAction.PullWater:
-                    _character.m_currentActionState = _character.m_statePool[(int)EStates.PullingWaterState];
-                    _character.m_currentActionState.enter(_character);
+                    m_character.m_currentActionState = m_character.m_statePool[(int)EStates.PullingWaterState];
+                    m_character.m_currentActionState.enter();
                     break;
                 case EAction.SelectWaterToPush:
-                    _character.m_currentActionState = _character.m_statePool[(int)EStates.SelectingWaterToPushState];
-                    _character.m_currentActionState.enter(_character);
+                    m_character.m_currentActionState = m_character.m_statePool[(int)EStates.SelectingWaterToPushState];
+                    m_character.m_currentActionState.enter();
                     break;
                 case EAction.Guard:
-                    _character.m_currentActionState = _character.m_statePool[(int)EStates.CounterWater];
-                    _character.m_currentActionState.enter(_character);
+                    m_character.m_currentActionState = m_character.m_statePool[(int)EStates.CounterWater];
+                    m_character.m_currentActionState.enter();
                     break;
             }
         }
 
-        base.handleAction(_character, _action);
+        base.handleAction(_action);
     }
 
-    public override void handleMovement(Character _character, EMovement _movement)
+    public override void handleMovement(EMovement _movement)
     {
         // We do not want to be able to change the movement to Jump if any action is not over
-        if (_character.m_currentActionState != null)
+        if (m_character.m_currentActionState != null)
         {
             return;
         }
@@ -40,37 +40,37 @@ public class AbleToJumpState : AbleToFallState
         switch (_movement)
         {
             case EMovement.Jump:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.JumpingState];
+                m_character.m_currentMovementState.enter();
                 break;
             case EMovement.Dodge:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.DodgingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.DodgingState];
+                m_character.m_currentMovementState.enter();
                 break;
         }
 
-        base.handleMovement(_character, _movement);
+        base.handleMovement(_movement);
     }
 
-    protected void initFixedUpdate(Character _character)
+    protected void initFixedUpdate()
     {
-        _character.m_velocity.x = 0;
-        _character.m_velocity.z = 0;
+        m_character.m_velocity.x = 0;
+        m_character.m_velocity.z = 0;
     }
 
-    public override void update(Character _character)
+    public override void update()
     {
         if (!m_gettingUp && !Physics.Raycast(transform.position, -Vector3.up, 0.1f))
         {
-            if (_character.m_currentActionState)
-                _character.m_currentActionState.exit(_character);
-            _character.m_currentMovementState.exit(_character);
-            _character.m_currentMovementState = _character.m_statePool[(int)EStates.JumpDescendingState];
-            _character.m_currentMovementState.enter(_character);
+            if (m_character.m_currentActionState)
+                m_character.m_currentActionState.exit();
+            m_character.m_currentMovementState.exit();
+            m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.JumpDescendingState];
+            m_character.m_currentMovementState.enter();
         }
 
-        base.update(_character);
+        base.update();
     }
 }

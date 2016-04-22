@@ -6,46 +6,46 @@ public class RunningState : RunSprintingState
     [SerializeField]
     private float m_runSpeed = 7.0f;
 
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter RunnningState");
         m_EState = EStates.RunningState;
-        _character.m_animator.SetBool("Run", true);
+        m_character.m_animator.SetBool("Run", true);
 
-        base.enter(_character);
+        base.enter();
     }
 
-    public override void handleMovement(Character _character, EMovement _movement)
+    public override void handleMovement(EMovement _movement)
     {
         switch (_movement)
         {
             case EMovement.Sprint:
                 // We do not want to be able to change the movement to Sprint if any action is not over
-                if (_character.m_currentActionState != null)
+                if (m_character.m_currentActionState != null)
                 {
                     return;
                 }
 
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.SprintingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.SprintingState];
+                m_character.m_currentMovementState.enter();
                 break;
         }
-        base.handleMovement(_character, _movement);
+        base.handleMovement(_movement);
     }
 
-    public override void fixedUpdate(Character _character)
+    public override void fixedUpdate()
     {
-        initFixedUpdate(_character);
-        _character.m_currentMoveSpeed = m_runSpeed;
+        initFixedUpdate();
+        m_character.m_currentMoveSpeed = m_runSpeed;
 
-        base.fixedUpdate(_character);
+        base.fixedUpdate();
     }
 
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_animator.SetBool("Run", false);
+        m_character.m_animator.SetBool("Run", false);
 
-        base.exit(_character);
+        base.exit();
     }
 }

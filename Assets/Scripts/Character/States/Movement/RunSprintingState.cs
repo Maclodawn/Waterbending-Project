@@ -4,50 +4,50 @@ using System.Collections;
 public class RunSprintingState : AbleToJumpState
 {
 
-    public override void handleAction(Character _character, EAction _action)
+    public override void handleAction(EAction _action)
     {
         switch (_action)
         {
             case EAction.TurnWaterAround:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];
+                m_character.m_currentMovementState.enter();
                 break;
         }
 
-        base.handleAction(_character, _action);
+        base.handleAction(_action);
     }
 
-    public override void handleMovement(Character _character, EMovement _movement)
+    public override void handleMovement(EMovement _movement)
     {
         switch (_movement)
         {
             case EMovement.None:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];
+                m_character.m_currentMovementState.enter();
                 break;
         }
-        base.handleMovement(_character, _movement);
+        base.handleMovement(_movement);
     }
 
-    public override void fixedUpdate(Character _character)
+    public override void fixedUpdate()
     {
-        _character.m_velocity.z = _character.m_currentMoveSpeed;
+        m_character.m_velocity.z = m_character.m_currentMoveSpeed;
 
-        setOrientation(_character);
+        setOrientation();
 
-        base.fixedUpdate(_character);
+        base.fixedUpdate();
     }
 
-    private void setOrientation(Character _character)
+    private void setOrientation()
     {
-        ComputeActionsFromInput player = (ComputeActionsFromInput)_character;
+        ComputeActionsFromInput player = (ComputeActionsFromInput)m_character;
 
         Vector2 currentForward = new Vector2(transform.forward.x, transform.forward.z);
         float currentAngle = MathHelper.angle(Vector2.up, currentForward);
 
-        float offsetAngle = MathHelper.angle(Vector2.up, _character.m_inputDirection);
+        float offsetAngle = MathHelper.angle(Vector2.up, m_character.m_inputDirection);
 
         float angle;
         if (player == null)
