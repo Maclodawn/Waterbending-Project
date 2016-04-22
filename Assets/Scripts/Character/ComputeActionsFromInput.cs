@@ -77,9 +77,13 @@ public class ComputeActionsFromInput : Character
         }
 
         //Actions
-        if (getButton("Guard"))
+        if (Input.GetButton("Guard"))
         {
             action = EAction.Guard;
+        }
+        else if (Input.GetButtonUp("Guard"))
+        {
+            action = EAction.ReleaseGuard;
         }
         //Press LeftClick + Released RightClick
         else if (getButtonDown("Fire1") && !getButton("Fire2"))

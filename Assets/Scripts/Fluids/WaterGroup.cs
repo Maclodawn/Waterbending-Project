@@ -164,6 +164,18 @@ public class WaterGroup : NetworkBehaviour
             NetworkServer.Destroy(gameObject);
     }
 
+    [Server]
+    public void deviate(float _radiusToTurnAround)
+    {
+        foreach (Drop drop in m_dropPool)
+        {
+            drop.removeEffectors();
+
+            DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
+            newEffector.init(m_target, _radiusToTurnAround, false);
+        }
+    }
+
     bool hasBeenDestroyed = false;
 
     void OnDestroy()

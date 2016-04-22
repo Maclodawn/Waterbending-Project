@@ -1824,6 +1824,8 @@ GameObject:
   - 114: {fileID: 11459472}
   - 114: {fileID: 11487634}
   - 114: {fileID: 11422010}
+  - 114: {fileID: 11410238}
+  - 114: {fileID: 11431094}
   m_Layer: 0
   m_Name: NewPlayerPrefabNetworking
   m_TagString: Player
@@ -3590,6 +3592,21 @@ MonoBehaviour:
   m_volumeWanted: 10
   m_speed: 10
   m_angle: 0.5
+--- !u!114 &11410238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16e49f12c7a11a45af17a0b07ee4e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_upperDistanceToCounter: 5
+  m_lowerDistanceToCounter: 4
+  m_angleDirectionToCounter: 45
+  m_radiusToDeviate: 1
 --- !u!114 &11413426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3661,6 +3678,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gettingUp: 0
   m_sprintSpeed: 14
+--- !u!114 &11431094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bf5976973f6144fb11608c8c7b35f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11439900
 MonoBehaviour:
   m_ObjectHideFlags: 1

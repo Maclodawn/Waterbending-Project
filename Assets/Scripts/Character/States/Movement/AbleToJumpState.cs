@@ -7,7 +7,14 @@ public class AbleToJumpState : AbleToFallState
 
     public override void handleAction(EAction _action)
     {
-        if (m_character.m_currentActionState == null)
+        if (_action == EAction.Guard && !(m_character.m_currentActionState is GuardingState))
+        {
+            if (m_character.m_currentActionState != null)
+                m_character.m_currentActionState.exit();
+            m_character.m_currentActionState = m_character.m_statePool[(int)EStates.CounteringWaterState];
+            m_character.m_currentActionState.enter();
+        }
+        else if (m_character.m_currentActionState == null)
         {
             switch (_action)
             {
@@ -17,10 +24,6 @@ public class AbleToJumpState : AbleToFallState
                     break;
                 case EAction.SelectWaterToPush:
                     m_character.m_currentActionState = m_character.m_statePool[(int)EStates.SelectingWaterToPushState];
-                    m_character.m_currentActionState.enter();
-                    break;
-                case EAction.Guard:
-                    m_character.m_currentActionState = m_character.m_statePool[(int)EStates.CounterWater];
                     m_character.m_currentActionState.enter();
                     break;
             }

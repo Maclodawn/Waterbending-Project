@@ -6,16 +6,6 @@ public class WaterDeviation : MonoBehaviour
     public GameObject m_target;
     private List<DeviationEffector> m_effectors = new List<DeviationEffector>();
 
-    void Start()
-    {
-
-    }
-
-    void FixedUpdate()
-    {
-
-    }
-
     void OnTriggerEnter(Collider other)
     {
         Drop drop = other.GetComponent<Drop>();
