@@ -19,7 +19,9 @@ public enum EStates
     PushingWaterState,
     PullingWaterState,
     //ReleasingWaterControlState,
-    TurningWaterAroundState
+    TurningWaterAroundState,
+    CounterWater,
+    Guard
 }
 
 public enum EAction
@@ -29,7 +31,8 @@ public enum EAction
     PushWater,
     PullWater,
     ReleaseWaterControl,
-    TurnWaterAround
+    TurnWaterAround,
+    Guard
 }
 
 public enum EMovement
@@ -125,6 +128,8 @@ public class Character : NetworkBehaviour
         m_statePool.Add(GetComponent<PushingWaterState>());
         m_statePool.Add(GetComponent<PullingWaterState>());
         m_statePool.Add(GetComponent<TurningWaterAroundState>());
+        m_statePool.Add(GetComponent<CounterWater>());
+        m_statePool.Add(GetComponent<Guard>());
 
         m_currentMovementState = m_statePool[(int)EStates.JumpDescendingState];
         m_currentActionState = null;

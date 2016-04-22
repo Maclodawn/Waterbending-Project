@@ -19,6 +19,10 @@ public class AbleToJumpState : AbleToFallState
                     _character.m_currentActionState = _character.m_statePool[(int)EStates.SelectingWaterToPushState];
                     _character.m_currentActionState.enter(_character);
                     break;
+                case EAction.Guard:
+                    _character.m_currentActionState = _character.m_statePool[(int)EStates.CounterWater];
+                    _character.m_currentActionState.enter(_character);
+                    break;
             }
         }
 

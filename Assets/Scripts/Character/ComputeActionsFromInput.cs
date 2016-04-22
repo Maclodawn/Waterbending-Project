@@ -77,34 +77,82 @@ public class ComputeActionsFromInput : Character
         }
 
         //Actions
+        if (getButton("Guard"))
+        {
+            action = EAction.Guard;
+        }
         //Press LeftClick + Released RightClick
-        if (Input.GetButtonDown("Fire1") && !Input.GetButton("Fire2"))
+        else if (getButtonDown("Fire1") && !getButton("Fire2"))
         {
             action = EAction.SelectWaterToPush;
         }
         //Release LeftClick OR Pressed LeftClick + Release RightClick
-        else if (Input.GetButtonUp("Fire1") || Input.GetButton("Fire1") && Input.GetButtonUp("Fire2"))
+        else if (getButtonUp("Fire1") || getButton("Fire1") && getButtonUp("Fire2"))
         {
             action = EAction.PushWater;
         }
         //Press RightClick + Released LeftClick
-        else if (Input.GetButtonDown("Fire2") && !Input.GetButton("Fire1"))
+        else if (getButtonDown("Fire2") && !getButton("Fire1"))
         {
             action = EAction.PullWater;
         }
         //Release RightClick
-        else if (Input.GetButtonUp("Fire2"))
+        else if (getButtonUp("Fire2"))
         {
             action = EAction.ReleaseWaterControl;
         }
         //Pressed LeftClick + Pressed RightClick
-        else if (Input.GetButton("Fire1") && Input.GetButton("Fire2"))
+        else if (getButton("Fire1") && getButton("Fire2"))
         {
             action = EAction.TurnWaterAround;
         }
 
         handleMovementAndAction(movement, action);
 
+        m_oldFire1AxisRaw = Input.GetAxisRaw("Fire1");
+        m_oldFire2AxisRaw = Input.GetAxisRaw("Fire2");
+
         base.Update();
+    }
+
+    float m_oldFire1AxisRaw;
+    float m_oldFire2AxisRaw;
+
+    bool getButtonDown(string str)
+    {
+        if (str.Equals("Fire1"))
+        {
+            return Input.GetButtonDown(str) || (Input.GetAxisRaw(str) > 0 && m_oldFire1AxisRaw == 0);
+        }
+        else if (str.Equals("Fire2"))
+        {
+            return Input.GetButtonDown(str) || (Input.GetAxisRaw(str) > 0 && m_oldFire2AxisRaw == 0);
+        }
+
+        return false;
+    }
+
+    bool getButton(string str)
+    {
+        if (str.Equals("Fire1") || str.Equals("Fire2"))
+        {
+            return Input.GetButton(str) || Input.GetAxisRaw(str) > 0;
+        }
+
+        return false;
+    }
+
+    bool getButtonUp(string str)
+    {
+        if (str.Equals("Fire1"))
+        {
+            return Input.GetButtonUp(str) || (Input.GetAxisRaw(str) == 0 && m_oldFire1AxisRaw > 0);
+        }
+        else if (str.Equals("Fire2"))
+        {
+            return Input.GetButtonUp(str) || (Input.GetAxisRaw(str) == 0 && m_oldFire2AxisRaw > 0);
+        }
+
+        return false;
     }
 }
