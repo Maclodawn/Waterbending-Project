@@ -6,49 +6,58 @@ public class TurningWaterAroundState : AbleToFallState
 {
     public float m_radiusToTurnAround = 1;
     public Vector3 m_offsetToFling;
+    private bool m_countering = false;
 
     [Client]
-    public override void enter(Character _character)
+    public void initCounter()
+    {
+        m_countering = true;
+    }
+
+    [Client]
+    public override void enter()
     {
         Debug.Log("Enter TurningWaterAroundState");
         m_EState = EStates.TurningWaterAroundState;
 
-        _character.m_waterGroup.m_target.transform.position = _character.transform.position + _character.m_controller.center;
-        CmdEnter(_character.GetComponent<NetworkIdentity>(), _character.m_waterGroup.m_target.transform.position, m_radiusToTurnAround);
+        m_character.m_waterGroup.m_target.transform.position = m_character.transform.position;
+        Character targetCharacter = m_character.m_waterGroup.m_target.GetComponent<Character>();
+        if (!targetCharacter)
+            m_character.m_waterGroup.m_target.transform.position += m_character.m_controller.center;
+        CmdEnter(m_character.m_waterGroup.m_target.transform.position, m_radiusToTurnAround);
         
-        base.enter(_character);
+        base.enter();
     }
 
     [Command]
-    void CmdEnter(NetworkIdentity _characterIdentity, Vector3 _targetPos, float _radiusToTurnAround)
+    void CmdEnter(Vector3 _targetPos, float _radiusToTurnAround)
     {
-        Character character = _characterIdentity.GetComponent<Character>();
-        character.m_waterGroup.m_target.transform.position = _targetPos;
-        character.m_waterGroup.stopAndTurnAround(_radiusToTurnAround);
+        m_character.m_waterGroup.m_target.transform.position = _targetPos;
+        m_character.m_waterGroup.stopAndTurnAround(_radiusToTurnAround);
     }
 
     [Client]
-    public override void handleAction(Character _character, EAction _action)
+    public override void handleAction(EAction _action)
     {
-        switch(_action)
+        if (_action == EAction.PushWater || m_countering)
         {
-            case EAction.PushWater:
-                _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
+            m_character.m_currentActionState = m_character.m_statePool[(int)EStates.PushingWaterState];
 
-                PushingWaterState pushingWaterState = (_character.m_currentActionState as PushingWaterState);
-                pushingWaterState.init(m_offsetToFling, 0, true);
+            PushingWaterState pushingWaterState = (m_character.m_currentActionState as PushingWaterState);
+            pushingWaterState.init(m_offsetToFling, 0, true);
 
-                _character.m_currentActionState.enter(_character);
-                break;
+            m_character.m_currentActionState.enter();
         }
 
-        base.handleAction(_character, _action);
+        base.handleAction(_action);
     }
 
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_currentActionState = null;
+        m_countering = false;
+        m_character.m_currentActionState = null;
+        m_character.m_waterGroup.releaseControl();
 
-        base.exit(_character);
+        base.exit();
     }
 }

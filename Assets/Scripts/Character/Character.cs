@@ -20,7 +20,9 @@ public enum EStates
     PushingWaterState,
     PullingWaterState,
     //ReleasingWaterControlState,
-    TurningWaterAroundState
+    TurningWaterAroundState,
+    CounteringWaterState,
+    GuardingState
 }
 
 public enum EAction
@@ -30,7 +32,10 @@ public enum EAction
     PushWater,
     PullWater,
     ReleaseWaterControl,
-    TurnWaterAround
+    TurnWaterAround,
+    Counter,
+    Guard,
+    ReleaseGuard
 }
 
 public enum EMovement
@@ -130,11 +135,13 @@ public class Character : NetworkBehaviour
         m_statePool.Add(GetComponent<PushingWaterState>());
         m_statePool.Add(GetComponent<PullingWaterState>());
         m_statePool.Add(GetComponent<TurningWaterAroundState>());
+        m_statePool.Add(GetComponent<CounteringWaterState>());
+        m_statePool.Add(GetComponent<GuardingState>());
 
         m_currentMovementState = m_statePool[(int)EStates.JumpDescendingState];
         m_currentActionState = null;
 
-        m_currentMovementState.enter(this);
+        m_currentMovementState.enter();
     }
 
     /*
@@ -146,15 +153,15 @@ public class Character : NetworkBehaviour
         // Actions overwrite movements
         if (m_currentActionState != null)
         {
-            m_currentActionState.handleAction(this, _action);
+            m_currentActionState.handleAction(_action);
         }
-        m_currentMovementState.handleAction(this, _action);
-        m_currentMovementState.handleMovement(this, _movement);
+        m_currentMovementState.handleAction(_action);
+        m_currentMovementState.handleMovement(_movement);
     }
 
     public void FixedUpdate()
     {
-        m_currentMovementState.fixedUpdate(this);
+        m_currentMovementState.fixedUpdate();
 
         m_movementDirection = transform.forward * m_velocity.z + transform.right * m_velocity.x + transform.up * m_velocity.y;
         m_localDirection = transform.InverseTransformDirection(m_movementDirection);
@@ -168,15 +175,15 @@ public class Character : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             AbleToFallState toto = (AbleToFallState)m_currentMovementState;
-            toto.fall(this);
+            toto.fall();
         }
 
         // Run movement chosen
-        m_currentMovementState.update(this);
+        m_currentMovementState.update();
         
         // Run action chosen
         if (m_currentActionState != null)
-            m_currentActionState.update(this);
+            m_currentActionState.update();
     }
 
     void OnCollisionEnter(Collision collision)

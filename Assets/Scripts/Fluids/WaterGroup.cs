@@ -22,6 +22,9 @@ public class WaterGroup : NetworkBehaviour
     float m_minVolume;
 
     public float m_quotient = 1.0f / 4.0f;
+
+    public float m_timerToApplyGravity = 3.0f;
+    bool m_startTimerToApplyGravity = false;
     
     void Awake()
     {
@@ -117,6 +120,19 @@ public class WaterGroup : NetworkBehaviour
                 m_flingingFromSelect = false;
             }
         }
+
+        if (m_startTimerToApplyGravity)
+        {
+            if (m_timerToApplyGravity > 0)
+            {
+                m_timerToApplyGravity -= Time.deltaTime;
+            }
+            else
+            {
+                m_startTimerToApplyGravity = false;
+                releaseControl();
+            }
+        }
     }
 
     [Server]
@@ -139,6 +155,7 @@ public class WaterGroup : NetworkBehaviour
         m_flingingFromSelect = true;
         m_posToFling = _posToFling;
         m_alpha = _alpha;
+        m_startTimerToApplyGravity = true;
     }
 
     [Server]
@@ -148,6 +165,7 @@ public class WaterGroup : NetworkBehaviour
         m_flingingFromTurn = true;
         m_posToFling = _posToFling;
         m_alpha = _alpha;
+        m_startTimerToApplyGravity = true;
     }
 
     [Server]
@@ -162,6 +180,18 @@ public class WaterGroup : NetworkBehaviour
 
         if (!hasBeenDestroyed)
             NetworkServer.Destroy(gameObject);
+    }
+
+    [Server]
+    public void deviate(float _radiusToTurnAround)
+    {
+        foreach (Drop drop in m_dropPool)
+        {
+            drop.removeEffectors();
+
+            DeviationEffector newEffector = drop.gameObject.AddComponent<DeviationEffector>();
+            newEffector.init(m_target, _radiusToTurnAround, false);
+        }
     }
 
     bool hasBeenDestroyed = false;

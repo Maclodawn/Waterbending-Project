@@ -4,74 +4,74 @@ using System.Collections;
 public class StandingState : AbleToJumpState
 {
 
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter StandingState");
         m_EState = EStates.StandingState;
 
         if (m_gettingUp)
         {
-            _character.m_animator.SetBool("GetUp", true);
-            _character.m_controller.center = Vector3.up * 1.6f;
+            m_character.m_animator.SetBool("GetUp", true);
+            m_character.m_controller.center = Vector3.up * 1.6f;
         }
 
-        _character.m_animator.SetBool("None", true);
+        m_character.m_animator.SetBool("None", true);
 
-        base.enter(_character);
+        base.enter();
     }
 
-    public override void handleMovement(Character _character, EMovement _movement)
+    public override void handleMovement(EMovement _movement)
     {
         switch (_movement)
         {
             case EMovement.Run:
                 // We do not want to be able to change the movement to Run if TurningWaterAroundState action is not over
-                if (_character.m_currentActionState is TurningWaterAroundState)
+                if (m_character.m_currentActionState is TurningWaterAroundState || m_character.m_currentActionState is GuardingState)
                 {
                     return;
                 }
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.RunningState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.RunningState];
+                m_character.m_currentMovementState.enter();
                 break;
             case EMovement.Sprint:
                 // We do not want to be able to change the movement to Sprint if any action is not over
-                if (_character.m_currentActionState != null)
+                if (m_character.m_currentActionState != null)
                 {
                     return;
                 }
 
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.SprintingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.SprintingState];
+                m_character.m_currentMovementState.enter();
                 break;
         }
-        base.handleMovement(_character, _movement);
+        base.handleMovement(_movement);
     }
 
-    public override void fixedUpdate(Character _character)
+    public override void fixedUpdate()
     {
-        initFixedUpdate(_character);
+        initFixedUpdate();
 
-        base.fixedUpdate(_character);
+        base.fixedUpdate();
     }
 
-    public override void update(Character _character)
+    public override void update()
     {
-        if (m_gettingUp && _character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
+        if (m_gettingUp && m_character.m_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
         {
             m_gettingUp = false;
-            _character.m_animator.SetBool("GetUp", false);
-            _character.m_controller.center = Vector3.up * 0.9f;
+            m_character.m_animator.SetBool("GetUp", false);
+            m_character.m_controller.center = Vector3.up * 0.9f;
         }
 
-        base.update(_character);
+        base.update();
     }
 
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_animator.SetBool("None", false);
+        m_character.m_animator.SetBool("None", false);
 
-        base.exit(_character);
+        base.exit();
     }
 }

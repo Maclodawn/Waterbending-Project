@@ -21,6 +21,8 @@ public class DeviationEffector : MonoBehaviour
     //FIXME
     private float m_l;
 
+    private bool m_willTurnAround = true;
+
     void OnEnable()
     {
         m_drop.registerEffector(this);
@@ -33,12 +35,25 @@ public class DeviationEffector : MonoBehaviour
 
     public void init(GameObject _target, float _targetRadius)
     {
+        init(_target, _targetRadius, true);
+    }
+
+    public void init(GameObject _target, float _targetRadius, bool _willTurnAround)
+    {
         m_target = _target;
         m_targetRadius = _targetRadius;
+        m_willTurnAround = _willTurnAround;
+
+        Vector3 targetPosition = m_target.transform.position;
+        CharacterController targetController = m_target.GetComponent<CharacterController>();
+        if (targetController)
+        {
+            targetPosition += targetController.center;
+        }
 
         if (m_drop.velocity == Vector3.zero)
         {
-            m_drop.AddForce((_target.transform.position - transform.position).normalized * m_drop.m_initialSpeed); 
+            m_drop.AddForce((targetPosition - transform.position).normalized * m_drop.m_initialSpeed);
         }
         
         //FIXME Why vy couldn't be null?
@@ -53,7 +68,7 @@ public class DeviationEffector : MonoBehaviour
 
         float vy = m_drop.velocity.y;
 
-        Vector3 vectPosToTargetWithoutY = _target.transform.position - transform.position;
+        Vector3 vectPosToTargetWithoutY = targetPosition - transform.position;
         float dy = vectPosToTargetWithoutY.y;
         vectPosToTargetWithoutY.y = 0;
 
@@ -95,12 +110,18 @@ public class DeviationEffector : MonoBehaviour
             m_drop.AddForce((m_forceDir * m_k * (m_time > m_T ? -1 : 1) + (m_time > m_T ? -m_l : 1) * m_fy * Vector3.up) * Time.fixedDeltaTime);
             m_drop.initVelocity(m_drop.velocity.normalized * m_drop.m_initialSpeed);
         }
-        else
+        else if (m_willTurnAround)
         {
             m_drop.removeEffectors();
             m_drop.gameObject.AddComponent<RotateEffector>();
             m_drop.GetComponent<RotateEffector>().init(m_target, Vector3.up/*, 1*/, m_targetRadius);
         }
+        else
+        {
+            m_drop.removeEffectors();
+            m_drop.gameObject.AddComponent<DropGravity>();
+        }
+
         m_time += Time.fixedDeltaTime;
     }
 }

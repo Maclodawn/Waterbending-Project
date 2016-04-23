@@ -17,21 +17,21 @@ public class SelectingWaterState : AbleToFallState
     WaterReserve m_waterReserve;
 
     [Client]
-    public override void enter(Character _character)
+    public override void enter()
     {
         Debug.Log("Enter SelectingWaterState");
         m_EState = EStates.SelectingWaterToPushState;
 
         Ray ray = Camera.main.ScreenPointToRay(new Vector2((Screen.width / 2), (Screen.height / 2)));
-        CmdEnter(_character.GetComponent<NetworkIdentity>(), ray.origin, ray.direction);
+        CmdEnter(ray.origin, ray.direction);
 
-        base.enter(_character);
+        base.enter();
     }
 
     [Command]
-    void CmdEnter(NetworkIdentity _characterNetId, Vector3 _origin, Vector3 _direction)
+    void CmdEnter(Vector3 _origin, Vector3 _direction)
     {
-        m_waterReserve = getWaterReserve(_characterNetId.GetComponent<Character>(), _origin, _direction);
+        m_waterReserve = getWaterReserve(_origin, _direction);
         RpcProvideWaterReserveToClient(m_waterReserve.GetComponent<NetworkIdentity>());
     }
 
@@ -42,59 +42,57 @@ public class SelectingWaterState : AbleToFallState
     }
 
     [Client]
-    public override void handleAction(Character _character, EAction _action)
+    public override void handleAction(EAction _action)
     {
         switch(_action)
         {
             case EAction.PushWater:
-                _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
+                m_character.m_currentActionState = m_character.m_statePool[(int)EStates.PushingWaterState];
 
-                CmdPushWater(_character.GetComponent<NetworkIdentity>(), m_waterReserve.GetComponent<NetworkIdentity>());
-                (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
+                CmdPushWater(m_waterReserve.GetComponent<NetworkIdentity>());
+                (m_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
 
-                _character.m_currentActionState.enter(_character);
+                m_character.m_currentActionState.enter();
                 break;
         }
 
-        base.handleAction(_character, _action);
+        base.handleAction(_action);
     }
 
     [Command]
-    void CmdPushWater(NetworkIdentity _characterNetId, NetworkIdentity _waterReserveNetId)
+    void CmdPushWater(NetworkIdentity _waterReserveNetId)
     {
         if (!_waterReserveNetId)
             return;
 
-        Character character = _characterNetId.GetComponent<Character>();
-        character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
-        character.m_waterGroup.name = Character.count.ToString();
+        m_character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
+        m_character.m_waterGroup.name = Character.count.ToString();
 
         WaterReserve waterReserve = _waterReserveNetId.GetComponent<WaterReserve>();
 
-        character.m_waterGroup.initSelect(waterReserve.transform.position, waterReserve, m_minDropVolume, m_volumeWanted, m_speed);
-        NetworkServer.Spawn(character.m_waterGroup.gameObject);
+        m_character.m_waterGroup.initSelect(waterReserve.transform.position, waterReserve, m_minDropVolume, m_volumeWanted, m_speed);
+        NetworkServer.Spawn(m_character.m_waterGroup.gameObject);
 
-        RpcProvideWaterGroupToClient(character.m_waterGroup.GetComponent<NetworkIdentity>());
+        RpcProvideWaterGroupToClient(m_character.m_waterGroup.GetComponent<NetworkIdentity>());
     }
 
     [ClientRpc]
     void RpcProvideWaterGroupToClient(NetworkIdentity _waterGroupNetId)
     {
-        Character character = GetComponent<Character>();
         WaterGroup waterGroup = _waterGroupNetId.GetComponent<WaterGroup>();
-        character.m_waterGroup = waterGroup;
+        m_character.m_waterGroup = waterGroup;
     }
 
     [Client]
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_currentActionState = null;
+        m_character.m_currentActionState = null;
 
-        base.exit(_character);
+        base.exit();
     }
 
     [Server]
-    private WaterReserve getWaterReserve(Character _character, Vector3 _origin, Vector3 _direction)
+    private WaterReserve getWaterReserve(Vector3 _origin, Vector3 _direction)
     {
         RaycastHit hit;
         if (Physics.Raycast(_origin, _direction, out hit, m_distToSelect) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Reserve"))
@@ -103,30 +101,30 @@ public class SelectingWaterState : AbleToFallState
         }
         else
         {
-            return getNearestWaterReserve(_character);
+            return getNearestWaterReserve();
         }
     }
 
     [Server]
-    private WaterReserve getNearestWaterReserve(Character _character)
+    private WaterReserve getNearestWaterReserve()
     {
-        Collider[] colList = Physics.OverlapSphere(_character.transform.position, m_distToSelectAuto,
+        Collider[] colList = Physics.OverlapSphere(m_character.transform.position, m_distToSelectAuto,
                                                    1 << LayerMask.NameToLayer("Reserve"), QueryTriggerInteraction.Collide);
 
         if (colList.Length < 1)
         {
             WaterReserve waterReserve = Instantiate(Manager.getInstance().m_waterReservePrefab).GetComponent<WaterReserve>();
-            waterReserve.init(_character.transform.position + _character.transform.forward);
+            waterReserve.init(m_character.transform.position + m_character.transform.forward);
             NetworkServer.Spawn(waterReserve.gameObject);
 
             return waterReserve;
         }
 
         int nearestIndex = 0;
-        float distNearest = Vector3.Distance(_character.transform.position, colList[0].transform.position);
+        float distNearest = Vector3.Distance(m_character.transform.position, colList[0].transform.position);
         for (int i = 1; i < colList.Length; ++i)
         {
-            float dist = Vector3.Distance(_character.transform.position, colList[i].transform.position);
+            float dist = Vector3.Distance(m_character.transform.position, colList[i].transform.position);
             if (dist < distNearest)
             {
                 nearestIndex = i;

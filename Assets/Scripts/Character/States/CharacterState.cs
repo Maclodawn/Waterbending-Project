@@ -5,16 +5,22 @@ using UnityEngine.Networking;
 public class CharacterState : NetworkBehaviour
 {
     public EStates m_EState { get; set; }
+    protected Character m_character;
 
-    public virtual void enter(Character _character) { }
+    void Start()
+    {
+        m_character = GetComponent<Character>();
+    }
 
-    public virtual void handleAction(Character _character, EAction _action) { }
+    public virtual void enter() { }
 
-    public virtual void handleMovement(Character _character, EMovement _movement) { }
+    public virtual void handleAction(EAction _action) { }
 
-    public virtual void fixedUpdate(Character _character) { }
+    public virtual void handleMovement(EMovement _movement) { }
 
-    public virtual void update(Character _character) { }
+    public virtual void fixedUpdate() { }
 
-    public virtual void exit(Character _character) { }
+    public virtual void update() { }
+
+    public virtual void exit() { }
 }

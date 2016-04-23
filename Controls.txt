@@ -1,0 +1,32 @@
+==============Keyboard/Mouse=============
+While on the ground:
+	Jump				= Space
+	Run					= ZQSD
+	Sprint				= Run + Maj
+	Dodge				= Run + Left Ctrl
+	SelectWaterToPush	= Left Click
+	PushWater			= Release SelectWaterToPush
+	PullWater			= RightClick
+	ReleaseWaterControl	= Release PullWater
+	TurnWaterAround		= SelectWaterToPush + PullWater
+	Guard				= F
+	Counter				= Press Guard
+	ReleaseGuard		= Release Guard
+While in the air Or Laying on the ground:
+	Stabilize			= Jump
+===========XBox 360 Controller===========
+While on the ground:
+	Jump				= A
+	Run					= Left Analog Directions
+	Sprint				= Run + LB
+	Dodge				= Run + RB
+	SelectWaterToPush	= LT
+	PushWater			= Release SelectWaterToPush
+	PullWater			= RT
+	ReleaseWaterControl	= Release PullWater
+	TurnWaterAround		= SelectWaterToPush + PullWater
+	Guard				= B
+	Counter				= Press Guard
+	ReleaseGuard		= Release Guard
+While in the air Or Laying on the ground:
+	Stabilize			= Jump
