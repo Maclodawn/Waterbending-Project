@@ -18,7 +18,11 @@ public class PowerKit : MonoBehaviour {
             m_timer += Time.deltaTime;
             if (m_timer >= Cooldown)
                 Enable();
-        }
+		} else {
+			Collider[] colliders = Physics.OverlapSphere(transform.position + Vector3.up*1.5f, 1f);
+			if (colliders.Length > 0)
+				OnTriggerEnter(colliders[0]);
+		}
     }
 
     void OnTriggerEnter(Collider collider)
