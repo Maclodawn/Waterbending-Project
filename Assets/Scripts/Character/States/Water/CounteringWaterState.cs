@@ -6,9 +6,15 @@ public class CounteringWaterState : AbleToFallState
 {
 
     public float m_upperDistanceToCounter = 5.0f;
-    public float m_lowerDistanceToCounter = 4.0f;
+    public float m_lowerDistanceToCounter = 5.0f;
     public float m_angleDirectionToCounter = 45.0f;
-    public float m_radiusToDeviate = 1.0f;
+    public float m_radiusToDeviate = 2.0f;
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position + m_character.m_controller.center, m_upperDistanceToCounter);
+        //Gizmos.DrawSphere(transform.position + m_character.m_controller.center, m_lowerDistanceToCounter);
+    }
 
     [Client]
     public override void enter()
@@ -18,20 +24,20 @@ public class CounteringWaterState : AbleToFallState
         Drop drop = getNearestWaterGroupInCharacterDirection();
         if (drop)
         {
-            if (Vector3.Distance(drop.transform.position, transform.position) > m_lowerDistanceToCounter)
-            {
+//             if (Vector3.Distance(drop.transform.position, transform.position + m_character.m_controller.center) > m_lowerDistanceToCounter)
+//             {
                 // TurnAround -> Push
                 m_character.m_currentActionState = m_character.m_statePool[(int)EStates.TurningWaterAroundState];
                 m_character.m_waterGroup = drop.m_waterGroup;
                 (m_character.m_currentActionState as TurningWaterAroundState).initCounter();
                 m_character.m_currentActionState.enter();
-            }
-            else
-            {
-                // Deviate
-                CmdDeviate(drop.GetComponent<NetworkIdentity>());
-                m_character.m_currentActionState = null;
-            }
+//             }
+//             else
+//             {
+//                 // Deviate
+//                 CmdDeviate(drop.GetComponent<NetworkIdentity>());
+//                 m_character.m_currentActionState = null;
+//             }
         }
         else
         {
@@ -50,7 +56,8 @@ public class CounteringWaterState : AbleToFallState
 
     Drop getNearestWaterGroupInCharacterDirection()
     {
-        Collider[] drops = Physics.OverlapSphere(transform.position, m_upperDistanceToCounter,
+        Vector3 characterPosition = transform.position + m_character.m_controller.center;
+        Collider[] drops = Physics.OverlapSphere(characterPosition, m_upperDistanceToCounter,
                                                  1 << LayerMask.NameToLayer("Water"), QueryTriggerInteraction.Collide);
 
         Drop closestDrop = null;
@@ -59,13 +66,13 @@ public class CounteringWaterState : AbleToFallState
         {
             Drop drop = drops[i].GetComponent<Drop>();
             //Direction test
-            if (Mathf.Abs(Vector3.Angle(drop.velocity, transform.position - drop.transform.position)) < m_angleDirectionToCounter)
+            if (Mathf.Abs(Vector3.Angle(drop.velocity, characterPosition - drop.transform.position)) < m_angleDirectionToCounter)
             {
                 //Distance test
-                if (!closestDrop || closestDropDistance > Vector3.Distance(drop.transform.position, transform.position))
+                if (!closestDrop || closestDropDistance > Vector3.Distance(drop.transform.position, characterPosition))
                 {
                     closestDrop = drop;
-                    closestDropDistance = Vector3.Distance(closestDrop.transform.position, transform.position);
+                    closestDropDistance = Vector3.Distance(closestDrop.transform.position, characterPosition);
                 }
             }
         }

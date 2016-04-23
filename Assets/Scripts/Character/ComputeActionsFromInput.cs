@@ -77,7 +77,11 @@ public class ComputeActionsFromInput : Character
         }
 
         //Actions
-        if (Input.GetButton("Guard"))
+        if (Input.GetButtonDown("Guard"))
+        {
+            action = EAction.Counter;
+        }
+        else if (Input.GetButton("Guard"))
         {
             action = EAction.Guard;
         }

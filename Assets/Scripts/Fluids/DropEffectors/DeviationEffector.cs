@@ -44,9 +44,16 @@ public class DeviationEffector : MonoBehaviour
         m_targetRadius = _targetRadius;
         m_willTurnAround = _willTurnAround;
 
+        Vector3 targetPosition = m_target.transform.position;
+        CharacterController targetController = m_target.GetComponent<CharacterController>();
+        if (targetController)
+        {
+            targetPosition += targetController.center;
+        }
+
         if (m_drop.velocity == Vector3.zero)
         {
-            m_drop.AddForce((_target.transform.position - transform.position).normalized * m_drop.m_initialSpeed);
+            m_drop.AddForce((targetPosition - transform.position).normalized * m_drop.m_initialSpeed);
         }
         
         //FIXME Why vy couldn't be null?
@@ -61,7 +68,7 @@ public class DeviationEffector : MonoBehaviour
 
         float vy = m_drop.velocity.y;
 
-        Vector3 vectPosToTargetWithoutY = _target.transform.position - transform.position;
+        Vector3 vectPosToTargetWithoutY = targetPosition - transform.position;
         float dy = vectPosToTargetWithoutY.y;
         vectPosToTargetWithoutY.y = 0;
 

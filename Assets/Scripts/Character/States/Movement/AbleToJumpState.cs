@@ -7,7 +7,8 @@ public class AbleToJumpState : AbleToFallState
 
     public override void handleAction(EAction _action)
     {
-        if (_action == EAction.Guard && !(m_character.m_currentActionState is GuardingState))
+        if (_action == EAction.Counter && !(m_character.m_currentActionState is GuardingState)
+                                     && !(m_character.m_currentActionState is CounteringWaterState))
         {
             if (m_character.m_currentActionState != null)
                 m_character.m_currentActionState.exit();

@@ -13,6 +13,7 @@ public class RunSprintingState : AbleToJumpState
                 m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];
                 m_character.m_currentMovementState.enter();
                 break;
+            case EAction.Counter:
             case EAction.Guard:
                 m_character.m_currentMovementState.exit();
                 m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];

@@ -32,6 +32,7 @@ public enum EAction
     PullWater,
     ReleaseWaterControl,
     TurnWaterAround,
+    Counter,
     Guard,
     ReleaseGuard
 }
