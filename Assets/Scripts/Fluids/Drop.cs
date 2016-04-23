@@ -140,6 +140,9 @@ public class Drop/*Movement*/ : NetworkBehaviour
             fakePlayer.OnMyCollisionEnter(gameObject);
         }*/
 
+		if (collider.name.Contains("Kit"))
+			return;
+
         if (m_initTime > 0)
         {
             m_initCollisions.Add(collider.gameObject);

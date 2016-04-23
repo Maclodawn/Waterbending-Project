@@ -4008,7 +4008,7 @@ MonoBehaviour:
   MaxPower: 100
   CanHaveNegativePower: 0
   CanHaveMoreThanMaxPower: 0
-  RegenerationRate: 3
+  RegenerationRate: 10
 --- !u!114 &11459472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5089,7 +5089,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: RegenerationRate
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: StartingPower
