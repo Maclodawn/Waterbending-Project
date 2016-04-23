@@ -54,10 +54,10 @@ public class AbleToJumpState : AbleToFallState
                 m_character.m_currentMovementState.enter();
                 break;
             case EMovement.Die:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.DyingState];
-                print(_character.m_statePool.Count + " " + (int)EStates.DyingState);
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.DyingState];
+                print(m_character.m_statePool.Count + " " + (int)EStates.DyingState);
+                m_character.m_currentMovementState.enter();
                 break;
         }
 

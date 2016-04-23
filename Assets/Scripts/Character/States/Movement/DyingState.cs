@@ -2,43 +2,43 @@
 using System.Collections;
 
 public class DyingState : CharacterState
-{
-    public override void enter(Character _character)
+{ 
+    public override void enter()
     {
         Debug.Log("Enter DyingState");
         m_EState = EStates.DyingState;
         print("SET DEAD");
-        _character.m_animator.SetTrigger("Dead");
+        m_character.m_animator.SetTrigger("Dead");
 
-        base.enter(_character);
+        base.enter();
     }
 
-    public override void handleMovement(Character _character, EMovement _movement)
+    public override void handleMovement(EMovement _movement)
     {
         switch (_movement)
         {
             case EMovement.Revive:
-                _character.m_currentMovementState.exit(_character);
-                _character.m_currentMovementState = _character.m_statePool[(int)EStates.StandingState];
-                _character.m_currentMovementState.enter(_character);
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.StandingState];
+                m_character.m_currentMovementState.enter();
                 break;
         }
     }
 
-    public override void fixedUpdate(Character _character)
+    public override void fixedUpdate()
     {
 
     }
 
-    public override void update(Character _character)
+    public override void update()
     {
-        base.update(_character);
+        base.update();
     }
 
-    public override void exit(Character _character)
+    public override void exit()
     {
-        _character.m_animator.SetTrigger("Revive");
+        m_character.m_animator.SetTrigger("Revive");
 
-        base.exit(_character);
+        base.exit();
     }
 }
