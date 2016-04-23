@@ -48,6 +48,9 @@ public class Manager : NetworkBehaviour
     GameObject m_UI;
 
     [SerializeField]
+    GameObject m_deathUI;
+
+    [SerializeField]
     GameObject m_tutoPrefab;
 
     public GameObject m_waterReservePrefab;
@@ -98,6 +101,18 @@ public class Manager : NetworkBehaviour
         }
     }
 
+    public void ShowCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void HideCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     public void PauseGame()
     {
         m_gameIsPaused = true;
@@ -143,5 +158,11 @@ public class Manager : NetworkBehaviour
                 go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
             }
         }
+    }
+
+    public void ShowDeathUI(ComputeActionsFromInput character, bool show)
+    {
+        m_deathUI.GetComponentInChildren<ReviveButton>().m_character = character;
+        m_deathUI.SetActive(show);
     }
 }

@@ -1824,6 +1824,7 @@ GameObject:
   - 114: {fileID: 11459472}
   - 114: {fileID: 11487634}
   - 114: {fileID: 11422010}
+  - 114: {fileID: 11461086}
   m_Layer: 0
   m_Name: NewPlayerPrefabNetworking
   m_TagString: Player
@@ -3553,7 +3554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d44949969eb242244aacb47503771f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingHealth: 100
+  StartingHealth: 0
   MaxHealth: 100
   CanHaveNegativeHealth: 0
   CanHaveMoreThanMaxHealth: 0
@@ -3727,6 +3728,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTransform: {fileID: 403138}
   lerpRate: 15
+--- !u!114 &11461086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8db6c9d59bf374aac1cf003d6d594c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11467726
 MonoBehaviour:
   m_ObjectHideFlags: 1

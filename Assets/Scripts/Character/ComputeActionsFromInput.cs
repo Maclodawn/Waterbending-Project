@@ -7,6 +7,7 @@ public class ComputeActionsFromInput : Character
     Manager mgr = null;
 
     public GameObject prefabCamera = null;
+    private bool revive = false;
 
     //To be called from PlayerNetworkSetup
     [Client]
@@ -44,7 +45,13 @@ public class ComputeActionsFromInput : Character
             Debug.Break();
 
         //Movements
-        if (GetComponent<HealthComponent>().Health <= 0)
+        if(revive)
+        {
+            revive = false;
+            movement = EMovement.Revive;
+            GetComponent<HealthComponent>().Health = GetComponent<HealthComponent>().StartingHealth;
+        }
+        else if (GetComponent<HealthComponent>().Health <= 0)
         {
             movement = EMovement.Die;
         }
@@ -64,7 +71,6 @@ public class ComputeActionsFromInput : Character
             if (m_currentMovementState is StandingState || m_currentMovementState is RunningState
                 || m_currentMovementState is SprintingState)
             {
-
                 if (Input.GetButtonDown("Dodge"))
                 {
                     movement = EMovement.Dodge;
@@ -110,5 +116,10 @@ public class ComputeActionsFromInput : Character
         handleMovementAndAction(movement, action);
 
         base.Update();
+    }
+
+    public void Revive()
+    {
+        revive = true;
     }
 }

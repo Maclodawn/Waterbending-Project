@@ -10,6 +10,9 @@ public class DyingState : CharacterState
         print("SET DEAD");
         _character.m_animator.SetTrigger("Dead");
 
+        Manager.getInstance().ShowDeathUI(_character.GetComponent<ComputeActionsFromInput>(), true);
+        Manager.getInstance().ShowCursor();
+
         base.enter(_character);
     }
 
@@ -39,6 +42,14 @@ public class DyingState : CharacterState
     {
         _character.m_animator.SetTrigger("Revive");
 
+        _character.GetComponent<ComputeActionsFromInput>().Revive();
+
+        GameObject[] spawns = GameObject.FindGameObjectsWithTag("Respawn");
+        int randId = (int)Random.Range(0, spawns.Length);
+        _character.transform.position = spawns[randId].transform.position;
+
+        Manager.getInstance().ShowDeathUI(_character.GetComponent<ComputeActionsFromInput>(), false);
+        Manager.getInstance().HideCursor();
         base.exit(_character);
     }
 }
