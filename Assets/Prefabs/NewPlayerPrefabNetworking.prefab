@@ -1951,8 +1951,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 403138}
   - 143: {fileID: 14311772}
-  - 114: {fileID: 11405934}
-  - 114: {fileID: 11445120}
   - 114: {fileID: 11451548}
   - 95: {fileID: 9578372}
   - 114: {fileID: 11417268}
@@ -3774,21 +3772,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11405934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 195816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d44949969eb242244aacb47503771f91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartingHealth: 100
-  MaxHealth: 100
-  CanHaveNegativeHealth: 0
-  CanHaveMoreThanMaxHealth: 0
 --- !u!114 &11406036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3943,7 +3926,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   face_camera: 1
   health_img: {fileID: 11469616}
-  health: {fileID: 11405934}
+  power_img: {fileID: 11476830}
+  health_component: {fileID: 11460694}
+  power_component: {fileID: 11457424}
 --- !u!114 &11435174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3982,22 +3967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db4a8f870cf34bf88299359d9276f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11445120
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 195816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88f00ef62e3ee10469fb8ecced915971, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartingPower: 100
-  MaxPower: 100
-  CanHaveNegativePower: 0
-  CanHaveMoreThanMaxPower: 0
-  RegenerationRate: 5
 --- !u!114 &11450822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4035,7 +4004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f00ef62e3ee10469fb8ecced915971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingPower: 100
+  StartingPower: 50
   MaxPower: 100
   CanHaveNegativePower: 0
   CanHaveMoreThanMaxPower: 0
@@ -5117,10 +5086,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_life
       value: 
-      objectReference: {fileID: 11405934}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: RegenerationRate
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: StartingPower
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

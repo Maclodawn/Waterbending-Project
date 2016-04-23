@@ -504,7 +504,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   face_camera: 1
   health_img: {fileID: 11449896}
-  health: {fileID: 11469090}
+  power_img: {fileID: 11441366}
+  health_component: {fileID: 11469090}
+  power_component: {fileID: 11476986}
 --- !u!114 &11480224
 MonoBehaviour:
   m_ObjectHideFlags: 1
