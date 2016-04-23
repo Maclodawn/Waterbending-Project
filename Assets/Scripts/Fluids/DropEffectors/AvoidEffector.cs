@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AvoidEffector : MonoBehaviour {
+public class AvoidEffector : MonoBehaviour
+{
     private Drop m_drop;
     private Vector3 m_center;
     private float /*m_radius, */m_minSeparationForce, m_maxSeparationForce;
@@ -17,7 +18,7 @@ public class AvoidEffector : MonoBehaviour {
         m_drop.registerEffector(this);
     }
 
-    public void init(Vector3 _center, float _radius, float _splitRatio, float _avoidStrength)
+    public void init(Vector3 _center/*, float _radius*/, float _splitRatio, float _avoidStrength)
     {
         m_center = _center;
         //m_radius = _radius;

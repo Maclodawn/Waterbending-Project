@@ -54,6 +54,8 @@ MonoBehaviour:
   m_waterTargetPrefab: {fileID: 107728, guid: 9e1adb7faf2810e4f8c361c1212fdb19, type: 2}
   m_dropParticlesPrefab: {fileID: 131964, guid: 2542369e72d8e0840b01206e5d564ecc,
     type: 2}
+  m_waterDeflectGuardPrefab: {fileID: 183602, guid: 4ede514cfda04a54e9d383005aaa2053,
+    type: 2}
   m_cameraSpeed: 1
   m_yReversed: 1
   m_waterGravity: 9.81

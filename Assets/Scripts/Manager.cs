@@ -55,6 +55,7 @@ public class Manager : NetworkBehaviour
     public GameObject m_dropPrefab;
     public GameObject m_waterTargetPrefab;
     public GameObject m_dropParticlesPrefab;
+    public GameObject m_waterDeflectGuardPrefab;
 
     public float m_cameraSpeed = 1;
     public bool m_yReversed = true;
