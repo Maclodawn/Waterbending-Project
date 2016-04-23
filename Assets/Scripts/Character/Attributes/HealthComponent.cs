@@ -24,7 +24,7 @@ public class HealthComponent : NetworkBehaviour
     [Server]
     void Update()
     {
-        if (!NetworkClient.active)
+        if (NetworkServer.active)
         {
             RpcUpdate(m_health);
         }
