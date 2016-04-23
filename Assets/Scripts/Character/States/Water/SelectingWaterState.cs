@@ -51,6 +51,8 @@ public class SelectingWaterState : AbleToFallState
 
                 CmdPushWater(m_waterReserve.GetComponent<NetworkIdentity>());
                 (m_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
+                if (!m_waterReserve)
+                    Debug.Break();
 
                 m_character.m_currentActionState.enter();
                 break;

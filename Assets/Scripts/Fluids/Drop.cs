@@ -133,12 +133,12 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (!NetworkServer.active)
             return;
 
-        //Demo
-        FakePlayer fakePlayer = collider.GetComponent<FakePlayer>();
+		//Demo //UPDATE: removals called from health controller now
+        /*FakePlayer fakePlayer = collider.GetComponent<FakePlayer>();
         if (fakePlayer)
         {
             fakePlayer.OnMyCollisionEnter(gameObject);
-        }
+        }*/
 
         if (m_initTime > 0)
         {

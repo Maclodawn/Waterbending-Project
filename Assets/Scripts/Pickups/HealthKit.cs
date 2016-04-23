@@ -28,7 +28,7 @@ public class HealthKit : MonoBehaviour {
         HealthComponent health = collider.gameObject.GetComponent<HealthComponent>();
         if(health != null)
         {
-            if(!health.HasMaxHealth())
+            //if(!health.HasMaxHealth())
             {
                 health.Health += RestoreQuantity;
                 Disable();
