@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 449440}
-  - 114: {fileID: 11418638}
+  - 114: {fileID: 11450554}
   m_Layer: 0
   m_Name: InGame_DoubleBar
   m_TagString: Untagged
@@ -210,20 +210,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &11418638
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 162236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0bdb4f9123b41c1a177f43f2949cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  face_camera: 1
-  health_img: {fileID: 0}
-  health: {fileID: 0}
 --- !u!114 &11448242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,6 +226,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11450554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54213cfcd72f44d3192f6eee8d546b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  face_camera: 1
+  health_img: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &11470702
 MonoBehaviour:
   m_ObjectHideFlags: 1
