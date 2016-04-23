@@ -42,7 +42,12 @@ public class RotateEffector : MonoBehaviour
     public void init(GameObject _target, Vector3 _normal/*, float _pullForce*/, float _radiusToTurnAround)
     {
         m_target = _target;
-        m_center = _target.transform.position;
+        m_center = m_target.transform.position;
+        CharacterController targetController = m_target.GetComponent<CharacterController>();
+        if (targetController)
+        {
+            m_center += targetController.center;
+        }
 //        m_normal = _normal;
 //        m_pullForce = _pullForce;
         m_radiusToTurnAround = _radiusToTurnAround;

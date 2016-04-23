@@ -24,20 +24,20 @@ public class CounteringWaterState : AbleToFallState
         Drop drop = getNearestWaterGroupInCharacterDirection();
         if (drop)
         {
-//             if (Vector3.Distance(drop.transform.position, transform.position + m_character.m_controller.center) > m_lowerDistanceToCounter)
-//             {
+            if (Vector3.Distance(drop.transform.position, transform.position + m_character.m_controller.center) > m_lowerDistanceToCounter)
+            {
                 // TurnAround -> Push
                 m_character.m_currentActionState = m_character.m_statePool[(int)EStates.TurningWaterAroundState];
                 m_character.m_waterGroup = drop.m_waterGroup;
                 (m_character.m_currentActionState as TurningWaterAroundState).initCounter();
                 m_character.m_currentActionState.enter();
-//             }
-//             else
-//             {
-//                 // Deviate
-//                 CmdDeviate(drop.GetComponent<NetworkIdentity>());
-//                 m_character.m_currentActionState = null;
-//             }
+            }
+            else
+            {
+                // Deviate
+                CmdDeviate(drop.GetComponent<NetworkIdentity>());
+                m_character.m_currentActionState = null;
+            }
         }
         else
         {

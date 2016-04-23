@@ -20,7 +20,10 @@ public class TurningWaterAroundState : AbleToFallState
         Debug.Log("Enter TurningWaterAroundState");
         m_EState = EStates.TurningWaterAroundState;
 
-        m_character.m_waterGroup.m_target.transform.position = m_character.transform.position + m_character.m_controller.center;
+        m_character.m_waterGroup.m_target.transform.position = m_character.transform.position;
+        Character targetCharacter = m_character.m_waterGroup.m_target.GetComponent<Character>();
+        if (!targetCharacter)
+            m_character.m_waterGroup.m_target.transform.position += m_character.m_controller.center;
         CmdEnter(m_character.m_waterGroup.m_target.transform.position, m_radiusToTurnAround);
         
         base.enter();
