@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 
 public class PushingWaterState : AbleToFallState
 {
-
     public float m_speed;
     Vector3 m_offsetToFling;
     float m_alpha;
@@ -14,6 +13,8 @@ public class PushingWaterState : AbleToFallState
 
     float time = 0.0f;
     public float cooldown;
+
+	private PowerComponent power_component = null;
 
     [Client]
     public void init(Vector3 _offsetToFling, float _alpha, bool _fromTurn)
@@ -81,6 +82,13 @@ public class PushingWaterState : AbleToFallState
 
         isReady = true;
         _character.m_waterGroup.setTarget(newTarget);
+
+		//updating power of water group and my power
+		if (power_component == null)
+			power_component = _character.GetComponent<PowerComponent>();
+		_character.m_waterGroup.power_percent = power_component.Power/power_component.MaxPower;
+		power_component.Power = power_component.Power/2f;
+		
         if (m_fromTurn)
             _character.m_waterGroup.flingFromTurn(m_speed, _character.transform.position + _character.m_controller.center + m_offsetToFling, m_alpha);
         else

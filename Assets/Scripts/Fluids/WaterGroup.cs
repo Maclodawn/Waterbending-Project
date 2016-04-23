@@ -4,6 +4,8 @@ using UnityEngine.Networking;
 
 public class WaterGroup : NetworkBehaviour
 {
+	//between 0 and 1
+	public float power_percent = 0f;
 
     [System.NonSerialized]
     public List<Drop> m_dropPool = new List<Drop>();
