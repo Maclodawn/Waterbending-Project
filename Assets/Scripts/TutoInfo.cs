@@ -7,6 +7,7 @@ public enum ETutoStates
     PakkuAppearState,
     GreetingsState,
     PullState,
+    TurnAroundState,
     ByeState,
     PakkuDisappearState
 }
@@ -28,6 +29,7 @@ public class TutoInfo : MonoBehaviour
         m_statePool.Add(GetComponent<PakkuAppearTutoState>());
         m_statePool.Add(GetComponent<GreetingsTutoState>());
         m_statePool.Add(GetComponent<PullTutoState>());
+        m_statePool.Add(GetComponent<TurnAroundTutoState>());
         m_statePool.Add(GetComponent<ByeTutoState>());
         m_statePool.Add(GetComponent<PakkuDisappearTutoState>());
         m_canvas = GetComponent<Canvas>();

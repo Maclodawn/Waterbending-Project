@@ -26,7 +26,7 @@ public class Manager : NetworkBehaviour
     {
         players.Add(player);
 
-        if (NetworkClient.active)
+        if (m_tuto && NetworkClient.active)
         {
             Instantiate(m_tutoPrefab).GetComponent<TutoInfo>().init();
         }
@@ -61,6 +61,9 @@ public class Manager : NetworkBehaviour
     public bool m_yReversed = true;
 
     public float m_waterGravity;
+
+    [SerializeField]
+    bool m_tuto = false;
 
     bool m_gameIsPaused = false;
 
