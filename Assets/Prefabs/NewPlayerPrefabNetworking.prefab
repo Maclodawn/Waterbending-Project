@@ -1912,6 +1912,7 @@ GameObject:
   - 114: {fileID: 11460694}
   - 114: {fileID: 11461490}
   - 114: {fileID: 11400732}
+  - 114: {fileID: 11457424}
   m_Layer: 0
   m_Name: NewPlayerPrefabNetworking
   m_TagString: Player
@@ -3954,6 +3955,22 @@ MonoBehaviour:
   ChargeRate: 1
   CooldownRate: 0
   ResetWhenChargeStop: 0
+--- !u!114 &11457424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f00ef62e3ee10469fb8ecced915971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingPower: 100
+  MaxPower: 100
+  CanHaveNegativePower: 0
+  CanHaveMoreThanMaxPower: 0
+  RegenerationRate: 3
 --- !u!114 &11459472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4175,6 +4192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0bdb4f9123b41c1a177f43f2949cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  face_camera: 1
   health_img: {fileID: 11442524}
   health: {fileID: 11405934}
 --- !u!137 &13703610
@@ -4960,6 +4978,10 @@ Prefab:
       propertyPath: m_life
       value: 
       objectReference: {fileID: 11405934}
+    - target: {fileID: 0}
+      propertyPath: RegenerationRate
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 195816}

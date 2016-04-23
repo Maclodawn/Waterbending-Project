@@ -49,6 +49,7 @@ GameObject:
   - 114: {fileID: 11431614}
   - 114: {fileID: 11469090}
   - 114: {fileID: 11489326}
+  - 114: {fileID: 11476986}
   m_Layer: 0
   m_Name: FakePlayer
   m_TagString: Player
@@ -386,6 +387,22 @@ MonoBehaviour:
   MaxHealth: 100
   CanHaveNegativeHealth: 0
   CanHaveMoreThanMaxHealth: 0
+--- !u!114 &11476986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f00ef62e3ee10469fb8ecced915971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingPower: 0
+  MaxPower: 100
+  CanHaveNegativePower: 0
+  CanHaveMoreThanMaxPower: 0
+  RegenerationRate: 0
 --- !u!114 &11489326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -514,6 +531,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: lerpRate
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: StartingPower
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
