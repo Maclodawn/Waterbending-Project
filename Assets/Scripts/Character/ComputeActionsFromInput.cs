@@ -44,7 +44,11 @@ public class ComputeActionsFromInput : Character
             Debug.Break();
 
         //Movements
-        if (m_currentMovementState is FallingState || m_currentMovementState is FallenState)
+        if (GetComponent<HealthComponent>().Health <= 0)
+        {
+            movement = EMovement.Die;
+        }
+        else if (m_currentMovementState is FallingState || m_currentMovementState is FallenState)
         {
             if (Input.GetButtonDown("Stabilize"))
             {
