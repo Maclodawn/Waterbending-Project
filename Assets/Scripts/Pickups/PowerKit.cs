@@ -29,11 +29,14 @@ public class PowerKit : MonoBehaviour {
         PowerComponent power = collider.gameObject.GetComponent<PowerComponent>();
         if (power != null)
         {
-            if(!power.HasMaxPower())
+            //if(!power.HasMaxPower())
             {
                 power.Power += RestoreQuantity;
                 Disable();
             }
+			
+			if (power.Power > power.MaxPower)
+				power.Power = power.MaxPower;
         }
     }
 

@@ -33,6 +33,9 @@ public class HealthKit : MonoBehaviour {
                 health.Health += RestoreQuantity;
                 Disable();
             }
+
+			if (health.Health > health.MaxHealth)
+				health.Health = health.MaxHealth;
         }
     }
 
