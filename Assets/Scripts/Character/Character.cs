@@ -15,6 +15,7 @@ public enum EStates
     FallingState,
     FallenState,
     DyingState,
+    HurtState,
     //Action FSM
     SelectingWaterToPushState,
     PushingWaterState,

@@ -7,7 +7,6 @@ public class DyingState : CharacterState
     {
         Debug.Log("Enter DyingState");
         m_EState = EStates.DyingState;
-        print("SET DEAD");
         _character.m_animator.SetTrigger("Dead");
 
         Manager.getInstance().ShowDeathUI(_character.GetComponent<ComputeActionsFromInput>(), true);
