@@ -10,11 +10,12 @@ public class CounteringWaterState : AbleToFallState
     public float m_angleDirectionToCounter = 45.0f;
     public float m_radiusToDeviate = 2.0f;
 
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position + m_character.m_controller.center, m_upperDistanceToCounter);
-        //Gizmos.DrawSphere(transform.position + m_character.m_controller.center, m_lowerDistanceToCounter);
-    }
+//     [Client]
+//     void OnDrawGizmos()
+//     {
+//         Gizmos.DrawSphere(transform.position + m_character.m_controller.center, m_upperDistanceToCounter);
+//         Gizmos.DrawSphere(transform.position + m_character.m_controller.center, m_lowerDistanceToCounter);
+//     }
 
     [Client]
     public override void enter()

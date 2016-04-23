@@ -116,6 +116,12 @@ public class DeviationEffector : MonoBehaviour
             m_drop.gameObject.AddComponent<RotateEffector>();
             m_drop.GetComponent<RotateEffector>().init(m_target, Vector3.up/*, 1*/, m_targetRadius);
         }
+        else
+        {
+            m_drop.removeEffectors();
+            m_drop.gameObject.AddComponent<DropGravity>();
+        }
+
         m_time += Time.fixedDeltaTime;
     }
 }
