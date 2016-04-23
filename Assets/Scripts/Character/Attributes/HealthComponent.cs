@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Networking;
 
-public class HealthComponent : MonoBehaviour {
+public class HealthComponent : NetworkBehaviour
+{
 
     private float m_health;
 
@@ -17,6 +19,24 @@ public class HealthComponent : MonoBehaviour {
     void Start()
     {
         Health = StartingHealth;
+    }
+
+    [Server]
+    void Update()
+    {
+        if (NetworkServer.active)
+        {
+            RpcUpdate(m_health);
+        }
+    }
+
+    [ClientRpc]
+    void RpcUpdate(float _health)
+    {
+        if (_health != m_health)
+        {
+            m_health = _health;
+        }
     }
 
     public bool HasMaxHealth()

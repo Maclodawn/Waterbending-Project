@@ -49,6 +49,8 @@ public class SelectingWaterState : AbleToFallState
             case EAction.PushWater:
                 _character.m_currentActionState = _character.m_statePool[(int)EStates.PushingWaterState];
 
+                if (!_character || !m_waterReserve)
+                    Debug.Break();
                 CmdPushWater(_character.GetComponent<NetworkIdentity>(), m_waterReserve.GetComponent<NetworkIdentity>());
                 (_character.m_currentActionState as PushingWaterState).init(Vector3.zero, m_angle, false);
 
