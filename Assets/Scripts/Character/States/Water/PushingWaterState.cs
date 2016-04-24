@@ -15,6 +15,7 @@ public class PushingWaterState : AbleToFallState
     public float cooldown;
 
 	private PowerComponent power_component = null;
+	private Teamate teamate = null;
 
     [Client]
     public void init(Vector3 _offsetToFling, float _alpha, bool _fromTurn)
@@ -125,9 +126,12 @@ public class PushingWaterState : AbleToFallState
         GameObject closestplayer = null;
         float closestPlayerDistance = float.MaxValue;
 
+		if (!teamate)
+			teamate = GetComponent<Teamate>();
+
         foreach (GameObject player in players)
         {
-            if (player == gameObject)
+			if (player == gameObject || teamate.isFriend(player.GetComponent<Teamate>()))
                 continue;
 
             Vector3 point = Camera.main.WorldToViewportPoint(player.transform.position);

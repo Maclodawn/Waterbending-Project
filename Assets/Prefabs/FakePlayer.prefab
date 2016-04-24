@@ -535,7 +535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d733ce00427ec41489d8068356052a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team_id: 99
+  team_id: -1
+  infos: {fileID: 0}
 --- !u!114 &11489326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -763,7 +764,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: team_id
-      value: 99
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
