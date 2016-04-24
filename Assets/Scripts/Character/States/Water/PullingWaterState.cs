@@ -42,7 +42,7 @@ public class PullingWaterState : AbleToFallState
         m_waterReserve = getNearestWaterReserve();
 
         m_character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
-        m_character.m_waterGroup.name = Character.count.ToString();
+		m_character.m_waterGroup.name = "" + m_character.GetComponent<NetworkIdentity>().netId; //Character.count.ToString();
 
 
         GameObject target = GameObject.Instantiate(Manager.getInstance().m_waterTargetPrefab);

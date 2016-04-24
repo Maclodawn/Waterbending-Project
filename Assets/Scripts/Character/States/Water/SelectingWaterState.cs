@@ -68,7 +68,7 @@ public class SelectingWaterState : AbleToFallState
             return;
 
         m_character.m_waterGroup = Instantiate(Manager.getInstance().m_waterGroupPrefab).GetComponent<WaterGroup>();
-        m_character.m_waterGroup.name = Character.count.ToString();
+		m_character.m_waterGroup.name = "" + m_character.GetComponent<NetworkIdentity>().netId; //= Character.count.ToString();
 
         WaterReserve waterReserve = _waterReserveNetId.GetComponent<WaterReserve>();
 
