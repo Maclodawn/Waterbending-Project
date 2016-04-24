@@ -306,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_cameraSpeed: 1
   m_yReversed: 1
-  m_tuto: 1
+  m_tuto: 0
 --- !u!4 &73149670
 Transform:
   m_ObjectHideFlags: 0
