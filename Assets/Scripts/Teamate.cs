@@ -31,9 +31,12 @@ public class Teamate : MonoBehaviour {
 			team_id = _new_team_id;
 
 		try {
+			if (infos == null)
+				infos = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
+
 			infos.log("<b><color=\"yellow\">" + gameObject.name + "</color></b>: now joining team <b><color=\"yellow\">#" + team_id + "</color></b>");
 		} catch (Exception e) {
-			Debug.LogError("Ununderstandable.");
+			Debug.LogError("Ununderstandable." + (infos == null) + gameObject);
 		}
 	}
 

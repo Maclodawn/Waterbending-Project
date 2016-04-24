@@ -172,6 +172,8 @@ public class Character : NetworkBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+		gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             AbleToFallState toto = (AbleToFallState)m_currentMovementState;

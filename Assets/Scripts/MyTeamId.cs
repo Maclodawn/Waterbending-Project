@@ -11,11 +11,15 @@ public class MyTeamId : MonoBehaviour {
 	}
 
 	public int getTeamId() {
-		return int.Parse(input.text.ToString());
+		try {
+			return int.Parse(input.text.ToString());
+		} catch {
+			return 0;
+		}
 	}
 
 	public void hide() {
-		enabled = false;
+		gameObject.SetActive(false);
 	}
 
 	public int hideAndGetTeamId() {

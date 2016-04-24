@@ -20,7 +20,11 @@ public class InGameDoubleBarController : MonoBehaviour {
 	private static string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
 
 	public void Start() {
-		updateText(colors[GetComponentInParent<Teamate>().team_id]);
+		int team_id = GetComponentInParent<Teamate>().team_id;
+		if (team_id < 0 || team_id > 6)
+			updateText("black");
+		else
+			updateText(colors[team_id]);
 	}
 
 	public void updateText(string _team_color) {
@@ -85,6 +89,10 @@ public class InGameDoubleBarController : MonoBehaviour {
 		//
 		//text update
 		//
-		updateText(colors[GetComponentInParent<Teamate>().team_id]);
+		int team_id = GetComponentInParent<Teamate>().team_id;
+		if (team_id < 0 || team_id > 6)
+			updateText("black");
+		else
+			updateText(colors[team_id]);
 	}
 }

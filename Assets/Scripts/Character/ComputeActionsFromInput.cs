@@ -13,18 +13,11 @@ public class ComputeActionsFromInput : Character
     public void init()
     {
         mgr.addPlayer(gameObject);
-        CmdInit();
         GameObject camera = Instantiate(prefabCamera);
         PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
         playerLook.m_playerTransform = gameObject.transform;
         playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;
         m_cameraTransform = camera.transform;
-    }
-
-    [Command]
-    void CmdInit()
-    {
-        gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
     }
 
     public void Awake()
