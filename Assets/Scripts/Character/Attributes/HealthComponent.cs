@@ -56,6 +56,7 @@ public class HealthComponent : NetworkBehaviour
 
         set
         {
+            
             float oldHealth = m_health;
 
             if (value > MaxHealth)
@@ -76,7 +77,10 @@ public class HealthComponent : NetworkBehaviour
             {
                 m_health = value;
             }
-
+            
+            ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
+            if(character != null && oldHealth > value)
+                character.OnDamageTaken();
             OnHealthChanged(oldHealth, m_health);
         }
     }
@@ -86,6 +90,7 @@ public class HealthComponent : NetworkBehaviour
         if (HealthChanged != null)
         {
             HealthChanged(this, oldHealth, newHealth);
+            print("HEALTH CHANGED");
         }
     }
 }

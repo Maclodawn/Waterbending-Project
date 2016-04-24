@@ -30,6 +30,12 @@ public class RunningState : RunSprintingState
                 m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.SprintingState];
                 m_character.m_currentMovementState.enter();
                 break;
+            case EMovement.Hurt:
+                m_character.m_currentMovementState.exit();
+                m_character.m_currentMovementState = m_character.m_statePool[(int)EStates.HurtState];
+                m_character.m_currentMovementState.enter();
+                break;
+
         }
         base.handleMovement(_movement);
     }

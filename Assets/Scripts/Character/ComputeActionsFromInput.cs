@@ -8,7 +8,7 @@ public class ComputeActionsFromInput : Character
 
     public GameObject prefabCamera = null;
 
-    private bool respawn = false;
+    private bool respawn = false, hurt = false;
 
     //To be called from PlayerNetworkSetup
     [Client]
@@ -44,6 +44,11 @@ public class ComputeActionsFromInput : Character
         transform.position = spawns[selected].transform.position;
     }
 
+    public void OnDamageTaken()
+    {
+        hurt = true;
+    }
+
     [System.NonSerialized]
     public Transform m_cameraTransform;
 
@@ -65,6 +70,11 @@ public class ComputeActionsFromInput : Character
         {
             movement = EMovement.Revive;
             respawn = false;
+        }
+        else if(hurt)
+        {
+            movement = EMovement.Hurt;
+            hurt = false;
         }
         else if (GetComponent<HealthComponent>().Health <= 0)
         {
