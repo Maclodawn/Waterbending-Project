@@ -16,6 +16,7 @@ public class InGameDoubleBarController : MonoBehaviour {
 	public HealthComponent health_component;
 	public PowerComponent power_component;
 
+	private string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
 	private string team_color = "red";
 	public Text name = null;
 

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class Teamate : MonoBehaviour {
 
-	private static int NB_TEAMS = 0;
-	public int team_id = -1; //starts at 1
+	private static int NB_TEAMS = 1;
+	public int team_id = -1; //starts at 1, 0 == fakeplayers
 	public InformationsLog infos = null;
 
 	public void Start() {
