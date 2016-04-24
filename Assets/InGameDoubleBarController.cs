@@ -21,6 +21,22 @@ public class InGameDoubleBarController : MonoBehaviour {
 
 	public void OnGUI() {
 		//
+		//updating orientation towards camera
+		//
+		if (main_camera != null) {
+			//checking if the three canvas is referenced
+			if (gameObject == null) {
+				Debug.LogError("Health bar object not found.");
+				return;
+			}
+
+			gameObject.transform.LookAt(new Vector3(main_camera.transform.position.x,
+				main_camera.transform.position.y,
+				main_camera.transform.position.z));
+		} else if (face_camera)
+			main_camera = GameObject.FindObjectOfType<Camera>();
+
+		//
 		//health update
 		//
 		//checking if components are properly set by user
@@ -38,20 +54,6 @@ public class InGameDoubleBarController : MonoBehaviour {
 		health_img.transform.localScale = new Vector3(health_component.Health/health_component.MaxHealth,
 			health_img.transform.localScale.y,
 			health_img.transform.localScale.z);
-
-		//updating orientation towards camera
-		if (main_camera != null) {
-			//checking if the three canvas is referenced
-			if (gameObject == null) {
-				Debug.LogError("Health bar object not found.");
-				return;
-			}
-
-			gameObject.transform.LookAt(new Vector3(main_camera.transform.position.x,
-				main_camera.transform.position.y,
-				main_camera.transform.position.z));
-		} else if (face_camera)
-			main_camera = GameObject.FindObjectOfType<Camera>();
 
 		//
 		//power update
