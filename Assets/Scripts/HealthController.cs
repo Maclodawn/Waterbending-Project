@@ -35,7 +35,7 @@ public class HealthController : NetworkBehaviour
             float tmp_dmg = UnityEngine.Random.Range(10, 15);
             health.Health -= tmp_dmg; //TODO way of computing damage=f(power)?
             informations.log("<b><color=\"blue\">" + gameObject.name + "</color></b>: -" + tmp_dmg + "PV");
-            if (health.Health < 1)
+            if (health.Health < 0.1f)
             {
                 //you're dead if your current player is dead
                 informations.log("<b><color=\"red\">" + gameObject.name + "</color></b> IS DEAD");
