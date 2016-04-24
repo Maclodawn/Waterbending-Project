@@ -1913,6 +1913,7 @@ GameObject:
   - 114: {fileID: 11400732}
   - 114: {fileID: 11441602}
   - 114: {fileID: 11485392}
+  - 114: {fileID: 11456278}
   m_Layer: 0
   m_Name: NewPlayerPrefabNetworking
   m_TagString: Player
@@ -3966,6 +3967,17 @@ MonoBehaviour:
   ChargeRate: 1
   CooldownRate: 0
   ResetWhenChargeStop: 0
+--- !u!114 &11456278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8db6c9d59bf374aac1cf003d6d594c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11459472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4832,6 +4844,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
