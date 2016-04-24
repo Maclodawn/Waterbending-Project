@@ -8,6 +8,8 @@ public class ComputeActionsFromInput : Character
 
     public GameObject prefabCamera = null;
 
+    private bool respawn = false, hurt = false;
+
     //To be called from PlayerNetworkSetup
     [Client]
     public void init()
@@ -34,6 +36,19 @@ public class ComputeActionsFromInput : Character
 
     //-----
 
+    public void Respawn()
+    {
+        respawn = true;
+        GameObject[] spawns = GameObject.FindGameObjectsWithTag("Respawn");
+        int selected = Random.Range(0, spawns.Length);
+        transform.position = spawns[selected].transform.position;
+    }
+
+    public void OnDamageTaken()
+    {
+        hurt = true;
+    }
+
     [System.NonSerialized]
     public Transform m_cameraTransform;
 
@@ -51,7 +66,17 @@ public class ComputeActionsFromInput : Character
             Debug.Break();
 
         //Movements
-        if (GetComponent<HealthComponent>().Health <= 0)
+        if (respawn)
+        {
+            movement = EMovement.Revive;
+            respawn = false;
+        }
+        else if(hurt)
+        {
+            movement = EMovement.Hurt;
+            hurt = false;
+        }
+        else if (GetComponent<HealthComponent>().Health <= 0)
         {
             movement = EMovement.Die;
         }

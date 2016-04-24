@@ -35,18 +35,22 @@ public class InGameHealthBarController : MonoBehaviour {
 														health_img.transform.localScale.y,
 														health_img.transform.localScale.z);
 
-		//updating orientation towards camera
-		if (main_camera != null) {
-			//checking if the three canvas is referenced
-			if (gameObject == null) {
-				Debug.LogError("Health bar object not found.");
-				return;
-			}
-
-			gameObject.transform.LookAt(new Vector3(main_camera.transform.position.x,
-													main_camera.transform.position.y,
-													main_camera.transform.position.z));
-		} else if (face_camera)
-			main_camera = GameObject.FindObjectOfType<Camera>();
+		
 	}
+
+    public void Update()
+    {
+        //updating orientation towards camera
+        main_camera = Camera.main;
+        //checking if the three canvas is referenced
+        if (gameObject == null)
+        {
+            Debug.LogError("Health bar object not found.");
+            return;
+        }
+
+        gameObject.transform.LookAt(new Vector3(main_camera.transform.position.x,
+                                                main_camera.transform.position.y,
+                                                main_camera.transform.position.z));
+    }
 }

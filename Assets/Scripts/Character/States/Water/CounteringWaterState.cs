@@ -61,7 +61,9 @@ public class CounteringWaterState : AbleToFallState
     [Command]
     void CmdDeviate(NetworkIdentity _dropIdentity)
     {
-        _dropIdentity.GetComponent<Drop>().m_waterGroup.deviate(m_radiusToDeviate);
+        if (_dropIdentity.GetComponent<Drop>().m_waterGroup == null)
+            exit();
+        else _dropIdentity.GetComponent<Drop>().m_waterGroup.deviate(m_radiusToDeviate);
     }
 
     Drop getNearestWaterGroupInCharacterDirection()

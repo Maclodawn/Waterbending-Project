@@ -15,6 +15,7 @@ public enum EStates
     FallingState,
     FallenState,
     DyingState,
+    HurtState,
     //Action FSM
     SelectingWaterToPushState,
     PushingWaterState,
@@ -47,7 +48,8 @@ public enum EMovement
     Dodge,
     Stabilize,
     Die,
-    Revive
+    Revive,
+    Hurt
 }
 
 public class Character : NetworkBehaviour
@@ -129,6 +131,7 @@ public class Character : NetworkBehaviour
         m_statePool.Add(GetComponent<FallingState>());
         m_statePool.Add(GetComponent<FallenState>());
         m_statePool.Add(GetComponent<DyingState>());
+        m_statePool.Add(GetComponent<HurtState>());
 
         // Action FSM
         m_statePool.Add(GetComponent<SelectingWaterState>());

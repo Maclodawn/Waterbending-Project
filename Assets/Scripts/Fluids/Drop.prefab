@@ -97,6 +97,7 @@ MonoBehaviour:
   m_initTime: 0.2
   m_waterGroup: {fileID: 0}
   particles: {fileID: 0}
+  splashPrefab: {fileID: 482910, guid: b5ee039ef04a3bc40a63a0c6f22193cb, type: 2}
 --- !u!114 &11460548
 MonoBehaviour:
   m_ObjectHideFlags: 1

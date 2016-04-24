@@ -7,8 +7,9 @@ public class DyingState : CharacterState
     {
         Debug.Log("Enter DyingState");
         m_EState = EStates.DyingState;
-        print("SET DEAD");
-        m_character.m_animator.SetTrigger("Dead");
+        m_character.m_animator.SetBool("Dead", true);
+        if(m_character.hasAuthority)
+            Manager.getInstance().ShowDeathMenu(m_character.GetComponent<ComputeActionsFromInput>());
 
         base.enter();
     }
@@ -37,7 +38,7 @@ public class DyingState : CharacterState
 
     public override void exit()
     {
-        m_character.m_animator.SetTrigger("Revive");
+        m_character.m_animator.SetBool("Dead", false);
 
         base.exit();
     }

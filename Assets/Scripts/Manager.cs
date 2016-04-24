@@ -50,6 +50,9 @@ public class Manager : NetworkBehaviour
     [SerializeField]
     GameObject m_tutoPrefab;
 
+    [SerializeField]
+    GameObject m_deathMenu;
+
     public GameObject m_waterReservePrefab;
     public GameObject m_waterGroupPrefab;
     public GameObject m_dropPrefab;
@@ -147,5 +150,25 @@ public class Manager : NetworkBehaviour
                 go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
             }
         }
+    }
+
+    private ComputeActionsFromInput currentCharacter;
+
+    public void ShowDeathMenu(ComputeActionsFromInput character)
+    {
+        currentCharacter = character;
+        m_deathMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void Respawn()
+    {
+        print("Respawn");
+        m_deathMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        currentCharacter.GetComponent<HealthComponent>().Health = currentCharacter.GetComponent<HealthComponent>().StartingHealth;
+        currentCharacter.Respawn();
     }
 }
