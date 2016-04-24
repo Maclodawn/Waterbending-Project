@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class PowerKit : MonoBehaviour {
+public class PowerKit : NetworkBehaviour {
 
     private bool m_disabled = false;
     private float m_timer = 0;
@@ -11,8 +12,12 @@ public class PowerKit : MonoBehaviour {
     public float Cooldown = 5;
 
     // Update is called once per frame
+    [ServerCallback]
     void Update()
     {
+        if (!NetworkServer.active)
+            return;
+
         if (m_disabled)
         {
             m_timer += Time.deltaTime;
@@ -25,8 +30,12 @@ public class PowerKit : MonoBehaviour {
 		}
     }
 
+    [ServerCallback]
     void OnTriggerEnter(Collider collider)
     {
+        if (!NetworkServer.active)
+            return;
+
         if (m_disabled)
             return;
 
@@ -44,8 +53,11 @@ public class PowerKit : MonoBehaviour {
         }
     }
 
+    [Server]
     void Disable()
     {
+        RpcDisable();
+
         Renderer renderer = GetComponent<Renderer>();
         Collider collider = GetComponent<Collider>();
 
@@ -59,8 +71,20 @@ public class PowerKit : MonoBehaviour {
         m_disabled = true;
     }
 
+    [ClientRpc]
+    void RpcDisable()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+
+        if (renderer != null)
+            renderer.enabled = false;
+    }
+
+    [Server]
     void Enable()
     {
+        RpcEnable();
+
         Renderer renderer = GetComponent<Renderer>();
         Collider collider = GetComponent<Collider>();
 
@@ -72,5 +96,14 @@ public class PowerKit : MonoBehaviour {
 
         m_timer = 0;
         m_disabled = false;
+    }
+
+    [ClientRpc]
+    void RpcEnable()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+
+        if (renderer != null)
+            renderer.enabled = true;
     }
 }
