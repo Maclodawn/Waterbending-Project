@@ -17,11 +17,15 @@ public class HealthKit : MonoBehaviour {
             m_timer += Time.deltaTime;
             if (m_timer >= Cooldown)
                 Enable();
-        }
+		} else {
+			Collider[] colliders = Physics.OverlapBox(transform.position + Vector3.up*2f, new Vector3(0.75f, 0.75f, 0.25f));
+			if (colliders.Length > 0)
+				OnTriggerEnter(colliders[0]);
+		}
 	}
 
     void OnTriggerEnter(Collider collider)
-    {
+	{
         if (m_disabled)
             return;
 
@@ -33,6 +37,9 @@ public class HealthKit : MonoBehaviour {
                 health.Health += RestoreQuantity;
                 Disable();
             }
+
+			if (health.Health > health.MaxHealth)
+				health.Health = health.MaxHealth;
         }
     }
 
