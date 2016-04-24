@@ -16,17 +16,15 @@ public class InGameDoubleBarController : MonoBehaviour {
 	public HealthComponent health_component;
 	public PowerComponent power_component;
 
-	private string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
-	private string team_color = "red";
 	public Text name = null;
+	private static string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
 
 	public void Start() {
-		updateText(team_color);
+		updateText(colors[GetComponentInParent<Teamate>().team_id]);
 	}
 
 	public void updateText(string _team_color) {
-		team_color = _team_color;
-		name.text = "<b><color=\"" + team_color + "\">" + transform.parent.gameObject.name + "</color></b>";
+		name.text = "<b><color=\"" + _team_color + "\">" + transform.parent.gameObject.name + "</color></b>";
 	}
 
 	public void OnGUI() {
@@ -83,5 +81,10 @@ public class InGameDoubleBarController : MonoBehaviour {
 		power_img.transform.localScale = new Vector3(power_component.Power/power_component.MaxPower,
 			power_img.transform.localScale.y,
 			power_img.transform.localScale.z);
+
+		//
+		//text update
+		//
+		updateText(colors[GetComponentInParent<Teamate>().team_id]);
 	}
 }
