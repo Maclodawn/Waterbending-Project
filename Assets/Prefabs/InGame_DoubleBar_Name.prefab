@@ -374,6 +374,7 @@ MonoBehaviour:
   health_component: {fileID: 0}
   power_component: {fileID: 0}
   team_color: red
+  name: {fileID: 11423790}
 --- !u!114 &11488572
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -16,9 +16,8 @@ public class InGameDoubleBarController : MonoBehaviour {
 	public HealthComponent health_component;
 	public PowerComponent power_component;
 
-	public void Start() {
-
-	}
+	public string team_color = "red";
+	public Text name = null;
 
 	public void OnGUI() {
 		//
