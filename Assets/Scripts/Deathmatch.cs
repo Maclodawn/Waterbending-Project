@@ -73,9 +73,17 @@ public class Deathmatch : NetworkBehaviour {
 	//At each frame, checks if a new player is dead...
 	//We assume we can only die once!
 	public void Update() {
-		//victory detection
-		if (!end && players_alive.Count < 2 && players_alive.Contains(my_player)) {
-			informations.log(gameObject.name + " WINS!");
+		//victory detection: adding team testing
+		bool onlyMyTeamAlive = true;
+		int my_team_id = GetComponent<Teamate>().team_id;
+		foreach (HealthComponent tmp_player in players_alive) {
+			if (my_team_id != tmp_player.GetComponent<Teamate>().team_id) {
+				onlyMyTeamAlive = false;
+				break;
+			}
+		}
+		if (!end && onlyMyTeamAlive && players_alive.Contains(my_player)) {
+			informations.log("TEAM " + my_team_id + " WINS!");
 			end = true;
 		}
 
