@@ -40,6 +40,7 @@ public class PushingWaterState : AbleToFallState
     {
         Debug.Log("Enter PushingWaterState");
         m_EState = EStates.PushingWaterState;
+        GetComponent<Animator>().SetBool("Push", true);
 
         GameObject newTarget = AutoAim();
         if (newTarget)
@@ -114,6 +115,7 @@ public class PushingWaterState : AbleToFallState
     public override void exit()
     {
         m_character.m_currentActionState = null;
+        GetComponent<Animator>().SetBool("Push", false);
 
         base.exit();
     }
