@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Deathmatch : MonoBehaviour {
+public class Deathmatch : NetworkBehaviour {
 
 	private InformationsLog informations = null;
 	private static LinkedList<HealthComponent> players_alive = null;
@@ -44,6 +45,29 @@ public class Deathmatch : MonoBehaviour {
 
 		//retrieving InformationsLog
 		informations = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
+
+		//setting team
+		if (hasAuthority && !GetComponent<FakePlayer>())
+		{
+			Teamate teamate = GetComponent<Teamate>();
+			MyTeamId myTeamId = FindObjectOfType<MyTeamId>();
+			//teamate.addToTeam(myTeamId.hideAndGetTeamId());
+			CmdSetTeam(myTeamId.hideAndGetTeamId());
+		}
+	}
+
+	[Command]
+	private void CmdSetTeam(int _team_id) {
+		Teamate teamate = GetComponent<Teamate>();
+		teamate.addToTeam(_team_id);
+		RpcSetTeamClient(_team_id);
+	}
+
+	[ClientRpc]
+	private void RpcSetTeamClient(int _team_id) {
+		Debug.LogError(_team_id);
+		Teamate teamate = GetComponent<Teamate>();
+		teamate.addToTeam(_team_id);
 	}
 
 	//At each frame, checks if a new player is dead...
@@ -71,6 +95,6 @@ public class Deathmatch : MonoBehaviour {
 	}
 
 	private bool isAlive(HealthComponent player_health) {
-		return player_health.Health > 1;
+		return player_health.Health > 0.1f;
 	}
 }

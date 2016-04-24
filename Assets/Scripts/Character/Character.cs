@@ -55,7 +55,7 @@ public enum EMovement
 public class Character : NetworkBehaviour
 {
 
-    public static int count = 0;
+    //public static int count = 0;
 
 
     // Final states only
@@ -107,12 +107,12 @@ public class Character : NetworkBehaviour
         Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
     }
 
-    static int characterCount = 0;
+    //static int characterCount = 0;
 
     // Use this for initialization
     void Start()
     {
-        name += characterCount++;
+        //name += characterCount++;
 
         m_controller = GetComponent<CharacterController>();
         m_radiusController = m_controller.radius;
@@ -175,6 +175,8 @@ public class Character : NetworkBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+		gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             AbleToFallState toto = (AbleToFallState)m_currentMovementState;
