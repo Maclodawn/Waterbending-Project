@@ -84,6 +84,7 @@ public class Manager : NetworkBehaviour
 		if (options) {
 			m_cameraSpeed = options.m_cameraSpeed;
 			m_yReversed = options.m_yReversed;
+			m_tuto = options.m_tuto;
 		}
 	}
 
