@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TurnAroundTutoState : TutoState
+public class TurnPushTutoState : TutoState
 {
 
     UnityEngine.UI.Text m_text;
@@ -19,9 +19,9 @@ public class TurnAroundTutoState : TutoState
 
     public override void enter()
     {
-        Debug.Log("Enter TurnAroundTutoState");
-        m_ETutoState = ETutoStates.TurnAroundState;
-        m_text.text = "Now try to turn the water around by holding [Right Click] and then holding [Left Click].";
+        Debug.Log("Enter TurnPushTutoState");
+        m_ETutoState = ETutoStates.TurnPushState;
+        m_text.text = "You can now throw the water wherever you aim by releasing [Right Click] and [Left Click].";
 
         GameObject[] goList = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject go in goList)
@@ -31,7 +31,7 @@ public class TurnAroundTutoState : TutoState
                 break;
         }
 
-        m_pakkuAnimator.SetBool("TurnAround", true);
+        m_pakkuAnimator.SetBool("TurnPush", true);
 
         base.enter();
     }
@@ -39,7 +39,7 @@ public class TurnAroundTutoState : TutoState
     public override void update()
     {
         m_time += Time.deltaTime;
-        if (m_time >= m_duration && player.m_currentActionState && player.m_currentActionState.m_EState == EStates.TurningWaterAroundState)
+        if (m_time >= m_duration && player.m_currentActionState && player.m_currentActionState.m_EState == EStates.PushingWaterState)
         {
             exit();
         }
@@ -49,7 +49,7 @@ public class TurnAroundTutoState : TutoState
 
     public override void exit()
     {
-        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.TurnPushState];
+        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.SelectState];
         m_tutoInfo.m_currentState.enter();
 
         base.exit();

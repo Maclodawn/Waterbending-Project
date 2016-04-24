@@ -12,6 +12,9 @@ public class DodgingState : AbleToFallState
     public override void enter()
     {
         Debug.Log("Enter DodgingState");
+
+        m_EState = EStates.DodgingState;
+
         m_character.m_currentMoveSpeed = m_dodgeRollSpeed;
         m_character.m_animator.SetBool("Dodge", true);
         setOrientation();

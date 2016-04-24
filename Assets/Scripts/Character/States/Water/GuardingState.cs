@@ -11,6 +11,8 @@ public class GuardingState : AbleToFallState
     {
         Debug.Log("Enter GuardingState");
 
+        m_EState = EStates.GuardingState;
+
         // ANIMATION
 
         CmdEnter();

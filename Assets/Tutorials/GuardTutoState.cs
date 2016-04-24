@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TurnAroundTutoState : TutoState
+public class GuardTutoState : TutoState
 {
 
     UnityEngine.UI.Text m_text;
@@ -19,9 +19,9 @@ public class TurnAroundTutoState : TutoState
 
     public override void enter()
     {
-        Debug.Log("Enter TurnAroundTutoState");
-        m_ETutoState = ETutoStates.TurnAroundState;
-        m_text.text = "Now try to turn the water around by holding [Right Click] and then holding [Left Click].";
+        Debug.Log("Enter GuardTutoState");
+        m_ETutoState = ETutoStates.GuardState;
+        m_text.text = "Now that you know how to attack let's see how to defend yourself. Hold [F] to reduce the damages you'll receive taking.";
 
         GameObject[] goList = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject go in goList)
@@ -31,7 +31,7 @@ public class TurnAroundTutoState : TutoState
                 break;
         }
 
-        m_pakkuAnimator.SetBool("TurnAround", true);
+        m_pakkuAnimator.SetBool("Guard", true);
 
         base.enter();
     }
@@ -39,7 +39,7 @@ public class TurnAroundTutoState : TutoState
     public override void update()
     {
         m_time += Time.deltaTime;
-        if (m_time >= m_duration && player.m_currentActionState && player.m_currentActionState.m_EState == EStates.TurningWaterAroundState)
+        if (m_time >= m_duration && player.m_currentActionState && player.m_currentActionState.m_EState == EStates.GuardingState)
         {
             exit();
         }
@@ -49,7 +49,7 @@ public class TurnAroundTutoState : TutoState
 
     public override void exit()
     {
-        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.TurnPushState];
+        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.DeviateState];
         m_tutoInfo.m_currentState.enter();
 
         base.exit();

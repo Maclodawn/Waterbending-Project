@@ -22,6 +22,8 @@ public class CounteringWaterState : AbleToFallState
     {
         Debug.Log("Enter CounteringWaterState");
 
+        m_EState = EStates.CounteringWaterState;
+
         Drop drop = getNearestWaterGroupInCharacterDirection();
         if (drop)
         {
@@ -32,12 +34,19 @@ public class CounteringWaterState : AbleToFallState
                 m_character.m_waterGroup = drop.m_waterGroup;
                 (m_character.m_currentActionState as TurningWaterAroundState).initCounter();
                 m_character.m_currentActionState.enter();
+
+                CounterTutoState tuto = GameObject.FindObjectOfType<CounterTutoState>();
+                if (tuto)
+                    tuto.m_countered = true;
             }
             else
             {
                 // Deviate
                 CmdDeviate(drop.GetComponent<NetworkIdentity>());
                 m_character.m_currentActionState = null;
+                DeviateTutoState tuto = GameObject.FindObjectOfType<DeviateTutoState>();
+                if (tuto)
+                    tuto.m_deviated = true;
             }
         }
         else

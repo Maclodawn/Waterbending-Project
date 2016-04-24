@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GreetingsTutoState : TutoState
+public class ActionTutoState : TutoState
 {
 
     UnityEngine.UI.Text m_text;
@@ -18,11 +18,11 @@ public class GreetingsTutoState : TutoState
 
     public override void enter()
     {
-        Debug.Log("Enter GreetingsState");
-        m_ETutoState = ETutoStates.GreetingsState;
-        m_text.text = "What do you think you're doing? It's past sunrise, you're late.";
+        Debug.Log("Enter ActionTutoState");
+        m_ETutoState = ETutoStates.ActionState;
+        m_text.text = "Now you're ready to do learn some basic water bending moves.";
 
-        m_pakkuAnimator.SetBool("Greetings", true);
+        m_pakkuAnimator.SetBool("Action", true);
 
         base.enter();
     }
@@ -38,7 +38,7 @@ public class GreetingsTutoState : TutoState
 
     public override void exit()
     {
-        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.CameraState];
+        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.PullState];
         m_tutoInfo.m_currentState.enter();
 
         base.exit();

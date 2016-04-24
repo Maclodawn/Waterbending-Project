@@ -6,8 +6,19 @@ public enum ETutoStates
 {
     PakkuAppearState,
     GreetingsState,
+    CameraState,
+    MovementState,
+    JumpState,
+    DodgeState,
+    ActionState,
     PullState,
     TurnAroundState,
+    TurnPushState,
+    SelectState,
+    SelectPushState,
+    GuardState,
+    DeviateState,
+    CounterState,
     ByeState,
     PakkuDisappearState
 }
@@ -28,8 +39,19 @@ public class TutoInfo : MonoBehaviour
         m_statePool = new List<TutoState>();
         m_statePool.Add(GetComponent<PakkuAppearTutoState>());
         m_statePool.Add(GetComponent<GreetingsTutoState>());
+        m_statePool.Add(GetComponent<CameraTutoState>());
+        m_statePool.Add(GetComponent<MovementTutoState>());
+        m_statePool.Add(GetComponent<JumpTutoState>());
+        m_statePool.Add(GetComponent<DodgeTutoState>());
+        m_statePool.Add(GetComponent<ActionTutoState>());
         m_statePool.Add(GetComponent<PullTutoState>());
         m_statePool.Add(GetComponent<TurnAroundTutoState>());
+        m_statePool.Add(GetComponent<TurnPushTutoState>());
+        m_statePool.Add(GetComponent<SelectTutoState>());
+        m_statePool.Add(GetComponent<SelectPushTutoState>());
+        m_statePool.Add(GetComponent<GuardTutoState>());
+        m_statePool.Add(GetComponent<DeviateTutoState>());
+        m_statePool.Add(GetComponent<CounterTutoState>());
         m_statePool.Add(GetComponent<ByeTutoState>());
         m_statePool.Add(GetComponent<PakkuDisappearTutoState>());
         m_canvas = GetComponent<Canvas>();

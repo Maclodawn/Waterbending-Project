@@ -7,6 +7,9 @@ public class PullTutoState : TutoState
     UnityEngine.UI.Text m_text;
     Character player;
 
+    float m_time = 0;
+    public float m_duration = 2;
+
     protected override void Start()
     {
         m_text = GetComponentInChildren<UnityEngine.UI.Text>();
@@ -35,7 +38,8 @@ public class PullTutoState : TutoState
 
     public override void update()
     {
-       if (player.m_currentActionState && player.m_currentActionState.m_EState == EStates.PullingWaterState)
+        m_time += Time.deltaTime;
+        if (m_time >= m_duration && player.m_currentActionState && player.m_currentActionState.m_EState == EStates.PullingWaterState)
        {
            exit();
        }
@@ -45,7 +49,7 @@ public class PullTutoState : TutoState
 
     public override void exit()
     {
-        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.ByeState];
+        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.TurnAroundState];
         m_tutoInfo.m_currentState.enter();
 
         base.exit();
