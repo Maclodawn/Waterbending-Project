@@ -32,7 +32,7 @@ public class HealthController : NetworkBehaviour
     {
         if (collider.gameObject.tag.Contains("Drop"))
         {
-            float tmp_dmg = UnityEngine.Random.Range(100, 150);
+            float tmp_dmg = UnityEngine.Random.Range(10, 15);
             health.Health -= tmp_dmg; //TODO way of computing damage=f(power)?
             informations.log("<b><color=\"blue\">" + gameObject.name + "</color></b>: -" + tmp_dmg + "PV");
             if (health.Health < 1)
