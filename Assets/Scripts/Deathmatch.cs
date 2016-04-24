@@ -11,7 +11,7 @@ public class Deathmatch : NetworkBehaviour
     private static LinkedList<HealthComponent> players_alive = null;
     private static LinkedList<HealthComponent> players_dead = null;
     private HealthComponent my_player = null;
-    private int ID = -1;
+    //private int ID = -1;
     private static int NB_INSTANCES = 0;
     private bool end = false;
 
@@ -19,9 +19,9 @@ public class Deathmatch : NetworkBehaviour
     public void Start()
     {
         NB_INSTANCES++;
-        ID = NB_INSTANCES;
+        //ID = NB_INSTANCES;
 
-        //if those are null, we instanciate both lists and fill them up
+        //if those are null, we instantiate both lists and fill them up
         if (players_alive == null || players_dead == null)
         {
             players_alive = new LinkedList<HealthComponent>();
@@ -53,7 +53,6 @@ public class Deathmatch : NetworkBehaviour
         //setting team
         if (hasAuthority && !GetComponent<FakePlayer>())
         {
-            Teamate teamate = GetComponent<Teamate>();
             MyTeamId myTeamId = FindObjectOfType<MyTeamId>();
             //teamate.addToTeam(myTeamId.hideAndGetTeamId());
             CmdSetTeam(myTeamId.hideAndGetTeamId());

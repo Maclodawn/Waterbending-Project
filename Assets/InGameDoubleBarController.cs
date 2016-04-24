@@ -16,7 +16,7 @@ public class InGameDoubleBarController : MonoBehaviour {
 	public HealthComponent health_component;
 	public PowerComponent power_component;
 
-	public Text name = null;
+	public Text m_name = null;
 	private static string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
 
 	public void Start() {
@@ -28,7 +28,7 @@ public class InGameDoubleBarController : MonoBehaviour {
 	}
 
 	public void updateText(string _team_color) {
-		name.text = "<b><color=\"" + _team_color + "\">" + transform.parent.gameObject.name + "</color></b>";
+		m_name.text = "<b><color=\"" + _team_color + "\">" + gameObject.name + "</color></b>";
 	}
 
 	public void OnGUI() {

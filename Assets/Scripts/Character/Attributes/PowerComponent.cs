@@ -48,8 +48,6 @@ public class PowerComponent : NetworkBehaviour
         {
             if (m_power != value)
             {
-                float oldPower = m_power;
-
                 if (value > MaxPower)
                 {
                     if (CanHaveMoreThanMaxPower)

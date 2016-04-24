@@ -21,7 +21,7 @@ public class HealthComponent : NetworkBehaviour
         Health = StartingHealth;
     }
 
-    [Server]
+    [ServerCallback]
     void Update()
     {
         if (NetworkServer.active)

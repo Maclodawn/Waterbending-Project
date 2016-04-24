@@ -6,7 +6,6 @@ public class SprintTutoState : TutoState
 
     UnityEngine.UI.Text m_text;
     Character player;
-    Vector3 oldPlayerPosition;
 
     float m_time = 0;
     public float m_duration = 2;
@@ -31,8 +30,6 @@ public class SprintTutoState : TutoState
             if (player && player.hasAuthority)
                 break;
         }
-
-        oldPlayerPosition = player.transform.position;
 
         m_pakkuAnimator.SetBool("Sprint", true);
 

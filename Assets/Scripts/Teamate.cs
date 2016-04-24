@@ -10,7 +10,7 @@ public class Teamate : MonoBehaviour {
 	public int team_id = -1; //starts at 1, 0 == fakeplayers
 	public InformationsLog infos = null;
 
-	private static string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
+	//private static string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
 
 	public void Start() {
 		//retrieving InformationsLog
@@ -35,7 +35,7 @@ public class Teamate : MonoBehaviour {
 				infos = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
 
 			infos.log("<b><color=\"yellow\">" + gameObject.name + "</color></b>: now joining team <b><color=\"yellow\">#" + team_id + "</color></b>");
-		} catch (Exception e) {
+		} catch (Exception) {
 			Debug.LogError("Ununderstandable." + (infos == null) + gameObject);
 		}
 	}

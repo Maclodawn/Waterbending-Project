@@ -3947,7 +3947,7 @@ MonoBehaviour:
   power_img: {fileID: 11464740}
   health_component: {fileID: 11405934}
   power_component: {fileID: 11445120}
-  name: {fileID: 11410778}
+  m_name: {fileID: 11410778}
 --- !u!114 &11429932
 MonoBehaviour:
   m_ObjectHideFlags: 1
