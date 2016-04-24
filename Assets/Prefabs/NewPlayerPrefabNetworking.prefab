@@ -1976,6 +1976,9 @@ GameObject:
   - 114: {fileID: 11461490}
   - 114: {fileID: 11400732}
   - 114: {fileID: 11483646}
+  - 114: {fileID: 11455250}
+  - 114: {fileID: 11416450}
+  - 114: {fileID: 11458532}
   m_Layer: 0
   m_Name: NewPlayerPrefabNetworking
   m_TagString: Player
@@ -3842,6 +3845,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11416450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16e49f12c7a11a45af17a0b07ee4e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_upperDistanceToCounter: 5
+  m_lowerDistanceToCounter: 5
+  m_angleDirectionToCounter: 45
+  m_radiusToDeviate: 2
 --- !u!114 &11417268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3982,6 +4000,29 @@ MonoBehaviour:
   ChargeRate: 1
   CooldownRate: 0
   ResetWhenChargeStop: 0
+--- !u!114 &11455250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87bf02fa9d66d0d47ad4b30cbf896ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 2
+--- !u!114 &11458532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bf5976973f6144fb11608c8c7b35f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11459472
 MonoBehaviour:
   m_ObjectHideFlags: 1

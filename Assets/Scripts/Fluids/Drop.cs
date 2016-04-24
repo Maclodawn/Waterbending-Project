@@ -32,6 +32,7 @@ public class Drop/*Movement*/ : NetworkBehaviour
             return m_velocity;
         }
     }
+    public Transform splashPrefab;
 
     [Server]
     public void registerGravity(DropGravity _effector)
@@ -152,6 +153,9 @@ public class Drop/*Movement*/ : NetworkBehaviour
             && collider.GetComponent<WaterDetector>() == null && collider.gameObject.layer != LayerMask.NameToLayer("Reserve"))
         {
             NetworkServer.Destroy(gameObject);
+            Transform splash = GameObject.Instantiate<Transform>(splashPrefab);
+            splash.transform.position = transform.position;
+            NetworkServer.Spawn(splash.gameObject);
         }
     }
 

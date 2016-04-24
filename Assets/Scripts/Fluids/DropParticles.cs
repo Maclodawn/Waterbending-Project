@@ -22,4 +22,8 @@ public class DropParticles : MonoBehaviour
                 Destroy(gameObject);
         }
 	}
+
+    void OnTriggerEnter(Collider other)
+    {
+    }
 }
