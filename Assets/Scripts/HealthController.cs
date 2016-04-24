@@ -39,7 +39,8 @@ public class HealthController : NetworkBehaviour
             {
                 //you're dead if your current player is dead
                 informations.log("<b><color=\"red\">" + gameObject.name + "</color></b> IS DEAD");
-                
+				if (GetComponent<FakePlayer>())
+					NetworkIdentity.Destroy(gameObject);
             }
         }
     }
