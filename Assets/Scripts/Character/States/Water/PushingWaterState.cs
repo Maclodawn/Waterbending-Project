@@ -117,6 +117,7 @@ public class PushingWaterState : AbleToFallState
     {
         m_character.m_currentActionState = null;
         GetComponent<Animator>().SetBool("Push", false);
+        GetComponent<Animator>().SetBool("SelectPush", false);
 
         base.exit();
     }

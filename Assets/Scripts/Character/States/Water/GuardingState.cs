@@ -16,7 +16,9 @@ public class GuardingState : AbleToFallState
         // ANIMATION
 
         CmdEnter();
-        
+
+        GetComponent<Animator>().SetBool("Guard", true);
+
         base.enter();
     }
 
@@ -65,7 +67,8 @@ public class GuardingState : AbleToFallState
         print("Release Guard");
         CmdExit();
         m_character.m_currentActionState = null;
-        
+        GetComponent<Animator>().SetBool("Guard", false);
+
         base.exit();
     }
 
