@@ -20,11 +20,11 @@ public class ShowOptions : MonoBehaviour {
 	}
 
 	public void SetSensitivity() {
-		Manager.getInstance().m_cameraSpeed = sensitivitySlider.value;
+		FindObjectOfType<OptionsOnHold>().m_cameraSpeed = sensitivitySlider.value;
 	}
 
 	public void SetYCamDir()
 	{
-		Manager.getInstance().m_yReversed = reverseYToggle.isOn;
+		FindObjectOfType<OptionsOnHold>().m_yReversed = reverseYToggle.isOn;
 	}
 }

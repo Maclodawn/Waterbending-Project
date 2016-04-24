@@ -79,6 +79,14 @@ public class Manager : NetworkBehaviour
             Instantiate(m_originalAI);
     }
 
+	public void Start() {
+		OptionsOnHold options = FindObjectOfType<OptionsOnHold>();
+		if (options) {
+			m_cameraSpeed = options.m_cameraSpeed;
+			m_yReversed = options.m_yReversed;
+		}
+	}
+
     void Update()
     {
         if (NetworkClient.active && Input.GetButtonDown("Pause"))

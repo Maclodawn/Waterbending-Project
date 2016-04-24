@@ -8,6 +8,14 @@ public class PauseMenu : MonoBehaviour
     public Slider sensitivitySlider;
     public Toggle reverseYToggle;
 
+	public void Start() {
+		OptionsOnHold options = FindObjectOfType<OptionsOnHold>();
+		if (options) {
+			sensitivitySlider.value = options.m_cameraSpeed;
+			reverseYToggle.isOn = options.m_yReversed;
+		}
+	}
+
     public void Resume()
     {
         Manager.getInstance().UnPauseGame();
