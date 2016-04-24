@@ -28,7 +28,7 @@ public class PowerBarController : MonoBehaviour {
             Setup(m_power);
     }
 
-    private void OnPowerChanged(object sender, float oldPower, float newPower)
+    private void OnPowerChanged(object sender, float newPower)
     {
         if (sender == m_power)
         {
