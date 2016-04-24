@@ -8,6 +8,7 @@ public enum ETutoStates
     GreetingsState,
     CameraState,
     MovementState,
+    SprintState,
     JumpState,
     DodgeState,
     ActionState,
@@ -41,6 +42,7 @@ public class TutoInfo : MonoBehaviour
         m_statePool.Add(GetComponent<GreetingsTutoState>());
         m_statePool.Add(GetComponent<CameraTutoState>());
         m_statePool.Add(GetComponent<MovementTutoState>());
+        m_statePool.Add(GetComponent<SprintTutoState>());
         m_statePool.Add(GetComponent<JumpTutoState>());
         m_statePool.Add(GetComponent<DodgeTutoState>());
         m_statePool.Add(GetComponent<ActionTutoState>());

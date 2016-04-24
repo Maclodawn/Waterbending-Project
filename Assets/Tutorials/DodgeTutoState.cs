@@ -46,7 +46,7 @@ public class DodgeTutoState : TutoState
         if (m_part1 && m_time >= m_durationPart1)
         {
             m_part1 = false;
-            m_text.text = "One of them is dodging by pressing [c] and giving a direction.";
+            m_text.text = "One of them is dodging by pressing [c] while moving.";
             m_time = 0;
         }
         else if (m_time >= m_durationPart2 && player.m_currentMovementState

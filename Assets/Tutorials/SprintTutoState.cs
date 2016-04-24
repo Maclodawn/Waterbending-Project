@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovementTutoState : TutoState
+public class SprintTutoState : TutoState
 {
 
     UnityEngine.UI.Text m_text;
     Character player;
+    Vector3 oldPlayerPosition;
 
     float m_time = 0;
     public float m_duration = 2;
@@ -19,9 +20,9 @@ public class MovementTutoState : TutoState
 
     public override void enter()
     {
-        Debug.Log("Enter MovementTutoState");
-        m_ETutoState = ETutoStates.MovementState;
-        m_text.text = "Now go jogging a bit. Use [W] to move forward, [S] to move backward, [A] to go right and [D] to go left.";
+        Debug.Log("Enter SprintTutoState");
+        m_ETutoState = ETutoStates.SprintState;
+        m_text.text = "To sprint hold [Shift] while you move.";
 
         GameObject[] goList = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject go in goList)
@@ -31,7 +32,9 @@ public class MovementTutoState : TutoState
                 break;
         }
 
-        m_pakkuAnimator.SetBool("Movement", true);
+        oldPlayerPosition = player.transform.position;
+
+        m_pakkuAnimator.SetBool("Sprint", true);
 
         base.enter();
     }
@@ -39,7 +42,7 @@ public class MovementTutoState : TutoState
     public override void update()
     {
         m_time += Time.deltaTime;
-        if (m_time >= m_duration && player.m_currentMovementState.m_EState == EStates.RunningState)
+        if (m_time >= m_duration && player.m_currentMovementState.m_EState == EStates.SprintingState)
         {
             exit();
         }
@@ -49,7 +52,7 @@ public class MovementTutoState : TutoState
 
     public override void exit()
     {
-        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.SprintState];
+        m_tutoInfo.m_currentState = m_tutoInfo.m_statePool[(int)ETutoStates.JumpState];
         m_tutoInfo.m_currentState.enter();
 
         base.exit();

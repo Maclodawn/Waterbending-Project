@@ -63,6 +63,7 @@ GameObject:
   - 114: {fileID: 11466906}
   - 114: {fileID: 11407516}
   - 114: {fileID: 11447422}
+  - 114: {fileID: 11479670}
   m_Layer: 5
   m_Name: CanvasTuto
   m_TagString: Untagged
@@ -129,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2aec949aa96db459f92682f8e70475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_duration: 2
+  m_duration: 0
 --- !u!114 &11407516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,6 +409,18 @@ MonoBehaviour:
   m_durationPart1: 3
   m_durationPart2: 3
   m_durationPart3: 3
+--- !u!114 &11479670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b6149b444e6e44994721182cdaacf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_duration: 2
 --- !u!114 &11482490
 MonoBehaviour:
   m_ObjectHideFlags: 1
