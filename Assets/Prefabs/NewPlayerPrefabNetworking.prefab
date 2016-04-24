@@ -1081,7 +1081,7 @@ GameObject:
   - 4: {fileID: 408988}
   - 114: {fileID: 11467714}
   m_Layer: 0
-  m_Name: InGame_DoubleBar
+  m_Name: InGame_DoubleBar_Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1569,7 +1569,7 @@ GameObject:
   - 222: {fileID: 22293748}
   - 114: {fileID: 11481706}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4050,6 +4050,7 @@ MonoBehaviour:
   power_img: {fileID: 11463720}
   health_component: {fileID: 11405934}
   power_component: {fileID: 11445120}
+  team_color: red
 --- !u!114 &11467726
 MonoBehaviour:
   m_ObjectHideFlags: 1
