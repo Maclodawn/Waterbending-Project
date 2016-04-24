@@ -1975,6 +1975,7 @@ GameObject:
   - 114: {fileID: 11422010}
   - 114: {fileID: 11461490}
   - 114: {fileID: 11400732}
+  - 114: {fileID: 11499992}
   m_Layer: 0
   m_Name: NewPlayerPrefabNetworking
   m_TagString: Player
@@ -4220,6 +4221,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11499992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d733ce00427ec41489d8068356052a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team_id: -1
 --- !u!137 &13703610
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

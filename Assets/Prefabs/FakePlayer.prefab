@@ -82,6 +82,7 @@ GameObject:
   - 114: {fileID: 11469090}
   - 114: {fileID: 11489326}
   - 114: {fileID: 11476986}
+  - 114: {fileID: 11481342}
   m_Layer: 0
   m_Name: FakePlayer
   m_TagString: Player
@@ -523,6 +524,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11481342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d733ce00427ec41489d8068356052a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team_id: 99
 --- !u!114 &11489326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -747,6 +760,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: team_id
+      value: 99
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
