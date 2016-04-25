@@ -39,6 +39,7 @@ public class ComputeActionsFromInput : Character
 
     public void OnDamageTaken()
     {
+        print("Damage Taken");
         hurt = true;
     }
 

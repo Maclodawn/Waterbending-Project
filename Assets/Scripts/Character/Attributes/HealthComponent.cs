@@ -35,6 +35,9 @@ public class HealthComponent : NetworkBehaviour
     {
         if (_health != m_health)
         {
+            ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
+            if (character != null && m_health > _health)
+                character.OnDamageTaken();
             m_health = _health;
         }
     }
@@ -87,6 +90,10 @@ public class HealthComponent : NetworkBehaviour
 
     protected void OnHealthChanged(float oldHealth, float newHealth)
     {
+
+        ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
+        if (character != null && oldHealth > newHealth)
+            character.OnDamageTaken();
         if (HealthChanged != null)
         {
             HealthChanged(this, oldHealth, newHealth);
