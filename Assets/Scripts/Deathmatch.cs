@@ -83,12 +83,17 @@ public class Deathmatch : NetworkBehaviour {
 				break;
 			}
 		}
+
 		if (!end && onlyMyTeamAlive && players_alive.Contains(my_player)) {
 			//informations.log("TEAM " + my_team_id + " WINS!");
 			Text winning_text = GameObject.Find("Winning_Text").GetComponent<Text>();
 			winning_text.text = "TEAM " + my_team_id + " WINS!";
-			winning_text.gameObject.SetActive(true);
+			//winning_text.gameObject.SetActive(true);
 			end = true;
+		} else if (end && !onlyMyTeamAlive) {
+			Text winning_text = GameObject.Find("Winning_Text").GetComponent<Text>();
+			winning_text.text = "";
+			end = false;
 		}
 
 		//find dead players in players_alive and add them to players_dead
