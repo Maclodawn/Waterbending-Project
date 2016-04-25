@@ -20,23 +20,19 @@ public class InGameDoubleBarController : MonoBehaviour
     public Text m_name = null;
     private static string[] colors = { "red", "yellow", "blue", "magenta", "orange", "pink", "white" };
 
-    int m_team_id;
+    Teamate m_teammate;
 
-    public void init()
+    void Start()
     {
-        m_team_id = GetComponentInParent<Teamate>().team_id;
-        if (m_team_id < 0 || m_team_id > 6)
-            updateText("black");
-        else
-            updateText(colors[m_team_id]);
+        m_teammate = GetComponentInParent<Teamate>();
     }
 
     void Update()
     {
-        if (m_team_id < 0 || m_team_id > 6)
+        if (m_teammate.team_id < 0 || m_teammate.team_id > 6)
             updateText("black");
         else
-            updateText(colors[m_team_id]);
+            updateText(colors[m_teammate.team_id]);
     }
 
     public void updateText(string _team_color)

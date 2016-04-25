@@ -9,6 +9,8 @@ public class Teamate : NetworkBehaviour
 
     private static int NB_TEAMS = 1;
     public int team_id = -1; //starts at 1, 0 == fakeplayers
+    [SyncVar]
+    int syncTeamId = -1;
     public InformationsLog infos = null;
 
     //private static string[] colors = {"red", "yellow", "blue", "magenta", "orange", "pink", "white"};
@@ -17,6 +19,26 @@ public class Teamate : NetworkBehaviour
     {
         //retrieving InformationsLog
         infos = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
+    }
+
+    void Update()
+    {
+        if (hasAuthority)
+        {
+            if (NetworkClient.active)
+                CmdUpdateTeamId(team_id, GetComponent<NetworkIdentity>());
+        }
+        else
+        {
+            team_id = syncTeamId;
+        }
+    }
+
+    [Command]
+    void CmdUpdateTeamId(int _teamId, NetworkIdentity characterIdentity)
+    {
+        if (characterIdentity.netId == GetComponent<NetworkIdentity>().netId)
+            syncTeamId = _teamId;
     }
 
     public bool isFriend(Teamate _teamate)
