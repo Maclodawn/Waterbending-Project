@@ -8,17 +8,14 @@ public class GuardingState : AbleToFallState
     //GameObject m_waterDeflectGuard;
     HealthController m_healthController;
 
-    void Start()
-    {
-        m_healthController = GetComponent<HealthController>();
-    }
-
     public override void enter()
     {
         Debug.Log("Enter GuardingState");
 
         m_EState = EStates.GuardingState;
 
+        if (!m_healthController)
+            m_healthController = GetComponent<HealthController>();
         m_healthController.m_guarding = true;
         CmdEnter();
 
@@ -71,6 +68,8 @@ public class GuardingState : AbleToFallState
     public override void exit()
     {
         print("Release Guard");
+        if (!m_healthController)
+            m_healthController = GetComponent<HealthController>();
         m_healthController.m_guarding = false;
         //CmdExit();
         m_character.m_currentActionState = null;
