@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class PowerComponent : MonoBehaviour {
+public class PowerComponent : NetworkBehaviour
+{
 
     private float m_power;
 
@@ -14,7 +16,7 @@ public class PowerComponent : MonoBehaviour {
     [Header("Regeneration")]
     public float RegenerationRate = 0;
 
-    public delegate void PowerChangedEventHandler(object sender, float _oldPower, float _newPower);
+    public delegate void PowerChangedEventHandler(object sender, float _newPower);
     public event PowerChangedEventHandler PowerChanged;
 
     void Start()
@@ -24,7 +26,7 @@ public class PowerComponent : MonoBehaviour {
 
     void Update()
     {
-        if(RegenerationRate > 0)
+        if (RegenerationRate > 0)
         {
             Power += RegenerationRate * Time.deltaTime;
         }
@@ -44,28 +46,33 @@ public class PowerComponent : MonoBehaviour {
 
         set
         {
-            float oldPower = m_power;
-
-            if (value > MaxPower)
+            if (m_power != value)
             {
-                if (CanHaveMoreThanMaxPower)
-                    m_power = value;
+                if (value > MaxPower)
+                {
+                    if (CanHaveMoreThanMaxPower)
+                        m_power = value;
+                    else if (m_power == MaxPower)
+                        return;
+                    else
+                        m_power = MaxPower;
+                }
+                else if (value < 0)
+                {
+                    if (CanHaveNegativePower)
+                        m_power = value;
+                    else if (m_power == 0)
+                        return;
+                    else
+                        m_power = 0;
+                }
                 else
-                    m_power = MaxPower;
-            }
-            else if (value < 0)
-            {
-                if (CanHaveNegativePower)
+                {
                     m_power = value;
-                else
-                    m_power = 0;
-            }
-            else
-            {
-                m_power = value;
-            }
+                }
 
-            OnPowerChanged(oldPower, m_power);
+                OnPowerChanged(m_power);
+            }
         }
     }
 
@@ -74,9 +81,18 @@ public class PowerComponent : MonoBehaviour {
         return cost <= Power;
     }
 
-    protected void OnPowerChanged(float oldPower, float newPower)
+    protected void OnPowerChanged(float newPower)
     {
+        if (NetworkServer.active)
+            RpcUpdatePower(newPower);
+
         if (PowerChanged != null)
-            PowerChanged(this, oldPower, newPower);
+            PowerChanged(this, newPower);
+    }
+
+    [ClientRpc]
+    void RpcUpdatePower(float power)
+    {
+        Power = power;
     }
 }

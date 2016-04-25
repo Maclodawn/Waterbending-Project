@@ -2,28 +2,36 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class MyTeamId : MonoBehaviour {
+public class MyTeamId : MonoBehaviour
+{
 
-	public Text input;
+    public Text input;
 
-	public void Start() {
-		DontDestroyOnLoad(gameObject);
-	}
+    public void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
-	public int getTeamId() {
-		try {
-			return int.Parse(input.text.ToString());
-		} catch {
-			return 0;
-		}
-	}
+    public int getTeamId()
+    {
+        try
+        {
+            return int.Parse(input.text.ToString());
+        }
+        catch
+        {
+            return 0;
+        }
+    }
 
-	public void hide() {
-		gameObject.SetActive(false);
-	}
+    public void hide()
+    {
+        gameObject.SetActive(false);
+    }
 
-	public int hideAndGetTeamId() {
-		hide();
-		return getTeamId();
-	}
+    public int hideAndGetTeamId()
+    {
+        hide();
+        return getTeamId();
+    }
 }

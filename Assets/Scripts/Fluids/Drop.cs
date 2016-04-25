@@ -134,13 +134,6 @@ public class Drop/*Movement*/ : NetworkBehaviour
         if (!NetworkServer.active)
             return;
 
-		//Demo //UPDATE: removals called from health controller now
-        /*FakePlayer fakePlayer = collider.GetComponent<FakePlayer>();
-        if (fakePlayer)
-        {
-            fakePlayer.OnMyCollisionEnter(gameObject);
-        }*/
-
 		if (collider.name.Contains("Kit"))
 			return;
 
@@ -149,8 +142,8 @@ public class Drop/*Movement*/ : NetworkBehaviour
             m_initCollisions.Add(collider.gameObject);
         }
 
-        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<Drop>() == null
-            && collider.GetComponent<WaterDetector>() == null && collider.gameObject.layer != LayerMask.NameToLayer("Reserve"))
+        if (!m_initCollisions.Contains(collider.gameObject) && collider.GetComponent<WaterDetector>() == null
+            && collider.gameObject.layer != LayerMask.NameToLayer("Reserve"))
         {
             NetworkServer.Destroy(gameObject);
             Transform splash = GameObject.Instantiate<Transform>(splashPrefab);

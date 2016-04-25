@@ -5,113 +5,132 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Deathmatch : NetworkBehaviour {
+public class Deathmatch : NetworkBehaviour
+{
 
-	private InformationsLog informations = null;
-	private static LinkedList<HealthComponent> players_alive = null;
-	private static LinkedList<HealthComponent> players_dead = null;
-	private HealthComponent my_player = null;
-	private int ID = -1;
-	private static int NB_INSTANCES = 0;
-	private bool end = false;
+    private static LinkedList<HealthComponent> m_playersAlive = null;
+    private static LinkedList<HealthComponent> m_playersDead = null;
+    
+    private HealthComponent m_healthComponent = null;
+    private Teammate m_teammate;
 
-	//Initializations
-	public void Start() {
-		NB_INSTANCES++;
-		ID = NB_INSTANCES;	
+    //Initializations
+    public void Start()
+    {
+        m_teammate = GetComponent<Teammate>();
 
-		//if those are null, we instanciate both lists and fill them up
-		if (players_alive == null || players_dead == null) {
-			players_alive = new LinkedList<HealthComponent>();
-			players_dead = new LinkedList<HealthComponent>();
+        if (!NetworkClient.active)
+            return;
 
-			//Retrieves all players
-			GameObject[] go_players = GameObject.FindGameObjectsWithTag("Player");
-			foreach (GameObject tmp_go_player in go_players) {
-				//we're only interested in their healths
-				HealthComponent tmp_health = tmp_go_player.GetComponent<HealthComponent>();
-				
-				//throwing exception because it is not normal
-				if (tmp_health == null)
-					throw new Exception("HealthComponent missing in player.");
-				
-				players_alive.AddFirst(tmp_health);
-			}
-		}
+        //if those are null, we instantiate both lists and fill them up
+        if (m_playersAlive == null || m_playersDead == null)
+        {
+            m_playersAlive = new LinkedList<HealthComponent>();
+            m_playersDead = new LinkedList<HealthComponent>();
 
-		//Retrieving my own player
-		my_player = gameObject.GetComponentInParent<HealthComponent>();
-		if (my_player == null)
-			throw new ArgumentException("HealthComponent missing in player.");
+            //Retrieves all players
+            GameObject[] go_players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject tmp_go_player in go_players)
+            {
+                //we're only interested in their healths
+                HealthComponent tmp_health = tmp_go_player.GetComponent<HealthComponent>();
 
-		//retrieving InformationsLog
-		informations = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
+                //throwing exception because it is not normal
+                if (tmp_health == null)
+                    throw new Exception("HealthComponent missing in player.");
 
-		//setting team
-		if (hasAuthority && !GetComponent<FakePlayer>())
-		{
-			Teamate teamate = GetComponent<Teamate>();
-			MyTeamId myTeamId = FindObjectOfType<MyTeamId>();
-			//teamate.addToTeam(myTeamId.hideAndGetTeamId());
-			CmdSetTeam(myTeamId.hideAndGetTeamId());
-		}
-	}
+                m_playersAlive.AddFirst(tmp_health);
+            }
+        }
 
-	[Command]
-	private void CmdSetTeam(int _team_id) {
-		Teamate teamate = GetComponent<Teamate>();
-		teamate.addToTeam(_team_id);
-		RpcSetTeamClient(_team_id);
-	}
+        //Retrieving my own player
+        m_healthComponent = gameObject.GetComponentInParent<HealthComponent>();
+        if (m_healthComponent == null)
+            throw new ArgumentException("HealthComponent missing in player.");
 
-	[ClientRpc]
-	private void RpcSetTeamClient(int _team_id) {
-		Debug.LogError(_team_id);
-		Teamate teamate = GetComponent<Teamate>();
-		teamate.addToTeam(_team_id);
-	}
+        //setting team
+        if (hasAuthority && !GetComponent<FakePlayer>())
+        {
+            MyTeamId myTeamId = FindObjectOfType<MyTeamId>();
+            CmdSetTeam(myTeamId.hideAndGetTeamId());
+        }
+    }
 
-	//At each frame, checks if a new player is dead...
-	//We assume we can only die once!
-	public void Update() {
-		//victory detection: adding team testing
-		bool onlyMyTeamAlive = true;
-		int my_team_id = GetComponent<Teamate>().team_id;
-		foreach (HealthComponent tmp_player in players_alive) {
-			if (tmp_player != null && my_team_id != tmp_player.GetComponent<Teamate>().team_id) {
-				onlyMyTeamAlive = false;
-				break;
-			}
-		}
+    [Command]
+    private void CmdSetTeam(int _teamId)
+    {
+        m_teammate.addToTeam(_teamId);
+        RpcSetTeamClient(_teamId);
+    }
 
-		if (!end && onlyMyTeamAlive && players_alive.Contains(my_player)) {
-			//informations.log("TEAM " + my_team_id + " WINS!");
-			Text winning_text = GameObject.Find("Winning_Text").GetComponent<Text>();
-			winning_text.text = "TEAM " + my_team_id + " WINS!";
-			//winning_text.gameObject.SetActive(true);
-			end = true;
-		} else if (end && !onlyMyTeamAlive) {
-			Text winning_text = GameObject.Find("Winning_Text").GetComponent<Text>();
-			winning_text.text = "";
-			end = false;
-		}
+    [ClientRpc]
+    private void RpcSetTeamClient(int _teamId)
+    {
+        m_teammate.addToTeam(_teamId);
+    }
 
-		//find dead players in players_alive and add them to players_dead
-		foreach (HealthComponent tmp_player in players_alive) {
-			if (!isAlive(tmp_player))
-				players_dead.AddFirst(tmp_player);
-		}
+    //At each frame, checks if a new player is dead...
+    //We assume we can only die once!
+    [ClientCallback]
+    public void Update()
+    {
+        if (!NetworkClient.active)
+            return;
 
-		//then remove them from players_alive
-		foreach (HealthComponent tmp_player in players_dead) {
-			if (players_alive.Contains(tmp_player))
-				players_alive.Remove(tmp_player);
-			else break; //We assume we go through the list in order and newly dead players are upfront;
-						//therefore we don't need to check the rest of the list 
-		}
-	}
+        //victory detection: adding team testing
+        bool onlyMyTeamAlive = true;
 
-	private bool isAlive(HealthComponent player_health) {
-		return player_health.Health > 0.1f;
-	}
+        foreach (HealthComponent player in m_playersAlive)
+        {
+            if (player)
+            {
+                Teammate playerTeammate = player.GetComponent<Teammate>();
+                if (m_teammate && playerTeammate && m_teammate.m_teamId != playerTeammate.m_teamId)
+                {
+                    onlyMyTeamAlive = false;
+                    break;
+                }
+            }
+        }
+
+        if (onlyMyTeamAlive && m_playersAlive.Contains(m_healthComponent))
+        {
+            Manager.getInstance().m_winnerMenu.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Text winningText = GameObject.Find("Winning_Text").GetComponent<Text>();
+            winningText.text = "TEAM " + m_teammate.m_teamId + " WINS!";
+        }
+        else if (!onlyMyTeamAlive)
+        {
+            Manager.getInstance().m_winnerMenu.SetActive(false);
+            if (!Manager.getInstance().isGamePaused())
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
+
+        //find dead players in players_alive and add them to players_dead
+        foreach (HealthComponent player in m_playersAlive)
+        {
+            if (!isAlive(player))
+                m_playersDead.AddFirst(player);
+        }
+
+        //then remove them from players_alive
+        foreach (HealthComponent tmp_player in m_playersDead)
+        {
+            if (m_playersAlive.Contains(tmp_player))
+                m_playersAlive.Remove(tmp_player);
+            else break; //We assume we go through the list in order and newly dead players are upfront;
+            //therefore we don't need to check the rest of the list 
+        }
+    }
+
+    [Client]
+    private bool isAlive(HealthComponent player_health)
+    {
+        return player_health.Health > 0.0f;
+    }
 }

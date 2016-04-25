@@ -5,7 +5,13 @@ using UnityEngine.Networking;
 public class GuardingState : AbleToFallState
 {
 
-    GameObject m_waterDeflectGuard;
+    //GameObject m_waterDeflectGuard;
+    HealthController m_healthController;
+
+    void Start()
+    {
+        m_healthController = GetComponent<HealthController>();
+    }
 
     public override void enter()
     {
@@ -13,26 +19,28 @@ public class GuardingState : AbleToFallState
 
         m_EState = EStates.GuardingState;
 
-        // ANIMATION
-
+        m_healthController.m_guarding = true;
         CmdEnter();
-        
+
+        GetComponent<Animator>().SetBool("Guard", true);
+
         base.enter();
     }
 
     [Command]
     void CmdEnter()
     {
-        if (!m_waterDeflectGuard)
-        {
-            m_waterDeflectGuard = Instantiate(Manager.getInstance().m_waterDeflectGuardPrefab);
-            m_waterDeflectGuard.transform.position = transform.position + m_character.m_controller.center;
-        }
-        else
-        {
-            m_waterDeflectGuard.SetActive(true);
-            m_waterDeflectGuard.transform.position = transform.position + m_character.m_controller.center;
-        }
+        m_healthController.m_guarding = true;
+//         if (!m_waterDeflectGuard)
+//         {
+//             m_waterDeflectGuard = Instantiate(Manager.getInstance().m_waterDeflectGuardPrefab);
+//             m_waterDeflectGuard.transform.position = transform.position + m_character.m_controller.center;
+//         }
+//         else
+//         {
+//             m_waterDeflectGuard.SetActive(true);
+//             m_waterDeflectGuard.transform.position = transform.position + m_character.m_controller.center;
+//         }
     }
 
     public override void handleAction(EAction _action)
@@ -47,31 +55,33 @@ public class GuardingState : AbleToFallState
         base.handleAction(_action);
     }
 
-    public override void update()
-    {
-        CmdUpdate();
-
-        base.update();
-    }
-
-    [Command]
-    void CmdUpdate()
-    {
-        m_waterDeflectGuard.transform.position = transform.position + m_character.m_controller.center;
-    }
+//     public override void update()
+//     {
+//         CmdUpdate();
+// 
+//         base.update();
+//     }
+// 
+//     [Command]
+//     void CmdUpdate()
+//     {
+//         m_waterDeflectGuard.transform.position = transform.position + m_character.m_controller.center;
+//     }
 
     public override void exit()
     {
         print("Release Guard");
-        CmdExit();
+        m_healthController.m_guarding = false;
+        //CmdExit();
         m_character.m_currentActionState = null;
-        
+        GetComponent<Animator>().SetBool("Guard", false);
+
         base.exit();
     }
 
-    [Command]
-    void CmdExit()
-    {
-        m_waterDeflectGuard.SetActive(false);
-    }
+//     [Command]
+//     void CmdExit()
+//     {
+//         m_waterDeflectGuard.SetActive(false);
+//     }
 }

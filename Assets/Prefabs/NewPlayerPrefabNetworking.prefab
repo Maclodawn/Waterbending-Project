@@ -3947,7 +3947,7 @@ MonoBehaviour:
   power_img: {fileID: 11464740}
   health_component: {fileID: 11405934}
   power_component: {fileID: 11445120}
-  name: {fileID: 11410778}
+  m_name: {fileID: 11410778}
 --- !u!114 &11429932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5232,6 +5232,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: RegenerationRate
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPlayerAuthority
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

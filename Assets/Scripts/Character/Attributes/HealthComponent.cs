@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class HealthComponent : NetworkBehaviour
 {
 
+    [SerializeField]
     private float m_health;
 
     public float StartingHealth = 100;
@@ -21,7 +22,7 @@ public class HealthComponent : NetworkBehaviour
         Health = StartingHealth;
     }
 
-    [Server]
+    [ServerCallback]
     void Update()
     {
         if (NetworkServer.active)
@@ -35,6 +36,9 @@ public class HealthComponent : NetworkBehaviour
     {
         if (_health != m_health)
         {
+            ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
+            if (character != null && m_health > _health && character.m_currentActionState.m_EState != EStates.GuardingState)
+                character.OnDamageTaken();
             m_health = _health;
         }
     }
@@ -79,7 +83,7 @@ public class HealthComponent : NetworkBehaviour
             }
             
             ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
-            if(character != null && oldHealth > value)
+            if (character != null && oldHealth > value && character.m_currentActionState.m_EState != EStates.GuardingState)
                 character.OnDamageTaken();
             OnHealthChanged(oldHealth, m_health);
         }
@@ -87,6 +91,10 @@ public class HealthComponent : NetworkBehaviour
 
     protected void OnHealthChanged(float oldHealth, float newHealth)
     {
+
+        ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
+        if (character != null && oldHealth > newHealth && character.m_currentActionState.m_EState != EStates.GuardingState)
+            character.OnDamageTaken();
         if (HealthChanged != null)
         {
             HealthChanged(this, oldHealth, newHealth);

@@ -27,7 +27,12 @@ public class FakePlayer : NetworkBehaviour
         if (!NetworkServer.active)
         {
             if (setDone)
+            {
+//                 if (m_featureDestroyOnContact && GetComponent<HealthComponent>().Health <= 0)
+//                     NetworkServer.Destroy(gameObject);
+
                 lerpPosition();
+            }
         }
         
         if (NetworkServer.active)

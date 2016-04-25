@@ -14,8 +14,8 @@ public class PushingWaterState : AbleToFallState
     float time = 0.0f;
     public float cooldown;
 
-	private PowerComponent power_component = null;
-	private Teamate teamate = null;
+	private PowerComponent powerComponent = null;
+	private Teammate m_teammate = null;
 
     [Client]
     public void init(Vector3 _offsetToFling, float _alpha, bool _fromTurn)
@@ -41,6 +41,7 @@ public class PushingWaterState : AbleToFallState
     {
         Debug.Log("Enter PushingWaterState");
         m_EState = EStates.PushingWaterState;
+        GetComponent<Animator>().SetBool("Push", true);
 
         GameObject newTarget = AutoAim();
         if (newTarget)
@@ -86,10 +87,10 @@ public class PushingWaterState : AbleToFallState
         m_character.m_waterGroup.setTarget(newTarget);
 
 		//updating power of water group and my power
-		if (power_component == null)
-			power_component = m_character.GetComponent<PowerComponent>();
-		m_character.m_waterGroup.power_percent = power_component.Power/power_component.MaxPower;
-		power_component.Power = power_component.Power/2f;
+		if (powerComponent == null)
+			powerComponent = m_character.GetComponent<PowerComponent>();
+		m_character.m_waterGroup.power_percent = powerComponent.Power/powerComponent.MaxPower;
+		powerComponent.Power = powerComponent.Power/2f;
 
         if (m_fromTurn)
             m_character.m_waterGroup.flingFromTurn(m_speed, m_character.transform.position + m_character.m_controller.center + m_offsetToFling, m_alpha);
@@ -115,6 +116,8 @@ public class PushingWaterState : AbleToFallState
     public override void exit()
     {
         m_character.m_currentActionState = null;
+        GetComponent<Animator>().SetBool("Push", false);
+        GetComponent<Animator>().SetBool("SelectPush", false);
 
         base.exit();
     }
@@ -126,12 +129,12 @@ public class PushingWaterState : AbleToFallState
         GameObject closestplayer = null;
         float closestPlayerDistance = float.MaxValue;
 
-		if (!teamate)
-			teamate = GetComponent<Teamate>();
+		if (!m_teammate)
+			m_teammate = GetComponent<Teammate>();
 
         foreach (GameObject player in players)
         {
-			if (player == gameObject || teamate.isFriend(player.GetComponent<Teamate>()))
+			if (player == gameObject || m_teammate.isFriend(player.GetComponent<Teammate>()) || player.GetComponent<HealthComponent>().Health <= 0.0f)
                 continue;
 
             Vector3 point = Camera.main.WorldToViewportPoint(player.transform.position);

@@ -27,7 +27,9 @@ public class PullingWaterState : AbleToFallState
     public override void enter()
     {
         Debug.Log("Enter PullingWaterState");
+        GetComponent<Animator>().SetBool("Pull", true);
         m_EState = EStates.PullingWaterState;
+
 
         CmdEnter();
 
@@ -63,6 +65,7 @@ public class PullingWaterState : AbleToFallState
             case EAction.ReleaseWaterControl:
                 cancel();
                 Debug.Log("ReleaseWaterControl");
+                GetComponent<Animator>().SetBool("Pull", false);
                 break;
             case EAction.TurnWaterAround:
                 m_character.m_currentActionState = m_character.m_statePool[(int)EStates.TurningWaterAroundState];
@@ -97,6 +100,7 @@ public class PullingWaterState : AbleToFallState
     public override void exit()
     {
         cancel();
+
 
         base.exit();
     }

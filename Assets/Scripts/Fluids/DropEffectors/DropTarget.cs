@@ -45,10 +45,13 @@ public class DropTarget : MonoBehaviour
             }
         }
 
-        CharacterController controller = _target.GetComponent<CharacterController>();
-        if (controller)
+        if (_target)
         {
-            m_targetCenter = controller.center;
+            CharacterController controller = _target.GetComponent<CharacterController>();
+            if (controller)
+            {
+                m_targetCenter = controller.center;
+            }
         }
 
         m_target = _target;

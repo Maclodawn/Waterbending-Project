@@ -18,6 +18,7 @@ public class TurningWaterAroundState : AbleToFallState
     public override void enter()
     {
         Debug.Log("Enter TurningWaterAroundState");
+        GetComponent<Animator>().SetBool("TurnAround", true);
         m_EState = EStates.TurningWaterAroundState;
 
         if (m_character.m_waterGroup == null)
@@ -43,6 +44,8 @@ public class TurningWaterAroundState : AbleToFallState
     {
         if (_action == EAction.PushWater || m_countering)
         {
+            GetComponent<Animator>().SetBool("TurnAround", false);
+            GetComponent<Animator>().SetBool("Pull", false);
             m_character.m_currentActionState = m_character.m_statePool[(int)EStates.PushingWaterState];
 
             PushingWaterState pushingWaterState = (m_character.m_currentActionState as PushingWaterState);
@@ -56,6 +59,8 @@ public class TurningWaterAroundState : AbleToFallState
 
     public override void exit()
     {
+        GetComponent<Animator>().SetBool("TurnAround", false);
+                GetComponent<Animator>().SetBool("Pull", false);
         m_countering = false;
         m_character.m_currentActionState = null;
         m_character.m_waterGroup.releaseControl();

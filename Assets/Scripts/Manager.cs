@@ -21,11 +21,24 @@ public class Manager : NetworkBehaviour
     GameObject m_originalAI;
     public int nAI;
 
-    List<GameObject> players = new List<GameObject>();
+    public Dictionary<int, List<NetworkIdentity>> m_teams = new Dictionary<int, List<NetworkIdentity>>();
     public void addPlayer(GameObject player)
     {
-        players.Add(player);
+        NetworkIdentity playerId = player.GetComponent<NetworkIdentity>();
+        List<NetworkIdentity> team;
+        Teammate teammate = player.GetComponent<Teammate>();
+        if (!m_teams.TryGetValue(teammate.m_teamId, out team))
+        {
+            team = new List<NetworkIdentity>();
+            team.Add(playerId);
+            m_teams.Add(teammate.m_teamId, team);
+        }
+        //else
+            //FIXME
+    }
 
+    public void startTuto()
+    {
         if (m_tuto && NetworkClient.active)
         {
             Instantiate(m_tutoPrefab).GetComponent<TutoInfo>().init();
@@ -52,6 +65,8 @@ public class Manager : NetworkBehaviour
 
     [SerializeField]
     GameObject m_deathMenu;
+
+    public GameObject m_winnerMenu;
 
     public GameObject m_waterReservePrefab;
     public GameObject m_waterGroupPrefab;
@@ -110,7 +125,10 @@ public class Manager : NetworkBehaviour
         if (command == "ExitToMainMenu")
         {
             //Time.timeScale = 1;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+            //Network.CloseConnection(Network.connections[0], true);
+            //Network.Disconnect();
+            UnityEngine.SceneManagement.SceneManager.UnloadScene("GabFluids");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MenuPrincipal");
         }
     }
 
