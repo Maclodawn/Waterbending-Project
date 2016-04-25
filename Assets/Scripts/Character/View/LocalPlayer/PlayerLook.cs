@@ -19,7 +19,6 @@ public class PlayerLook : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-		Debug.Log(gameObject);
         m_vectToPlayer = transform.position - m_playerTransform.position;
         m_distToPlayer = m_vectToPlayer.magnitude;
     }

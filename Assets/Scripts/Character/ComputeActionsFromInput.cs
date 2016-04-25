@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 
 public class ComputeActionsFromInput : Character
 {
-    Manager mgr = null;
 
     public GameObject prefabCamera = null;
 
@@ -14,17 +13,11 @@ public class ComputeActionsFromInput : Character
     [Client]
     public void init()
     {
-        mgr.addPlayer(gameObject);
         GameObject camera = Instantiate(prefabCamera);
         PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
         playerLook.m_playerTransform = gameObject.transform;
         playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;
         m_cameraTransform = camera.transform;
-    }
-
-    public void Awake()
-    {
-        mgr = Manager.getInstance();
     }
 
     //-----

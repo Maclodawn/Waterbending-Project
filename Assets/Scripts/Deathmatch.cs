@@ -70,7 +70,6 @@ public class Deathmatch : NetworkBehaviour
     [ClientRpc]
     private void RpcSetTeamClient(int _team_id)
     {
-        print(_team_id);
         Teamate teamate = GetComponent<Teamate>();
         teamate.addToTeam(_team_id);
     }

@@ -21,11 +21,24 @@ public class Manager : NetworkBehaviour
     GameObject m_originalAI;
     public int nAI;
 
-    List<GameObject> players = new List<GameObject>();
+    public Dictionary<int, List<NetworkIdentity>> m_teams = new Dictionary<int, List<NetworkIdentity>>();
     public void addPlayer(GameObject player)
     {
-        players.Add(player);
+        NetworkIdentity playerId = player.GetComponent<NetworkIdentity>();
+        List<NetworkIdentity> team;
+        Teamate teammate = player.GetComponent<Teamate>();
+        if (!m_teams.TryGetValue(teammate.team_id, out team))
+        {
+            team = new List<NetworkIdentity>();
+            team.Add(playerId);
+            m_teams.Add(teammate.team_id, team);
+        }
+        //else
+            //FIXME
+    }
 
+    public void startTuto()
+    {
         if (m_tuto && NetworkClient.active)
         {
             Instantiate(m_tutoPrefab).GetComponent<TutoInfo>().init();

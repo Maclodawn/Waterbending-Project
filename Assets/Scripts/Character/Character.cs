@@ -89,6 +89,8 @@ public class Character : NetworkBehaviour
     [System.NonSerialized]
     public float m_heightController;
 
+    public string m_name;
+
     public override void OnStartServer()
     {
         m_controller = GetComponent<CharacterController>();
@@ -107,13 +109,22 @@ public class Character : NetworkBehaviour
         Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
     }
 
-    //static int characterCount = 0;
+    [ClientRpc]
+    void RpcUpdateName()
+    {
+        gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
+    }
+
+    [Command]
+    void CmdUpdateName()
+    {
+        gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
+        RpcUpdateName();
+    }
 
     // Use this for initialization
     void Start()
     {
-        //name += characterCount++;
-
         m_controller = GetComponent<CharacterController>();
         m_radiusController = m_controller.radius;
         m_heightController = m_controller.height;
@@ -175,8 +186,7 @@ public class Character : NetworkBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-		gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
-
+        CmdUpdateName();
         if (Input.GetKeyDown(KeyCode.T))
         {
             AbleToFallState toto = (AbleToFallState)m_currentMovementState;

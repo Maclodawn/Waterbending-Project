@@ -24,6 +24,8 @@ public class PlayerNetworkSetup : NetworkBehaviour
             //Animator networking
             for (int i = 0; i < 8; ++i)
                 GetComponent<NetworkAnimator>().SetParameterAutoSend(i, true);
+
+            Manager.getInstance().startTuto();
         }
     }
 
