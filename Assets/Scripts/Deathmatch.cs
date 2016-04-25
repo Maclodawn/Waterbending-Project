@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
 using System.Collections;
@@ -77,13 +78,16 @@ public class Deathmatch : NetworkBehaviour {
 		bool onlyMyTeamAlive = true;
 		int my_team_id = GetComponent<Teamate>().team_id;
 		foreach (HealthComponent tmp_player in players_alive) {
-			if (my_team_id != tmp_player.GetComponent<Teamate>().team_id) {
+			if (tmp_player != null && my_team_id != tmp_player.GetComponent<Teamate>().team_id) {
 				onlyMyTeamAlive = false;
 				break;
 			}
 		}
 		if (!end && onlyMyTeamAlive && players_alive.Contains(my_player)) {
-			informations.log("TEAM " + my_team_id + " WINS!");
+			//informations.log("TEAM " + my_team_id + " WINS!");
+			Text winning_text = GameObject.Find("Winning_Text").GetComponent<Text>();
+			winning_text.text = "TEAM " + my_team_id + " WINS!";
+			winning_text.gameObject.SetActive(true);
 			end = true;
 		}
 

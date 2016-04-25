@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class HealthController : NetworkBehaviour
 {
