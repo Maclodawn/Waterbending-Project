@@ -24,14 +24,9 @@ public class MyTeamId : MonoBehaviour
         }
     }
 
-    public void hide()
+    public int destroyAndGetTeamId()
     {
-        gameObject.SetActive(false);
-    }
-
-    public int hideAndGetTeamId()
-    {
-        hide();
+        Destroy(gameObject);
         return getTeamId();
     }
 }

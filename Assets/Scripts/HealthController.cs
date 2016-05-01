@@ -8,7 +8,7 @@ public class HealthController : NetworkBehaviour
 {
 
     private HealthComponent health = null;
-    private InformationsLog informations = null;
+/*    private InformationsLog informations = null;*/
     public bool m_guarding = false;
 
     public void Start()
@@ -19,7 +19,7 @@ public class HealthController : NetworkBehaviour
             throw new ArgumentException("Health Component not found.");
 
         //retrieving InformationsLog
-        informations = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
+        //informations = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
     }
 
     [ServerCallback]
@@ -40,11 +40,11 @@ public class HealthController : NetworkBehaviour
                 percentage = 0.20f;
 
             health.Health -= tmp_dmg * percentage; //TODO way of computing damage=f(power)?
-            informations.log("<b><color=\"blue\">" + gameObject.name + "</color></b>: -" + tmp_dmg + "PV");
+            //informations.log("<b><color=\"blue\">" + gameObject.name + "</color></b>: -" + tmp_dmg + "PV");
             if (health.Health < 0.1f)
             {
                 //you're dead if your current player is dead
-                informations.log("<b><color=\"red\">" + gameObject.name + "</color></b> IS DEAD");
+                //informations.log("<b><color=\"red\">" + gameObject.name + "</color></b> IS DEAD");
 				if (GetComponent<FakePlayer>())
 					NetworkIdentity.Destroy(gameObject);
             }

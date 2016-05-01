@@ -27,6 +27,9 @@ public class GuardingState : AbleToFallState
     [Command]
     void CmdEnter()
     {
+        if (!m_healthController)
+            m_healthController = GetComponent<HealthController>();
+
         m_healthController.m_guarding = true;
 //         if (!m_waterDeflectGuard)
 //         {

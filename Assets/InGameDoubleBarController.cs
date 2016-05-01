@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ public class InGameDoubleBarController : MonoBehaviour
 
     void Start()
     {
-        m_teammate = GetComponentInParent<Teammate>();
+        m_teammate = health_component.GetComponent<Teammate>();
     }
 
     void Update()
@@ -37,29 +38,32 @@ public class InGameDoubleBarController : MonoBehaviour
 
     public void updateText(string _team_color)
     {
-        m_name.text = "<b><color=\"" + _team_color + "\">" + transform.parent.gameObject.name + "</color></b>";
+        m_name.text = "<b><color=\"" + _team_color + "\">" + health_component.gameObject.name + "</color></b>";
     }
 
     public void OnGUI()
     {
-        //
-        //updating orientation towards camera
-        //
-        if (main_camera != null)
+        if (!m_teammate.hasAuthority)
         {
-            //checking if the three canvas is referenced
-            if (gameObject == null)
+            //
+            //updating orientation towards camera
+            //
+            if (main_camera != null)
             {
-                Debug.LogError("Health bar object not found.");
-                return;
-            }
+                //checking if the three canvas is referenced
+                if (gameObject == null)
+                {
+                    Debug.LogError("Health bar object not found.");
+                    return;
+                }
 
-            gameObject.transform.LookAt(new Vector3(main_camera.transform.position.x,
-                main_camera.transform.position.y,
-                main_camera.transform.position.z));
+                gameObject.transform.LookAt(new Vector3(main_camera.transform.position.x,
+                    main_camera.transform.position.y,
+                    main_camera.transform.position.z));
+            }
+            else if (face_camera)
+                main_camera = GameObject.FindObjectOfType<Camera>();
         }
-        else if (face_camera)
-            main_camera = GameObject.FindObjectOfType<Camera>();
 
         //
         //health update
@@ -77,10 +81,13 @@ public class InGameDoubleBarController : MonoBehaviour
             return;
         }
 
-        //update of health image from health component
-        health_img.transform.localScale = new Vector3(health_component.Health / health_component.MaxHealth,
-            health_img.transform.localScale.y,
-            health_img.transform.localScale.z);
+        //if (!m_teammate.hasAuthority)
+        {
+            //update of health image from health component
+            health_img.transform.localScale = new Vector3(health_component.Health / health_component.MaxHealth,
+                health_img.transform.localScale.y,
+                health_img.transform.localScale.z);
+        }
 
         //
         //power update
@@ -98,15 +105,18 @@ public class InGameDoubleBarController : MonoBehaviour
             return;
         }
 
-        //update of health image from health component
-        power_img.transform.localScale = new Vector3(power_component.Power / power_component.MaxPower,
-            power_img.transform.localScale.y,
-            power_img.transform.localScale.z);
+        //if (!m_teammate.hasAuthority)
+        {
+            //update of health image from health component
+            power_img.transform.localScale = new Vector3(power_component.Power / power_component.MaxPower,
+                power_img.transform.localScale.y,
+                power_img.transform.localScale.z);
+        }
 
         //
         //text update
         //
-        int team_id = GetComponentInParent<Teammate>().m_teamId;
+        int team_id = m_teammate.m_teamId;
         if (team_id < 0 || team_id > 6)
             updateText("black");
         else

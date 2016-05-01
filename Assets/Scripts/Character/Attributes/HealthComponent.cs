@@ -37,7 +37,7 @@ public class HealthComponent : NetworkBehaviour
         if (_health != m_health)
         {
             ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
-            if (character != null && m_health > _health && character.m_currentActionState.m_EState != EStates.GuardingState)
+            if (character != null && m_health > _health && (!character.m_currentActionState || character.m_currentActionState.m_EState != EStates.GuardingState))
                 character.OnDamageTaken();
             m_health = _health;
         }
@@ -83,7 +83,7 @@ public class HealthComponent : NetworkBehaviour
             }
             
             ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
-            if (character != null && oldHealth > value && character.m_currentActionState.m_EState != EStates.GuardingState)
+            if (character != null && oldHealth > value && (!character.m_currentActionState || character.m_currentActionState.m_EState != EStates.GuardingState))
                 character.OnDamageTaken();
             OnHealthChanged(oldHealth, m_health);
         }
@@ -93,7 +93,7 @@ public class HealthComponent : NetworkBehaviour
     {
 
         ComputeActionsFromInput character = GetComponent<ComputeActionsFromInput>();
-        if (character != null && oldHealth > newHealth && character.m_currentActionState.m_EState != EStates.GuardingState)
+        if (character != null && oldHealth > newHealth && (!character.m_currentActionState || character.m_currentActionState.m_EState != EStates.GuardingState))
             character.OnDamageTaken();
         if (HealthChanged != null)
         {

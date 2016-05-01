@@ -52,7 +52,7 @@ public class Deathmatch : NetworkBehaviour
         if (hasAuthority && !GetComponent<FakePlayer>())
         {
             MyTeamId myTeamId = FindObjectOfType<MyTeamId>();
-            CmdSetTeam(myTeamId.hideAndGetTeamId());
+            CmdSetTeam(myTeamId.destroyAndGetTeamId());
         }
     }
 

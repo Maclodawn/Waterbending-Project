@@ -6,6 +6,7 @@ public class ComputeActionsFromInput : Character
 {
 
     public GameObject prefabCamera = null;
+    public GameObject prefabHUD = null;
 
     private bool respawn = false, hurt = false;
 
@@ -14,6 +15,13 @@ public class ComputeActionsFromInput : Character
     public void init()
     {
         GameObject camera = Instantiate(prefabCamera);
+
+        GameObject hudObject = Instantiate(prefabHUD);
+        Destroy(gameObject.GetComponentInChildren<InGameDoubleBarController>().gameObject);
+        InGameDoubleBarController hud = hudObject.GetComponentInChildren<InGameDoubleBarController>();
+        hud.health_component = GetComponent<HealthComponent>();
+        hud.power_component = GetComponent<PowerComponent>();
+
         PlayerLook playerLook = camera.GetComponentInChildren<PlayerLook>();
         playerLook.m_playerTransform = gameObject.transform;
         playerLook.m_playerTransform.position = playerLook.m_playerTransform.position - playerLook.m_playerTransform.position.y * Vector3.up;

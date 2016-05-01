@@ -21,6 +21,8 @@ public class PlayerNetworkSetup : NetworkBehaviour
             if (script != null)
                 script.init();
 
+            NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = false;
+
             //Animator networking
             for (int i = 0; i < 8; ++i)
                 GetComponent<NetworkAnimator>().SetParameterAutoSend(i, true);

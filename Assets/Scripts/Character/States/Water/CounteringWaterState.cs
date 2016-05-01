@@ -32,6 +32,7 @@ public class CounteringWaterState : AbleToFallState
                 // TurnAround -> Push
                 m_character.m_currentActionState = m_character.m_statePool[(int)EStates.TurningWaterAroundState];
                 m_character.m_waterGroup = drop.m_waterGroup;
+                m_character.m_waterGroup.resetTimerToApplyGravity();
                 (m_character.m_currentActionState as TurningWaterAroundState).initCounter();
                 m_character.m_currentActionState.enter();
 

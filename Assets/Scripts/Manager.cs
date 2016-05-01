@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Manager : NetworkBehaviour
 {
@@ -34,7 +35,7 @@ public class Manager : NetworkBehaviour
             m_teams.Add(teammate.m_teamId, team);
         }
         //else
-            //FIXME
+        //FIXME
     }
 
     public void startTuto()
@@ -94,14 +95,19 @@ public class Manager : NetworkBehaviour
             Instantiate(m_originalAI);
     }
 
-	public void Start() {
-		OptionsOnHold options = FindObjectOfType<OptionsOnHold>();
-		if (options) {
-			m_cameraSpeed = options.m_cameraSpeed;
-			m_yReversed = options.m_yReversed;
-			m_tuto = options.m_tuto;
-		}
-	}
+    public void Start()
+    {
+        NetworkManager networkManager = NetworkManager.singleton;
+        networkManager.dontDestroyOnLoad = false;
+
+        OptionsOnHold options = FindObjectOfType<OptionsOnHold>();
+        if (options)
+        {
+            m_cameraSpeed = options.m_cameraSpeed;
+            m_yReversed = options.m_yReversed;
+            m_tuto = options.m_tuto;
+        }
+    }
 
     void Update()
     {
@@ -124,11 +130,29 @@ public class Manager : NetworkBehaviour
 
         if (command == "ExitToMainMenu")
         {
-            //Time.timeScale = 1;
-            //Network.CloseConnection(Network.connections[0], true);
-            //Network.Disconnect();
-            UnityEngine.SceneManagement.SceneManager.UnloadScene("GabFluids");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MenuPrincipal");
+            NetworkManager networkManager = NetworkManager.singleton;
+            if (networkManager)
+            {
+                if (Network.isClient)
+                {
+                    if (Network.isServer)
+                        networkManager.StopHost();
+                    else
+                        networkManager.StopClient();
+                }
+                else
+                    networkManager.StopServer();
+
+                Destroy(networkManager.GetComponent<NetworkManagerHUD>());
+            }
+
+            Destroy(FindObjectOfType<OptionsOnHold>().gameObject);
+
+//             Scene scene = SceneManager.GetSceneByName("MenuPrincipal");
+//             if (scene.isLoaded)
+//                 SceneManager.SetActiveScene(scene);
+//             else
+            SceneManager.LoadScene("MenuPrincipal");
         }
     }
 

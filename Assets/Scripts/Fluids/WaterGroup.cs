@@ -25,13 +25,15 @@ public class WaterGroup : NetworkBehaviour
 
     public float m_quotient = 1.0f / 4.0f;
 
-    public float m_timerToApplyGravity = 3.0f;
+    public float m_durationToApplyGravity = 2.0f;
+    float m_timerToApplyGravity;
     bool m_startTimerToApplyGravity = false;
     
     void Awake()
     {
         m_flingingFromSelect = false;
         m_flingingFromTurn = false;
+        m_timerToApplyGravity = m_durationToApplyGravity;
     }
 
     public void setTarget(GameObject _target)
@@ -132,9 +134,16 @@ public class WaterGroup : NetworkBehaviour
             else
             {
                 m_startTimerToApplyGravity = false;
+                m_timerToApplyGravity = m_durationToApplyGravity;
                 releaseControl();
             }
         }
+    }
+
+    public void resetTimerToApplyGravity()
+    {
+        m_startTimerToApplyGravity = false;
+        m_timerToApplyGravity = m_durationToApplyGravity;
     }
 
     [Server]

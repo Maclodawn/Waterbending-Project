@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class LaunchGame : MonoBehaviour
 {
@@ -8,17 +9,35 @@ public class LaunchGame : MonoBehaviour
     public GameObject main_buttons;
     public OptionsOnHold options_holder;
 
-    public void launchGameWithTuto()
-    {
-        main_buttons.SetActive(false);
-        options_holder.m_tuto = true;
-        SceneManager.LoadScene("BelkaLobby");
-    }
+//     void Start()
+//     {
+//         NetworkManager manager = NetworkManager.singleton;
+//         if (manager)
+//             manager.de
+//     }
 
-    public void launchGameWithoutTuto()
+    public void launchGame()
     {
-        main_buttons.SetActive(false);
+//         NetworkManager manager = NetworkManager.singleton;
+//         if (manager)
+//         {
+//             manager.StopHost();
+//             print("Stopped host");
+//         }
+
         options_holder.m_tuto = false;
-        SceneManager.LoadScene("BelkaLobby");
+        main_buttons.SetActive(false);
+        Scene scene = SceneManager.GetSceneByName("BelkaLobby");
+        if (!scene.isLoaded)
+            SceneManager.LoadScene("BelkaLobby");
+        else
+            SceneManager.SetActiveScene(scene);
+
+        NetworkManager manager = NetworkManager.singleton;
+        if (manager)
+        {
+            manager.StopHost();
+            print("Stopped host");
+        }
     }
 }

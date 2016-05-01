@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class WaterReserve : NetworkBehaviour
 {
 
-    public float m_radius = 2;
+    public float m_radius = 0.15f;
 
     void Start()
     {

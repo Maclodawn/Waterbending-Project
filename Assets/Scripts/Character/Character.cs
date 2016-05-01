@@ -104,9 +104,12 @@ public class Character : NetworkBehaviour
         if (!NetworkClient.active)
             return;
 
-        Gizmos.matrix = Camera.main.transform.localToWorldMatrix;
-        Gizmos.color = Color.red;
-        Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
+        if (Camera.main)
+        {
+            Gizmos.matrix = Camera.main.transform.localToWorldMatrix;
+            Gizmos.color = Color.red;
+            Gizmos.DrawFrustum(Camera.main.transform.position, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
+        }
     }
 
     [ClientRpc]

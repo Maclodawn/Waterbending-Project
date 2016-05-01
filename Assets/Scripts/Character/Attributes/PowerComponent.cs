@@ -24,8 +24,12 @@ public class PowerComponent : NetworkBehaviour
         Power = StartingPower;
     }
 
+    [ServerCallback]
     void Update()
     {
+        if (!NetworkServer.active)
+            return;
+
         if (RegenerationRate > 0)
         {
             Power += RegenerationRate * Time.deltaTime;
@@ -76,6 +80,7 @@ public class PowerComponent : NetworkBehaviour
         }
     }
 
+    [Server]
     public bool CanLaunchAttack(float cost)
     {
         return cost <= Power;
@@ -93,6 +98,11 @@ public class PowerComponent : NetworkBehaviour
     [ClientRpc]
     void RpcUpdatePower(float power)
     {
+        if (NetworkServer.active)
+            return;
+
+        if (Power == power)
+            Debug.LogError("power=" + power);
         Power = power;
     }
 }

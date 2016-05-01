@@ -3740,6 +3740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5670cd83d3a654307a263e50e260e0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_guarding: 0
 --- !u!114 &11405934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3751,6 +3752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d44949969eb242244aacb47503771f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_health: 0
   StartingHealth: 100
   MaxHealth: 100
   CanHaveNegativeHealth: 0
@@ -3875,7 +3877,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_gravity: {x: 0, y: -1, z: 0}
+  m_name: 
   prefabCamera: {fileID: 171570, guid: 7425ea6fae31d244ea738a9a27dda161, type: 2}
+  prefabHUD: {fileID: 173794, guid: 08973b1891e6e554fba1aa69ad661e85, type: 2}
 --- !u!114 &11422010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4336,7 +4340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d733ce00427ec41489d8068356052a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team_id: -1
+  m_teamId: -1
   infos: {fileID: 0}
 --- !u!137 &13703610
 SkinnedMeshRenderer:
@@ -5237,6 +5241,10 @@ Prefab:
       propertyPath: m_LocalPlayerAuthority
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: prefabHUD
+      value: 
+      objectReference: {fileID: 173794, guid: 08973b1891e6e554fba1aa69ad661e85, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 195816}

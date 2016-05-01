@@ -61,7 +61,7 @@ public class Teammate : NetworkBehaviour
             if (infos == null)
                 infos = GameObject.Find("InformationsLog").GetComponent<InformationsLog>();
 
-            infos.log("<b><color=\"yellow\">" + gameObject.name + "</color></b>: now joining team <b><color=\"yellow\">#" + m_teamId + "</color></b>");
+            //infos.log("<b><color=\"yellow\">" + gameObject.name + "</color></b>: now joining team <b><color=\"yellow\">#" + m_teamId + "</color></b>");
         }
         catch (Exception)
         {
@@ -74,6 +74,6 @@ public class Teammate : NetworkBehaviour
         m_teamId = NB_TEAMS + 1;
         ++NB_TEAMS;
 
-        infos.log("<b><color=\"yellow\">" + gameObject.name + "</color></b>: now joining team <b><color=\"yellow\">#" + m_teamId + "</color></b>");
+        //infos.log("<b><color=\"yellow\">" + gameObject.name + "</color></b>: now joining team <b><color=\"yellow\">#" + m_teamId + "</color></b>");
     }
 }
